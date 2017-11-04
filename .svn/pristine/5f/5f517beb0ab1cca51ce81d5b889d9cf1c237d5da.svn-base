@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk"/>
+    <title>服务器升级中,请</title>
+
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            background: #efefef;
+            font-family: Georgia, Times, Verdana, Geneva, Arial, Helvetica, sans-serif;
+        }
+
+        div#mother {
+            margin: 0 auto;
+            width: 943px;
+            height: 572px;
+            position: relative;
+        }
+
+        div#errorBox {
+            background: url(./504_bg.png) no-repeat top left;
+            width: 943px;
+            height: 572px;
+            margin: auto;
+        }
+
+        div#errorText {
+            color: #39351e;
+            padding: 146px 0 0 446px
+        }
+
+        div#errorText p {
+            width: 303px;
+            font-size: 14px;
+            line-height: 26px;
+        }
+
+        div.link { /*background:#f90;*/
+            height: 50px;
+            width: 145px;
+            float: left;
+        }
+
+        div#home {
+            margin: 20px 0 0 444px;
+        }
+
+        div#contact {
+            margin: 20px 0 0 25px;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 35px;
+        }
+    </style>
+    <script type="application/javascript">
+        setTimeout(function () {
+            window.location.href = "http://www.yijiazhen.com";
+        }, 120000);
+    </script>
+
+
+</head>
+<body>
+<div id="mother">
+    <div id="errorBox">
+        <div id="errorText">
+            <h1>服务器升级中！</h1>
+            <p>
+                很遗憾的通知您:
+            <p>本程序正在升级,请稍后三分钟再尝试刷新。</p>
+            请不要担心，这没事。程序升级完毕软件会更加稳定。
+            </p>
+
+            <p>
+                祝您愉快的渡过美好一天,易佳珍全体团队敬上!
+            </p>
+        </div>
+        <!-- <a href="http://www.yijiazhen.com/" title="返回SJ5D首页">
+            <div class="link" id="home"></div>
+        </a>
+        <a href="http://www.yijiazhen.com/" title="联系管理员">
+            <div class="link" id="contact"></div>
+
+        </a> -->
+    </div>
+</div>
+</body>
+</html>

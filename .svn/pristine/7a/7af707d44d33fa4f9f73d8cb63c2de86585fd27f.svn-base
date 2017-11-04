@@ -1,0 +1,84 @@
+apply plugin: 'java'
+
+// 引入jar包定义
+// 这个文件中定义的jar包可以直接在子项目中使用，不需要再次使用 apply from 这个语句
+apply from: 'libs.gradle'
+
+/**
+ * 获取属性，如果没有则采用默认值
+ */
+def defaultProperty(propertyName, defaultValue) {
+    return hasProperty(propertyName) ? project[propertyName] : defaultValue
+}
+
+// 所有子项目的通用配置
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'eclipse-wtp'
+    apply plugin: "maven"
+    apply plugin: "maven-publish"
+
+    // JVM 版本号要求
+    sourceCompatibility = '1.8'
+
+    // java编译的时候缺省状态下会因为中文字符而失败
+    // 所以这儿需要改为utf8
+    // 
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    repositories {
+        mavenLocal()
+        //maven { url "http://192.168.1.199:8081/nexus/content/groups/public" }
+        maven { url "http://repo1.maven.org/maven2" }
+        mavenCentral()
+
+    }
+
+    jar {
+        manifest {
+            attributes("Implementation-Title": "Gradle")
+        }
+    }
+
+    configurations {
+        // 
+        // 所有需要忽略的包定义在此
+        // 
+        all*.exclude group: 'commons-logging'
+        all*.exclude group: 'org.apache.lucene'
+    }
+
+    dependencies {
+        //
+        // 通用依赖
+        // 
+        compile(
+                libs.'logback-classic',
+                libs.'jcl-over-slf4j',
+                libs.'log4j-over-slf4j',
+                libs.'slf4j-api'
+        )
+
+        //
+        // 注意：这里libs目录不处理子目录
+        //
+        //compile fileTree(dir: 'libs', include: '*.jar')
+
+        // 
+        // 测试依赖
+        // 
+        testCompile(
+                libs.'junit',
+                libs.'spring-test'
+        )
+    }
+
+    // 显示当前项目下所有用于 compile 的 jar.
+    // 
+    task listJars(description: 'Display all compile jars.') << {
+        configurations.compile.each { File file -> println file.name }
+    }
+
+}

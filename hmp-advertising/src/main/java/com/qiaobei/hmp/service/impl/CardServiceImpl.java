@@ -1,0 +1,38 @@
+package com.qiaobei.hmp.service.impl;
+
+import com.qiaobei.hmp.modules.entity.Card;
+import com.qiaobei.hmp.repository.CardDao;
+import com.qiaobei.hmp.service.CardService;
+import org.javasimon.aop.Monitored;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+
+@Service("cardService")
+@Monitored
+public class CardServiceImpl implements CardService {
+
+    private static Logger logger = LoggerFactory.getLogger(CardServiceImpl.class);
+
+    @Resource
+    private CardDao cardDao;
+
+    @Override
+    public Card getCardById(Long id) {
+        return cardDao.findOne(id);
+    }
+
+    @Override
+    public Card getCardByUdid(String udid) {
+        return cardDao.getByUdid(udid);
+    }
+
+    @Override
+    public Card getCardByNo(String cardNo) {
+        return cardDao.getByCardNo(cardNo);
+    }
+
+
+}

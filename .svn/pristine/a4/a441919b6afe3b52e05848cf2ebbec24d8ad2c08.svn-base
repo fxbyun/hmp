@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表更新记录</title>
+    <style>
+        .table {
+            border-collapse: collapse;
+            border: #4cff41;
+        }
+
+        .td span {
+            color: #003bb3;
+        }
+    </style>
+</head>
+<body>
+<table class="table table-striped" style="border: 10px">
+    <thead>
+    <tr>
+        <th>更新时间||操作</th>
+        <th>表名</th>
+        <th>修改字段</th>
+        <th>修改为</th>
+        <th>新增字段</th>
+        <th>操作人</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><span style="color: #003bb3">2016年9月12日 09:56:47</span></td>
+        <td><span style="color: #003bb3">emr</span></td>
+        <td><span style="color: #003bb3">test</span></td>
+        <td><span style="color: #003bb3">testToName</span></td>
+        <td><span style="color: #003bb3">addCol</span></td>
+        <td><span style="color: #003bb3">曾伟</span></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

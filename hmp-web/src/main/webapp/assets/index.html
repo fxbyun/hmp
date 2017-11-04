@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="/assets/webSockets/sockjs-0.3.min.js"></script>
+    <script src="/assets/jquery/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript">
+        var webSocket = null;
+        var url = null;
+        $(function () {
+            //初始化websocket
+            url = 'ws://' + window.location.host + "/wx/websocket?doctorId=123&tmpId";
+            connect();
+        });
+
+        //开启websocket连接
+        function connect() {
+            webSocket = new WebSocket(url);
+            //开启连接
+            webSocket.onopen = function () {
+                Alert.success('打开webSocket连接...');
+            };
+            //当收到信息
+            webSocket.onmessage = function (event) {
+                var date = JSON.parse(event.data);
+                Alert.warning(date.user + ': ' + date.msg);
+            };
+            //当关闭webSocket
+            webSocket.onclose = function (event) {
+                Alert.warning('事件: 连接被关闭...');
+            };
+        }
+        //关闭连接
+        function disconnect() {
+            if (webSocket != null) {
+                webSocket.close();
+                webSocket = null;
+            }
+        }
+
+        function echo(msg) {
+            if (webSocket != null) {
+                Alert.success('我发送: ' + msg);
+                //发送信息
+                webSocket.send(msg);
+            } else {
+                Alert.error('未连接到服务器,请刷新网页,如果多次出现本提示请联系技术人员!');
+            }
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>

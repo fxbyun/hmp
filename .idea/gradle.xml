@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="LOCAL" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="E:/work/gradle-4.3" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/hmp-admin" />
+            <option value="$PROJECT_DIR$/hmp-advertising" />
+            <option value="$PROJECT_DIR$/hmp-api" />
+            <option value="$PROJECT_DIR$/hmp-modules" />
+            <option value="$PROJECT_DIR$/hmp-modules/hmp-core" />
+            <option value="$PROJECT_DIR$/hmp-op" />
+            <option value="$PROJECT_DIR$/hmp-opweb" />
+            <option value="$PROJECT_DIR$/hmp-phar" />
+            <option value="$PROJECT_DIR$/hmp-pharweb" />
+            <option value="$PROJECT_DIR$/hmp-remote" />
+            <option value="$PROJECT_DIR$/hmp-web" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

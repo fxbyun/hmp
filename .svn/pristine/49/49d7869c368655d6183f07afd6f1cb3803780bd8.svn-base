@@ -1,0 +1,409 @@
+
+body {
+    font-family: '微软雅黑';
+    font-size: medium;
+    line-height: 1.6em;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+li {
+    list-style-type: none;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+th, td {
+    text-align: center;
+}
+
+/* 登录 */
+.log-table {
+    padding: 3rem;
+    width: 100%;
+}
+
+.log-table .form-group {
+    position: relative;
+    width: 100%;
+}
+
+.log-table .form-group input {
+    padding-left: 40px;
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    font-size: 16px;
+    height: 40px;
+    margin-bottom: 15px;
+}
+
+.log-table .form-group i {
+    position: absolute;
+    top: 2px;
+    padding: 5px;
+    left: 1px;
+    font-size: 27px;
+    color: #d1d1d1;
+    background-color: #e6e8e9;
+}
+
+.form-horizontal .form-group {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+/* end */
+
+/* 忘记密码 */
+.register-table {
+    padding: 0 2rem;
+}
+
+.register-table table tr > td:first-child {
+    width: 35%;
+}
+
+.register-table table {
+    font-size: 1.6rem;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.register-table .btn-success {
+    background-color: #218a3f;
+}
+
+/* end */
+
+.nav-wx {
+    overflow: hidden;
+}
+
+.nav-wx ul {
+    padding: 0 0.1rem;
+}
+
+.nav-wx li {
+    float: left;
+    background-color: #2EAA2E;
+    margin-right: 1px;
+    text-align: center;
+    width: 33%;
+}
+
+.nav-wx li a {
+    color: #fff;
+    padding: 10px;
+    display: block;
+}
+
+.nav-wx li:hover, .nav-wx li.active a {
+    background-color: #167316;
+}
+
+/*  nav-tabs */
+
+.nav-tabs {
+    border-bottom: none;
+}
+
+.nav-tabs > li a:hover {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #218a3f;
+}
+
+.nav-tabs > li a {
+    color: #B8B8B8;
+    padding: 0;
+    margin: 10px 10px;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    border: none;
+    color: #218a3f;
+}
+
+.pre-bx {
+    background: url("/assets/images/icon-bx.png") no-repeat center bottom;
+    padding: 0 1.3rem;
+}
+
+.pre-detail-nav li, .pre-detail-nav li.active {
+    overflow: hidden;
+}
+
+.pre-detail-nav .nav-tabs > li {
+    margin-bottom: 0px;
+}
+
+.pre-detail-nav .nav-tabs > li.active {
+    margin-top: 1px;
+}
+
+.pre-detail-nav .nav-tabs > li.active > i.pre-bx {
+    padding-bottom: 0px;
+}
+
+/* 病症 */
+.pre-disease {
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.label-box {
+    min-height: 100px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    position: relative;
+    margin: 0 2px 10px 2px;
+}
+
+.talk-tab .tab-box-list {
+    margin-bottom: 10px;
+    min-height: 225px;
+    text-align: center;
+    padding: 0 15px;
+}
+
+.tab-box-list span.tag {
+    width: 22%;
+    padding: 5px 0;
+    margin: 5px 3px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0px 1px 2px 2px #eee;
+}
+
+span.tag {
+    color: #333;
+    font-weight: normal;
+    background-color: #fff;
+    font-size: 16px;
+    margin-bottom: 4px;
+    position: relative;
+    display: inline-block;
+}
+
+.form-group.btn-boxs {
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+.btn-boxs .seach-input {
+    float: left;
+    width: 80%;
+    border-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.btn-boxs .btn-default {
+    width: 20%;
+    background-color: #5E5E5E;
+    color: #fff;
+    padding-top: 8px;
+    border: 0;
+}
+
+.btn-boxs .seach {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* 分页按钮 */
+.pre-btn .btn {
+    margin-right: 15px;
+}
+
+.pre-btn .btn-default {
+    color: #fff;
+    background-color: #BCBCBC;
+}
+
+.pre-btn .btn-default:hover {
+    color: #fff;
+    background-color: #BCBCBC;
+}
+
+.pre-btn .btn-success {
+    color: #fff;
+    background-color: #218a3f;
+}
+
+.pre-btn a.btn {
+    text-decoration: none;
+}
+
+.pre-btn a {
+    color: #218a3f;
+    text-decoration: underline;
+    vertical-align: bottom;
+}
+
+.pre-btn a:hover {
+    text-decoration: none;
+}
+
+/* 药方名称 */
+.pre-name-p {
+    overflow: hidden;
+    padding: 0 10%;
+}
+
+.pre-name-p span {
+    float: left;
+}
+
+.pre-name-p input {
+    float: left;
+    width: 70%;
+}
+
+.pre-name-p select {
+    float: left;
+    width: 70%;
+}
+
+.pre-cate {
+    width: 45%;
+    background-color: #434343;
+    margin: 0 10rem;
+    padding: 0.5rem;
+    text-align: center;
+    border-radius: 2px;
+}
+
+.pre-cate a {
+    color: #fff;
+}
+
+/* 选择药品 */
+
+.pre-medicine > .nav-tabs > li {
+    width: 49.8%;
+    padding: 0;
+}
+
+.pre-medicine > .nav-tabs > li.active > a, .pre-medicine > .nav-tabs > li.active > a:focus, .pre-medicine > .nav-tabs > li.active > a:hover {
+    color: #fff;
+    background-color: #218a3f;
+    border: 1px solid #ccc;
+}
+
+.pre-medicine > .nav-tabs > li > a {
+    color: #000;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    margin: 0;
+    border-radius: 4px;
+}
+
+.tab-box-list.west-boxs {
+    text-align: center;
+}
+
+.tab-box-list.west-boxs span.tag {
+    width: 45%;
+}
+
+.medicine-label-box .form-group.btn-boxs {
+    margin: 5% 0;
+}
+
+/* 模板药方 */
+.tem-medicine th, .tem-medicine td {
+    text-align: center;
+    font-weight: 800;
+}
+
+.tem-medicine th {
+    height: 3rem;
+}
+
+.tem-medicine td {
+    height: 5rem;
+}
+
+.tem-medicine .demo {
+    line-height: 2rem;
+    padding-top: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-weight: normal;
+}
+
+.backg {
+    background-color: #D7D7D7;
+}
+
+.backg2 {
+    background-color: #F2F2F2;
+}
+
+/* 新增药品 */
+.btn-group .btn {
+    padding: 0.5rem 0.7rem;
+}
+
+.btn-bgcolor .btn-success {
+    background-color: #218a3f;
+    width: 25%;
+}
+
+/* 信息设置 */
+.info-tx {
+    float: left;
+    width: 30%;
+}
+
+.info-tj {
+    float: left;
+    width: 70%;
+}
+
+/* 类别管理 */
+.category {
+    padding: 1rem 0;
+}
+
+.category table {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.category td:first-child {
+    width: 55%;
+}
+
+.category td:last-child {
+    width: 45%;
+}
+
+.category td .btn-default {
+    width: 45%;
+}
+
+.category td i {
+    padding-right: 0.4rem;
+}
+
+.category tr, .category td {
+    height: 5rem;
+}
+
+
+

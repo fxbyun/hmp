@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:mysql://192.168.1.222:3306/hmp</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <mapping class="com.qiaobei.hmp.modules.entity.Advert"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Adverting"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.AppDoctor"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.AppointConfig"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.AppointExpire"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.AppointList"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.AppointPatient"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.AppointReward"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.AppointTimeConfig"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.AppointWeekConfig"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Card"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.CodeStatus"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Company"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Conversion"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.ConversionApply"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.DataFile"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.DayTime"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Department"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Diagnosis"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.DiagnosisTag"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Doctor"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.DoctorMedicine"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Emr"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.EmrJClassAdviceDict"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.EmrMedicine"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.EmrSuggest"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.ErrorLog"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.ErrorLogService"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Evaluate"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Gender"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.IaiInto"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.IaiIntoDetail"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.IaiLoss"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.IaiLossDetail"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.IdEntity"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.ImageWall"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Indent"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.JClassAdviceDict"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.JDoctorExamLab"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.JDoctorExtCost"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.JExamClass"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.JExamSubclassDict"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.JLabClass"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Medicine"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.MedicineCount"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.MedicinePrivate"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.MobileUser"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.MsgMeassage"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.MsgMoney"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.MsgRechargeDetail"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.MsgSendHistory"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.MsgSendHistoryDetail"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.MyRewards"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Nation"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Notice"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.NoticeItem"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.OldPatient"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.OldPatientBingli"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Patient"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.PatientTag"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.PayType"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Permission"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Pharmacist"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Prescription"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.PrescriptionCategory"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.PrescriptionItem"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.PrescriptionLib"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.PrescriptionLibItem"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.ProvinceDoctor"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Registration"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Role"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Statistics"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.StatusEntity"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Suggest"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Supplier"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.SymptomTag"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.SystemLog"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.TableModify"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.Tag"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.User"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.UserLogin"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.VitalSign"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.ExamLabFile"/>
+        <mapping class="com.qiaobei.hmp.modules.entity.EmrExtCost"/>
+        <!--<mapping class="com.qiaobei.hmp.modules.entity."/>-->
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+    </session-factory>
+</hibernate-configuration>

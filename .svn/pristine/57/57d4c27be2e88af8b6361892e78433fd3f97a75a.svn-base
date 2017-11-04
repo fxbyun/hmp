@@ -1,0 +1,39 @@
+group = "org.springside"
+version = "4.2.3-GA"
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = "org.springside"
+            pom.artifactId = "springside-metrics"
+            pom.version = "4.2.3-GA"
+            repository(url: "http://192.168.1.199:8081/nexus/content/repositories/releases/") {
+                authentication(userName: "admin", password: "p@123654")
+            }
+        }
+    }
+}
+
+dependencies {
+
+    compile(
+            project(':springside:springside-core'),
+
+            libs.'spring-context',
+
+            libs.'jedis',
+            libs.'nosqlunit-redis',
+
+            libs.'commons-io',
+            libs.'commons-lang3',
+            libs.'guava',
+
+            libs.'assertj-core',
+            libs.'mockito-core'
+
+    )
+
+    // 注意：这些libs目录是不包含子目录
+    // 
+    //compile fileTree(dir: 'libs', include: '*.jar')    
+}

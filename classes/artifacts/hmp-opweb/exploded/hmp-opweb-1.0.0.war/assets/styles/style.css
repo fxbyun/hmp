@@ -1,0 +1,1201 @@
+
+body{
+    font-family: '微软雅黑';
+    font-size: medium;
+    line-height: 1.6em;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #333;
+}
+
+span {
+    color: #868686;
+}
+.tcb{
+    color: #6AB4C0;
+}
+.w120{
+    width: 120px;
+}
+.w160{
+    width: 160px;
+}
+.w180{
+    width: 180px;
+}
+.error {
+    padding-left: 16px;
+    margin-left: 1em;
+    padding-bottom: 2px;
+    font-weight: bold;
+    color: #EA5200;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.warp {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 3em;
+    /* 使之可以滚动 */
+    overflow-y: scroll;
+    /* 增加该属性，可以增加弹性 */
+    -webkit-overflow-scrolling: touch;
+}
+
+/*
+    登录
+*/
+.col-xs-10.login-num {
+    margin: 0 auto;
+    float: none;
+    padding-top: 1em;
+    overflow: hidden;
+}
+
+.login-num input {
+    float: left;
+}
+
+.login-num button {
+    float: right;
+}
+
+.login-solid {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 36px;
+}
+
+.login-i {
+    float: left;
+    width: 15%;
+    background-color: #AEAEAE;
+    line-height: 1.4em;
+    font-size: 2.5rem;
+}
+
+.login-in {
+    width: 85%;
+    display: inline-block;
+    border: none;
+}
+
+.row {
+    margin: 0;
+}
+
+.row .btn-success {
+    background-color: #5cb531;
+}
+
+.login-btn {
+    position: absolute;
+    bottom: 0.15em;
+    right: 0;
+    font-size: 1.8rem;
+    z-index: 1000;
+}
+
+/*
+    预约首页
+*/
+.wx-index {
+    overflow: hidden;
+}
+
+.wx-index.out-detail-title {
+    padding: 0.5em 0 0.4em 0.6em;
+}
+
+.wx-index .fa-clock-o {
+    font-size: 5rem;
+    color: #5cb531;
+    padding-right: 0.3em;
+}
+
+.wx-index .float-right {
+    width: 35%;
+    height: 65px;
+    border-left: 1px solid #ccc;
+}
+
+.wx-index .fa-comments-o {
+    font-size: 3.5rem;
+    color: #5cb531;
+    margin: 0.2em 1em;
+}
+
+.wx-index span {
+    color: #AEAEAE;
+}
+
+.index-infomation {
+    padding: 1em 0;
+    overflow: hidden;
+}
+
+.index-infomation span {
+    color: #333;
+}
+
+.wx-icon-solid {
+    width: 5px;
+    height: 20px;
+    background-color: #5cb531;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+
+    margin: 3px 0.5em 0 1em;
+}
+
+.index-info-ul {
+    padding-left: 0;
+}
+
+.index-info-ul li {
+    padding: 0.3em 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.index-info-ul li img {
+    margin: 1px 1em;
+}
+
+.index-info-ul li p {
+    margin: 0;
+    color: #AEAEAE;
+}
+
+.index-info-ul li p span {
+    font-size: 1.3rem;
+    padding-left: 5px;
+    color: #AEAEAE;
+}
+
+.backg3 {
+    background-color: #fff;
+}
+
+.backg4 {
+    background-color: #F2F2F2;
+}
+
+.index-info-btn {
+    position: absolute;
+    bottom: 18px;
+    right: 20px;
+}
+
+.index-info-btn i {
+    font-size: 2.8rem;
+    color: #AEAEAE;
+}
+
+/*
+    门诊首页
+*/
+
+.wx-outpatient {
+    width: 100%;
+    height: 42px;
+    background-color: #5cb531;
+    color: #fff;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.wx-outpatient span {
+    color: #fff;
+}
+
+.outpa-icon.fa {
+    color: #fff;
+    font-size: 2.5rem;
+    line-height: 1.7em;
+    padding-left: 0.5em;
+    padding-right: 5px;
+}
+
+.wx-out-span.nav ul {
+    overflow: hidden;
+}
+
+.wx-out-span.nav li {
+    float: left;
+    padding: 0;
+}
+
+.wx-out-span.nav li a {
+    padding: 0;
+    line-height: 2.5em;
+    color: #fff;
+}
+
+.wx-out-span {
+    float: right;
+    padding-right: 0.8em;
+    font-size: 1.7rem;
+}
+
+.wx-out-span.nav > li > a:focus, .wx-out-span.nav > li > a:hover {
+    background-color: transparent;
+}
+
+.wx-out-seach {
+    position: relative;
+}
+
+.wx-out-seach input {
+    height: 35px;
+    display: inline-block;
+    padding-right: 30px;
+    -webkit-appearance: none; /* 解决ios输入框阴影问题 */
+}
+
+.wx-out-seach i {
+    position: absolute;
+    right: 12px;
+    bottom: 8px;
+    color: #AEAEAE;
+}
+
+.wx-out-conter {
+    padding: 0 1em;
+}
+
+.wx-out-conter ul {
+    margin-top: 0.8em;
+    padding: 0;
+}
+
+.wx-out-conter ul li {
+    padding: 0.3em 0;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+    position: relative;
+}
+
+.wx-out-conter ul li.active {
+    border-bottom: 1px solid #000;
+}
+
+.wx-out-conter ul li:last-child {
+    border-bottom: none;
+}
+
+.wx-out-info {
+    margin-left: 1.2em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 75%;
+}
+
+.wx-out-info > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.wx-out-info span {
+    font-size: 1.3rem;
+}
+
+.pel {
+    width: 60%;
+}
+
+.pel input {
+    width: 85%;
+}
+
+.wx-outpel {
+    overflow: hidden;
+}
+
+.wx-outpel select.form-control {
+    display: inline-block;
+    width: 70%;
+    padding: 6px 5px;
+    color: #868686;
+}
+
+.wx-pel-info {
+    margin-left: 1.2em;
+    line-height: 1em;
+}
+
+.wx-pel-info span {
+    font-size: 1.3rem;
+}
+
+.outpa-icon02.fa {
+    /*background: url("/assets/images/icon_04.png") left center no-repeat;
+    padding: 0 0.8em;*/
+    color: #AEAEAE;
+    font-size: 2rem;
+    padding-right: 5px;
+
+}
+
+.out-ahref {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: red;
+    font-size: 1.3rem;
+    /* line-height: 1.2em;*/
+
+}
+
+/*
+     门诊定位页
+*/
+.wx-outpatient.outLocation {
+    background-color: #fff;
+    color: #333;
+    margin-bottom: 0;
+}
+
+.location {
+    background-color: #E4E4E4;
+}
+
+.location .col-xs-8, .location .col-xs-4, .location ul {
+    padding: 0;
+}
+
+.wx-outpatient.outLocation span {
+    color: #333;
+    font-size: 1.5rem;
+    line-height: 2.8em;
+    padding-left: 1em;
+}
+
+.col-xs-4.out-loca-city {
+    padding: 0;
+}
+
+.location .nav > li > a {
+    height: 45px;
+    padding: 0 0 0 0.8em;
+    line-height: 3em;
+    color: #6B6B6B;
+
+}
+
+.location ul#cityDoc {
+    min-height: 40em;
+    background-color: #fff;
+}
+
+.location .nav > li.active, .location .nav > li.active a {
+    background-color: #fff;
+    color: #333;
+}
+
+.location .nav > li > a:focus, .location .nav > li > a:hover {
+    background-color: #fefefe;
+}
+
+.location #cityDoc > li:nth-of-type(odd) {
+    background-color: #EEEEEE;
+}
+
+.location #cityDoc > li:nth-of-type(even) {
+    background-color: #fff;
+}
+
+/*
+    门诊详情
+*/
+.out-detail {
+    background-color: #5cb531;
+    color: #fff;
+    height: 42px;
+}
+
+.out-detail i {
+    font-size: 2.6rem;
+    padding-left: 0.5em;
+    line-height: 1.6em;
+    vertical-align: middle;
+    height: 42px;
+    float: left;
+}
+
+.out-detail span {
+    width: 100%;
+    color: #fff;
+    padding-right: 0.5em;
+    line-height: 2.5em;
+}
+
+.out-detail-title {
+    border-bottom: 4px solid #E4E4E4;
+    padding: 0.5em 1em;
+}
+
+.out-deta-title img {
+    margin-bottom: 0.5em;
+}
+
+.out-detail-title dl {
+    margin-bottom: 0;
+}
+
+.out-detail-title dt {
+    font-weight: normal;
+    line-height: 1.6em;
+    padding-top: 0.5em;
+    font-size: 2rem;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.out-detail-title dd {
+    font-size: 1.3rem;
+    color: #868686;
+}
+
+.out-dateil-regist ul {
+    padding: 0 0.8em;
+}
+
+.out-dateil-regist li {
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    padding: 0.5em 0;
+}
+
+.out-dateil-regist li:last-child {
+    border-bottom: none;
+}
+
+.out-dateil-regist p {
+    line-height: 1.3em;
+    margin: 0;
+}
+
+.out-dateil-regist p span {
+    font-size: 1.3rem;
+    color: #868686;
+}
+
+.out-regist {
+    position: absolute;
+    bottom: 1.5em;
+    right: -6px;
+}
+
+.btn-default.out-regist {
+    border-color: #5cb531;
+    color: #5cb531;
+    border-radius: 10px;
+}
+
+.btn-default.out-regist.color-bc {
+    color: #BCBCBC;
+}
+
+/*
+    医生主页
+*/
+
+.out-appointment .out-detail-title {
+    padding: 0 0.5em;
+}
+
+.out-detail-title p {
+    line-height: 0.6em;
+    font-size: 1.3rem;
+}
+
+.out-appoint ul {
+    padding: 0;
+    overflow: hidden;
+}
+
+.out-appoint.nav {
+    background-color: #5cb531;
+}
+
+.out-appoint li {
+    float: left;
+    font-size: 1.3rem;
+    width: 30%;
+}
+
+.out-appoint.nav > li > a {
+    padding: 8px 7px;
+    text-align: center;
+    color: #fff;
+}
+
+.out-appoint.nav .fa {
+    font-size: 1.8em;
+    line-height: 1.4em;
+    color: #fff;
+    padding: 0 4px;
+}
+
+.out-appoint.nav > li > a:hover, .out-appoint.nav > li > a:focus {
+    background-color: #EFAD4D;
+}
+
+.out-appoint-regist.out-detail-title {
+    position: relative;
+    height: 55px;
+    padding: 0 0.5em 0 1em;
+}
+
+.out-appoint-regist.out-detail-title span {
+    line-height: 3.2em;
+    color: #333;
+}
+
+.out-appoint-regist .out-regist {
+    bottom: 0.5em;
+    right: 10px;
+}
+
+.out-appoint-evaluate.out-detail-title {
+    height: 45px;
+    overflow: hidden;
+    padding-left: 1em;
+}
+
+.out-appoint-evaluate.out-detail-title p {
+    font-size: medium;
+    margin: 0;
+    padding-top: 0.6em;
+    line-height: 0.8em;
+    color: #333;
+}
+
+.out-appoint-evaluate.out-detail-title span {
+    font-size: 1.3rem;
+}
+
+.out-appoint-info {
+    padding-left: 1em;
+    line-height: 1.2em;
+}
+
+.out-appoint-info p {
+    margin: 0;
+    padding-top: 5px;
+    line-height: 1.8em;
+}
+
+.out-appoint-info span {
+    font-size: 1.3rem;
+    min-height: 2em;
+    display: block;
+}
+
+/*
+    就诊时间段
+*/
+.out-centent {
+    position: relative;
+}
+
+.out-treatment-time {
+    display: none;
+
+}
+
+.doctor-tx {
+    border-radius: 50%;
+}
+
+.out-centent .out-detail-title p span {
+    color: #fff;
+}
+
+.out-centent .out-detail-title p {
+    line-height: 1.3em;
+}
+
+.out-treatment-share {
+    position: absolute;
+    top: 2.6em;
+    left: 0;
+    z-index: 1000;
+    background-color: #000;
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+    width: 100%;
+    height: 92%;
+}
+
+.out-times {
+    position: absolute;
+    top: 2.6em;
+    right: 0;
+    background-color: #fff;
+    height: 92%;
+    width: 55%;
+    z-index: 1001;
+    overflow-y: scroll;
+}
+
+.out-times-title {
+    border-bottom: 1px solid #ccc;
+    height: 35px;
+    font-size: 1.5rem;
+
+}
+
+.out-times-title span {
+    color: #333;
+    line-height: 2.2em;
+}
+
+.out-time-detail {
+    padding: 0;
+    font-size: 1.4rem;
+
+}
+
+.out-time-detail li {
+    height: 40px;
+    cursor: pointer;
+}
+
+.out-time-detail li span {
+    color: #333;
+    text-align: center;
+}
+
+/*
+    预约确认页面
+*/
+
+.res-title span.text-center {
+    padding: 0 4em 0 6em;
+}
+
+.res-title span.text-right {
+    padding: 0;
+    font-size: 1.3rem;
+}
+
+.res-detail {
+    background-color: #F2F2F2;
+    margin: 0.2em;
+    padding: 0.8em;
+}
+
+.res-detail p {
+    line-height: 1.5em;
+    font-size: 1.5rem;
+}
+
+.res-detail p span:first-child {
+    padding-right: 2.5em;
+}
+
+.res-detail p span:last-child {
+    color: #333;
+}
+
+.btn-sure {
+    position: absolute;
+    bottom: 3px;
+    right: 0;
+    font-size: 1.8rem;
+}
+
+/*
+    档案填写
+*/
+
+.wx-consultation {
+    margin: 0 1em;
+}
+
+.con-file {
+    background-color: #F2F2F2;
+    padding: 1em 0.5em;
+
+}
+
+.con-file > p, .con-file > div {
+    overflow: hidden;
+    margin: 0 0 5px;
+    font-size: 1.5rem;
+}
+
+.con-file > p > span, .con-file > div > span {
+    color: #333;
+    font-size: 1.5rem;
+    width: 29%;
+    float: left;
+    padding-right: 0.2em;
+    text-align: right;
+    vertical-align: middle;
+    line-height: 2em;
+}
+
+.con-file > div input {
+    margin: 0.6em 5px 0 5px;
+}
+
+.con-file > p > input, .con-file > p > select {
+    display: inline-block;
+    width: 70%;
+    float: right;
+}
+
+.con-file > p > select {
+    margin-bottom: 5px;
+}
+
+/*
+    选择就诊人页面
+*/
+
+.wx-patient ul {
+    padding: 0;
+}
+
+.wx-patient ul li {
+    border-bottom: 1px solid #ccc;
+    padding: 0.2em 0 0.2em 1em;
+}
+
+.wx-patient ul li p {
+    line-height: 1.5em;
+    margin: 0;
+}
+
+.wx-patient ul li p:first-child span {
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.wx-patient ul li p span {
+    color: #AEAEAE;
+    font-size: 1.3rem;
+}
+
+/*
+    选择病例页面
+*/
+.wx-sel-case ul {
+    padding: 0;
+}
+
+.wx-sel-case ul li {
+    overflow: hidden;
+    padding: 0.5em 0;
+    height: 45px;
+}
+
+.wx-sel-case ul li div:first-child {
+    width: 40%;
+}
+
+.wx-sel-case ul li div {
+    width: 60%;
+    text-align: center;
+    color: #333;
+    font-size: 1.5rem;
+    float: left;
+}
+
+/*
+    咨询窗口
+*/
+.con-consulting > div span {
+    color: #333;
+    line-height: 2em;
+}
+
+.con-consulting > p {
+    line-height: 1em;
+}
+
+.con-consulting > p span {
+    color: #AEAEAE;
+}
+
+.con-reply {
+    padding: 1em 0 0 1em;
+}
+
+.con-reply-show {
+    overflow: hidden;
+    font-size: 1.5rem;
+}
+
+.con-reply-show .float-left .color-5c {
+    color: #5cb531;
+    padding: 0 3px;
+}
+
+.con-reply-show .float-left span {
+    color: #333;
+}
+
+.con-reply-show .float-right span {
+    color: #AEAEAE;
+    padding-right: 1em;
+}
+
+/*
+    评价页面
+*/
+
+.con-evaluate ul {
+    padding: 0.5em 0 0 0;
+}
+
+.con-evaluate ul li {
+    min-height: 55px;
+    padding: 0.5em 1em;
+    line-height: 1.3em;
+}
+
+.con-evaluate ul li p {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.con-evaluate ul li p span {
+    color: #AEAEAE;
+    font-size: 1.3rem;
+}
+
+.con-evaluate ul li div {
+    font-size: 1.3rem;
+}
+
+.con-evaluate ul li img + span {
+    color: #333;
+    padding-left: 5px;
+}
+
+
+span.color-5c-span {
+    color: #5cb531 !important;
+}
+
+/*
+    个人主页
+*/
+.per-title {
+    margin: 0;
+    padding: 0 2em;
+    overflow: hidden;
+}
+
+.per-title li {
+    /*float: left;
+    width: 50%;*/
+    text-align: center;
+}
+
+.per-title li a {
+    color: #33CCFF;
+}
+
+.per-title li i {
+    font-size: 2.3rem;
+
+}
+
+.per-help {
+    overflow: hidden;
+    padding: 0.5em 1em;
+}
+
+.per-help .fa-angle-right {
+    font-size: 2rem;
+}
+
+.per-help .fa-users {
+    color: #5cb531;
+}
+
+.per-help span {
+    padding-left: 10px;
+}
+
+.out-detail-title.per {
+    padding: 0;
+}
+
+.per-solid {
+    border-bottom: 1px solid #ccc;
+}
+
+.per-tagger {
+    width: 100%;
+    position: absolute;
+    bottom: 0.2em;
+    right: 0;
+
+}
+
+.per-tagger span {
+    color: #fff;
+    font-size: 1.3rem;
+}
+
+.per-tagger p {
+    margin: 0;
+}
+
+/*
+    我的挂号
+*/
+
+.per-my-reg ul {
+    padding: 0;
+    margin: 0;
+}
+
+.per-my-reg ul li {
+    border-bottom: 4px solid #E4E4E4;
+    padding: 0 1em;
+}
+
+.per-my-reg ul li:last-child {
+    border: none;
+}
+
+.per-my-title {
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    line-height: 2em;
+    padding: 5px 8px 0 8px;
+}
+
+.per-my-title span {
+    color: #333;
+}
+
+.per-my-reginfo {
+    overflow: hidden;
+}
+
+.per-my-reginfo p {
+    margin: 0;
+    line-height: 1.2em;
+    font-size: 1.5rem;
+}
+
+.per-my-cnsultinfo {
+    background-color: #F2F2F2;
+    padding: 0.5em 0.8em;
+    border-radius: 2px;
+}
+
+.per-my-cnsultinfo p {
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1.5em;
+}
+
+.per-my-cnsultinfo p span:first-child {
+    padding-right: 1.5em;
+}
+
+.per-my-cnsultinfo p span:last-child {
+    color: #333;
+}
+
+.per-my-btn {
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+.per-my-btn .btn.btn-default {
+    border-color: #5cb531;
+    color: #5cb531;
+    margin-left: 5px;
+    width: 80px;
+    padding: 4px 12px;
+}
+
+/*
+    我的咨询
+*/
+.out-detail-title .fa-plus {
+    color: #5cb531;
+    font-size: 2rem;
+    line-height: 0;
+    vertical-align: middle;
+    padding-right: 10px;
+}
+
+.per-patient li {
+    position: relative;
+}
+
+.per-edit {
+    position: absolute;
+    bottom: 0.4em;
+    right: 2.5em;
+    font-size: 2.5rem;
+    color: #5cb531;
+}
+
+.per-delete {
+    position: absolute;
+    bottom: 0.5em;
+    right: 0.8em;
+    font-size: 2.5rem;
+    color: #5cb531;
+}
+
+.per-about-us {
+    margin-top: 2em;
+    background-color: #F2F2F2;
+    padding: 1em 0.8em;
+}
+
+.per-about-us p, .per-about-us p span {
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.per-goback {
+    position: absolute;
+    bottom: 0.2em;
+    right: 0;
+    width: 100%;
+}
+
+.per-user {
+    height: 200px;
+    background: url("/assets/images/img6.png");
+    text-align: center;
+    padding-top: 12%;
+}
+
+.per-user img {
+    display: block;
+    margin: 0 auto;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.warp .per-user span {
+    color: #fff;
+    display: block;
+    margin-top: 2%;
+}
+
+.look-detail {
+    position: absolute;
+    bottom: 2%;
+    right: 2%;
+    font-size: 1.3rem;
+}
+
+.icon-06 {
+    background: url("/assets/images/icon_06.png") center no-repeat;
+    padding: 5px 10px;
+    background-size: 15px 15px;
+    margin-right: 5px;
+}
+
+.icon-06 + span {
+    display: inline-block;
+    width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.icon-07 {
+    background: url("/assets/images/icon_07.png") center no-repeat;
+    padding: 5px 10px;
+    background-size: 15px 15px;
+    margin-right: 5px;
+    margin-left: 1em;
+}
+
+.icon-08 {
+    background: url("/assets/images/icon_08.png") center no-repeat;
+    padding: 5px 10px;
+    background-size: 15px 15px;
+    margin-right: 5px;
+}
+
+.icon-09 {
+    background: url("/assets/images/icon_09.png") center no-repeat;
+    padding: 5px 10px;
+    background-size: 15px 15px;
+    margin-right: 5px;
+}
+
+.content-some span {
+    width: 100%;
+    padding: 0 5%;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+    height: 6em;
+    font-size: 1.3rem;
+    color: #868686;
+    margin: 0;
+    line-height: 1.6em;
+}
+
+.content-all {
+    padding: 0 5%;
+    font-size: 1.3rem;
+    color: #AEAEAE;
+    line-height: 1.6em;
+    display: none;
+}
+
+.show-clinic-img {
+    padding: 3% 0;
+    text-align: center;
+}
+
+.show-clinic-img img {
+    margin-bottom: 4%;
+    border: 1px solid #ccc;
+}
+
+.show-clinic-img img:nth-of-type(odd) {
+    margin-right: 3%;
+}
+
+
+
+
+
+
+
+
+
+

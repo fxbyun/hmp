@@ -1,0 +1,95 @@
+package com.qiaobei.hmp.modules.entity;
+
+
+import javax.persistence.*;
+import java.util.Date;
+
+/**
+ * 生命体征
+ */
+@Entity
+@Table(name = "vital_sign")
+public class VitalSign extends IdEntity {
+
+    private String patientUid;
+    private String patientName;
+    private Type type;
+    private String value;
+    private Date createOn;
+    private Emr emr;
+
+    public VitalSign() {
+    }
+
+    public VitalSign(Long id) {
+        this.id = id;
+    }
+
+    public VitalSign(Type type) {
+        this.type = type;
+    }
+
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinColumn(name = "emr_id")
+    public Emr getEmr() {
+        return emr;
+    }
+
+    public void setEmr(Emr emr) {
+        this.emr = emr;
+    }
+
+    @Column(name = "patient_uid", length = 20)
+    public String getPatientUid() {
+        return patientUid;
+    }
+
+    public void setPatientUid(String patientUid) {
+        this.patientUid = patientUid;
+    }
+
+    @Column(name = "patient_name", length = 20)
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
+
+    @Column(name = "type", nullable = false)
+    @Enumerated(value = EnumType.ORDINAL)
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    @Column(name = "value")
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_on", nullable = false)
+    public Date getCreateOn() {
+        return createOn;
+    }
+
+    public void setCreateOn(Date createOn) {
+        this.createOn = createOn;
+    }
+
+    /**
+     * 低压,高压,心率,血糖,体温
+     */
+    public enum Type {
+        Lbp, Hbp, Hr, Glu, Bt, Br, Bw, Ns, Ot
+    }
+}

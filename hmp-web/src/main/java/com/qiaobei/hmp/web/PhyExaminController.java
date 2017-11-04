@@ -1,0 +1,600 @@
+package com.qiaobei.hmp.web;
+
+import com.github.stuxuhai.jpinyin.PinyinHelper;
+import com.google.common.collect.Lists;
+import com.qiaobei.hmp.modules.entity.*;
+import com.qiaobei.hmp.modules.service.*;
+import com.qiaobei.hmp.security.SecuritySupport;
+import com.qiaobei.hmp.support.Result;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.Predicate;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Controller
+public class PhyExaminController extends ConstantsController {
+    @Resource
+    private JDoctorExamLabService jDoctorExamLabService;
+    @Resource
+    private com.qiaobei.hmp.service.DoctorService doctorService;
+    @Resource
+    private JExamClassService jExamClassService;
+
+    @Resource
+    private JLabClassService jLabClassService;
+
+    @Resource
+    private JDoctorExtCostService jDoctorExtCostService;
+
+    @Resource
+    private JClassAdviceDictService jClassAdviceDictService;
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    //TODO 检查项目明细 2016-10-27 14:54:59
+    @RequestMapping(value = "/fragment/inspecItemsDetail")
+    public String inspecItemsDetail(Model model) {
+        Doctor doctor = SecuritySupport.getDoctor();
+        if (doctor.getDoctorType() == Doctor.Doctor_Type.Sub_Doctor) {
+            doctor = doctorService.getDoctor(doctor.getPrimaryDoctorId());
+        }
+        List<JDoctorExamLab> jDoctorExamLabList = jDoctorExamLabService.findAll(doctor);
+        model.addAttribute("jDoctorExamLabList", jDoctorExamLabList);
+        model.addAttribute("primaryDoctor", doctor);
+        return "/fragment/inspecItemsDetail";
+    }
+
+
+    //TODO 修改项目价格 2016-10-27 14:54:59
+
+    @RequestMapping(value = "/fragment/editItemsDetail")
+    public String editItemsDetail(
+            @RequestParam("id") Long id,
+            Model model
+    ) {
+        model.addAttribute("jDoctorExamLab", jDoctorExamLabService.findById(id));
+
+        return "/fragment/editItemsDetail";
+    }
+
+    @RequestMapping("/fragment/updateJDoctrExamLabPrice")
+    @ResponseBody
+    public Result updateJDoctrExamLabPrice(
+            @RequestParam("id") Long id,
+            @RequestParam("price") Double price
+    ) {
+
+        JDoctorExamLab jDoctorExamLab = jDoctorExamLabService.findById(id);
+        jDoctorExamLab.setPrice(price);
+        jDoctorExamLabService.update(jDoctorExamLab);
+
+        return Result.ok();
+    }
+
+    //TODO 添加项目 2016-10-27 14:54:59
+    @RequestMapping(value = "/fragment/saveItemsDetail")
+    public String saveItemsDetail(
+            @RequestParam(value = "type", required = false) JClassAdviceDict.Advice_Type adviceType,
+            Model model
+    ) {
+        if (adviceType == null) {
+            adviceType = JClassAdviceDict.Advice_Type.JianCha;
+        }
+        List<Long> jDoctorExamLabIdList = jDoctorExamLabService.findAll(SecuritySupport.getDoctor()).stream()
+                .map(JDoctorExamLab::getExamLabId).collect(Collectors.toList());
+        List<JExamClass> jExamClassList;
+        if (adviceType == JClassAdviceDict.Advice_Type.JianCha) {
+            jExamClassList = jExamClassService.findAll().stream().filter(jExamClass ->
+                    !jDoctorExamLabIdList.contains(jExamClass.getId())
+            ).collect(Collectors.toList());
+        } else {
+            jExamClassList = jLabClassService.findAll().stream().map(jLabClass -> {
+                JExamClass jExamClass = new JExamClass();
+                jExamClass.setId(jLabClass.getId());
+                jExamClass.setClassName(jLabClass.getClassName());
+                return jExamClass;
+            }).collect(Collectors.toList());
+        }
+
+
+        model.addAttribute("type", adviceType);
+        model.addAttribute("jExamClassList", jExamClassList);
+        return "/fragment/saveItemsDetail";
+    }
+
+    /**
+     * 把检验或者检查增加到医生的常用检查检验中
+     */
+    @RequestMapping(value = "/fragment/addJianChaOrJianYan")
+    @ResponseBody
+    public Result addJianChaOrJianYan(
+            @RequestParam(value = "ids") List<Long> ids,
+            @RequestParam(value = "type") JClassAdviceDict.Advice_Type type
+    ) {
+        Doctor doctor = SecuritySupport.getDoctor();
+        List<JDoctorExamLab> jDoctorExamLabList = Lists.newArrayList();
+        if (type == JClassAdviceDict.Advice_Type.JianCha) {
+            List<JExamClass> jExamClassList = jExamClassService.finyByIdList(ids);
+            jDoctorExamLabList.addAll(
+                    jExamClassList.stream().map(jExamClass -> {
+                        JDoctorExamLab jDoctorExamLab = new JDoctorExamLab();
+                        jDoctorExamLab.setExamLabId(jExamClass.getId());
+                        jDoctorExamLab.setExamLabName(jExamClass.getClassName());
+                        jDoctorExamLab.setType(type);
+                        jDoctorExamLab.setPrice(0D);
+                        jDoctorExamLab.setDoctorId(doctor.getId());
+                        return jDoctorExamLab;
+                    }).collect(Collectors.toList()));
+
+        } else {
+            List<JLabClass> jLabClassList = jLabClassService.findByIdList(ids);
+            jDoctorExamLabList.addAll(
+                    jLabClassList.stream().map(jLabClass -> {
+                        JDoctorExamLab jDoctorExamLab = new JDoctorExamLab();
+                        jDoctorExamLab.setType(type);
+                        jDoctorExamLab.setExamLabName(jLabClass.getClassName());
+                        jDoctorExamLab.setExamLabId(jLabClass.getId());
+                        jDoctorExamLab.setPrice(0D);
+                        jDoctorExamLab.setDoctorId(doctor.getId());
+                        return jDoctorExamLab;
+                    }).collect(Collectors.toList())
+            );
+        }
+        if (jDoctorExamLabList.size() > 0) {
+            jDoctorExamLabService.saveList(jDoctorExamLabList);
+        }
+        return Result.ok();
+    }
+
+    //TODO 附加费用明细 2016-10-27 17:49:18
+    @RequestMapping(value = "/fragment/chargesDetails")
+    public String chargesDetails(Model model) {
+        List<JDoctorExtCost> jDoctorExtCostList = jDoctorExtCostService.findAll(SecuritySupport.getDoctor());
+        model.addAttribute("jDoctorExtCostList", jDoctorExtCostList);
+        Doctor doctor = SecuritySupport.getDoctor();
+        Boolean isAllowUpdatePrice = false;
+        //判断价格是否允许修改
+        if (doctor.getDoctorType() == Doctor.Doctor_Type.Sub_Doctor) {
+            doctor = doctorService.getPrimaryDoctor(doctor);
+            if (doctor.getAllowSubDoctorUpdatePrice()) {
+                isAllowUpdatePrice = true;
+            }
+        } else {
+            isAllowUpdatePrice = true;
+        }
+        model.addAttribute("isAllowUpdatePrice", isAllowUpdatePrice);
+        return "/fragment/additionalChargesDetails";
+    }
+
+    //更新附加费用就诊单上的数据
+    @RequestMapping(value = "/fragment/editFujiaItems")
+    public String updateExtCostPaper(
+            @ModelAttribute("id") Long id,
+            @ModelAttribute("price") Double price,
+            @ModelAttribute("name") String name,
+            Model model
+    ) {
+        model.addAttribute("isAllowUpdatePrice", doctorService.isAllowSubDoctorUpdatePrice());
+        return "/fragment/editFujiaItems";
+    }
+
+    //TODO 添加项目 2016-10-27 17:49:18
+    @RequestMapping(value = "/fragment/addItems")
+    public String saveItems() {
+
+        return "/fragment/addItems";
+    }
+
+    @RequestMapping(value = "/fragment/addPre")
+    @ResponseBody
+    public Result addPre(@RequestParam(value = "name") String name, @RequestParam(value = "price") Double price) {
+        JDoctorExtCost jDoctorExtCost = new JDoctorExtCost();
+        jDoctorExtCost.setDoctor(SecuritySupport.getDoctor());
+        jDoctorExtCost.setClassName(name);
+        jDoctorExtCost.setPrice(price);
+        jDoctorExtCostService.save(jDoctorExtCost);
+        return Result.ok();
+    }
+
+
+    /**
+     * 删除 医生常用检查检验项目
+     */
+    @RequestMapping(value = "/fragment/delDoctorJiyanChaOrJianYan")
+    @ResponseBody
+    public Result delItems(@RequestParam(value = "id") Long id) {
+        jDoctorExamLabService.deleteById(id);
+        return Result.ok();
+    }
+
+    /**
+     * 删除 医生常用检查检验项目
+     */
+    @RequestMapping(value = "/fragment/delDoctorPre")
+    @ResponseBody
+    public Result delDoctorPre(@RequestParam(value = "id") Long id) {
+        jDoctorExtCostService.delete(id);
+        return Result.ok();
+    }
+
+    //TODO 修改项目 2016-10-27 17:49:18
+    @RequestMapping(value = "/fragment/editPre")
+    public String editItems(@RequestParam(value = "id") Long id, Model model) {
+        JDoctorExtCost jDoctorExtCost = jDoctorExtCostService.findById(id);
+        model.addAttribute("jDoctorExtCost", jDoctorExtCost);
+        return "/fragment/editItems";
+    }
+
+    @RequestMapping(value = "/fragment/savePre")
+    @ResponseBody
+    public Result savePre(@RequestParam(value = "name") String name,
+                          @RequestParam(value = "price") Double price,
+                          @RequestParam(value = "id") Long id) {
+        JDoctorExtCost jDoctorExtCost1 = jDoctorExtCostService.findById(id);
+        jDoctorExtCost1.setPrice(price);
+        jDoctorExtCost1.setClassName(name);
+        jDoctorExtCostService.save(jDoctorExtCost1);
+        return Result.ok();
+    }
+
+
+    /////////////////////// 中医理疗///////////////////////////////////////////////////
+
+    //TODO 选择理疗 2016-10-28 11:17:20
+    @RequestMapping(value = "/fragment/selectPhy")
+    public String selectPhy() {
+
+        return "/fragment/selectPhy";
+    }
+
+    //TODO 添加理疗 2016-10-28 11:17:20
+    @RequestMapping(value = "/fragment/savePhy")
+    public String savePhy() {
+
+
+        return "/fragment/savePhy";
+    }
+
+    //TODO 修改理疗 2016-10-28 11:17:20
+    @RequestMapping(value = "/fragment/editPhy")
+    public String editPhy() {
+
+        return "/fragment/savePhy";
+    }
+
+
+    //TODO 历史检查项目 2016-10-28 15:29:08
+    @RequestMapping(value = "/fragment/phyOverview")
+    public String phyOverview() {
+
+        return "/fragment/phyOverview";
+    }
+
+    //TODO 历史检查项目列表 2016-10-28 15:29:08
+    @RequestMapping(value = "/fragment/phyList")
+    public String phyList() {
+
+        return "/fragment/phyList";
+    }
+
+    //TODO 编辑项目 2016-11-1 11:40:07
+
+    @RequestMapping(value = "/fragment/editPhyItems")
+    public String editPhyItems(
+            @RequestParam("id") Long id,
+            @RequestParam(value = "type", required = false, defaultValue = "add") String type,
+            @RequestParam(value = "info", required = false, defaultValue = "无") String info,
+            @RequestParam(value = "price", required = false, defaultValue = "0") Double price,
+            @RequestParam(value = "subId", required = false, defaultValue = "0") Long subId,
+            @RequestParam(value = "subTwoId", required = false, defaultValue = "0") Long subTwoId,
+            @RequestParam(value = "tmpId", required = false, defaultValue = "0") String tmpId,
+            @RequestParam(value = "noMonery", required = false, defaultValue = "false") Boolean noMonery,
+            Model model
+    ) {
+        model.addAttribute("subId", subId);
+        model.addAttribute("subTwoId", subTwoId);
+        model.addAttribute("types", type);
+        model.addAttribute("tmpId", tmpId);
+        //登录的医生
+        Doctor doctor = SecuritySupport.getDoctor();
+        model.addAttribute("loginDoctor", doctor);
+        //主治医生
+        if (doctor.getDoctorType() == Doctor.Doctor_Type.Sub_Doctor) {
+            doctor = doctorService.getDoctor(doctor.getPrimaryDoctorId());
+        }
+        model.addAttribute("doctor", doctor);
+
+        model.addAttribute("noMonery", noMonery);
+        JDoctorExamLab jDoctorExamLab;
+
+        if ("add".equals(type)) {
+            jDoctorExamLab = jDoctorExamLabService.findById(id);
+        } else {
+            JClassAdviceDict jClassAdviceDict = jClassAdviceDictService.findById(id);
+            Doctor finalDoctor = doctor;
+            jDoctorExamLab = jDoctorExamLabService.findBySpecification((root, query, cb) -> {
+                        List<Predicate> predicateList = Lists.newArrayList();
+                        predicateList.add(
+                                cb.equal(
+                                        root.get(JDoctorExamLab_.type),
+                                        jClassAdviceDict.getAdviceType()
+                                )
+                        );
+                        predicateList.add(
+                                cb.equal(
+                                        root.get(JDoctorExamLab_.doctorId),
+                                        finalDoctor.getId()
+                                )
+                        );
+                        if (jClassAdviceDict.getAdviceType() == JClassAdviceDict.Advice_Type.JianYan) {
+                            predicateList.add(
+                                    cb.equal(
+                                            root.get(JDoctorExamLab_.examLabId),
+                                            jClassAdviceDict.getjLabClass().getId()
+                                    )
+                            );
+                        } else {
+                            predicateList.add(
+                                    cb.equal(
+                                            root.get(JDoctorExamLab_.examLabId),
+                                            jClassAdviceDict.getjExamSubclassDict().getjExamClass().getId()
+                                    )
+                            );
+
+                        }
+                        return cb.and(
+                                predicateList.toArray(new Predicate[predicateList.size()])
+                        );
+                    }
+
+            );
+        }
+
+        if (jDoctorExamLab.getType() == JClassAdviceDict.Advice_Type.JianCha) {
+            //检查
+            JExamClass jExamClass = jExamClassService.findById(jDoctorExamLab.getExamLabId());
+            model.addAttribute("jExamClass", jExamClass);
+            if (!"add".equals(type)) {
+                model.addAttribute("exp2List", jClassAdviceDictService.
+                        findById(id).
+                        getjExamSubclassDict().getjClassAdviceDictList());
+            }
+
+        } else {
+            //检验
+            model.addAttribute("jLabClass", jLabClassService.findById(jDoctorExamLab.getExamLabId()));
+        }
+        JDoctorExamLab finalJDoctorExamLab = jDoctorExamLab;
+        model.addAttribute("jClassAdviceDict", jClassAdviceDictService.findBySpecification(
+                (root, query, cb) -> cb.equal(root.get(JClassAdviceDict_.adviceType),
+                        finalJDoctorExamLab.getType())));
+        model.addAttribute("jDoctorExamLab", jDoctorExamLab);
+        EmrJClassAdviceDict emrJClassAdviceDict = new EmrJClassAdviceDict();
+        emrJClassAdviceDict.setExamLabName(jDoctorExamLab.getExamLabName());
+        emrJClassAdviceDict.setType(jDoctorExamLab.getType());
+        emrJClassAdviceDict.setPrice(jDoctorExamLab.getPrice());
+
+        if (!"add".equals(type)) {
+            if (emrJClassAdviceDict.getType() == JClassAdviceDict.Advice_Type.JianYan) {
+                emrJClassAdviceDict.setExp1(id);
+            } else {
+                emrJClassAdviceDict.setExp2(jClassAdviceDictService.findById(id).getjExamSubclassDict().getId());
+                emrJClassAdviceDict.setExp3(id);
+            }
+            emrJClassAdviceDict.setPrice(price);
+        }
+        emrJClassAdviceDict.setInfo(info);
+
+
+        model.addAttribute("emrJClassAdviceDict", emrJClassAdviceDict);
+
+
+        return "/fragment/editPhyItems";
+    }
+
+    /**
+     * 通过 examSubclassId 获取 JClassAdviceDict List集合  用于检查下拉框改变触发事件
+     */
+    @RequestMapping(value = "/fragment/getExamAdviceDictBySubId")
+    @ResponseBody
+    public Result getExamAdviceDictBySubId(
+            @RequestParam("id") Long id
+    ) {
+        return Result.ok().setData(jClassAdviceDictService.findBySpecification(
+                (root, query, cb) -> cb.equal(
+                        root.get(JClassAdviceDict_.jExamSubclassDict),
+                        new JExamSubclassDict(id)
+                )
+        ));
+    }
+
+    @RequestMapping(value = "/examLab/query")
+    @ResponseBody
+    public List examLabQuery(
+            @RequestParam("key") String key
+    ) {
+        Doctor doctor = SecuritySupport.getDoctor();
+        if (doctor.getDoctorType() == Doctor.Doctor_Type.Sub_Doctor) {
+            doctor = doctorService.getDoctor(doctor.getPrimaryDoctorId());
+        }
+        List<JClassAdviceDict> jClassAdviceDicts = jClassAdviceDictService.findBySpecification((root, query, cb) -> cb.or(
+                cb.like(
+                        root.get(JClassAdviceDict_.adviceName),
+                        "%" + key + "%"
+                ),
+                cb.like(
+                        root.get(JClassAdviceDict_.helpCode),
+                        "%" + key + "%"
+                )
+        ));
+
+        Doctor finalDoctor = doctor;
+        jClassAdviceDicts.forEach(jClassAdviceDict -> {
+            JDoctorExamLab jDoctorExamLab = jDoctorExamLabService.findByAdviceNameAndDoctorAndType(
+                    jClassAdviceDict.getAdviceName(),
+                    finalDoctor,
+                    jClassAdviceDict.getAdviceType(),
+                    jClassAdviceDict.getId()
+            );
+            if (jClassAdviceDict.getAdviceType() == JClassAdviceDict.Advice_Type.JianCha) {
+                if (null != jClassAdviceDict.getjExamSubclassDict()) {
+                    jClassAdviceDict.setClassAdviceDictName(jClassAdviceDict.getjExamSubclassDict().getjExamClass().getClassName());
+                }
+            } else {
+                jClassAdviceDict.setClassAdviceDictName(jClassAdviceDict.getjLabClass().getClassName());
+            }
+            if (jDoctorExamLab != null) {
+                jClassAdviceDict.setPrice(jDoctorExamLab.getPrice());
+            } else {
+                jClassAdviceDict.setPrice(0D);
+            }
+        });
+        return jClassAdviceDicts;
+    }
+
+    @RequestMapping(value = "/examLab/checkHaveDoctorUse")
+    @ResponseBody
+    public Result checkHaveDoctorUse(
+            @RequestParam("jClassAdviceDictId") Long jClassAdviceDictId
+    ) {
+
+        JClassAdviceDict jClassAdviceDict = jClassAdviceDictService.findById(jClassAdviceDictId);
+        String examLabName;
+        Long examLabid;
+        Long subTwoId = 0L;
+        String classAdviceDictName;
+        if (jClassAdviceDict.getAdviceType() == JClassAdviceDict.Advice_Type.JianCha) {
+            examLabName = jClassAdviceDict.getjExamSubclassDict().getjExamClass().getClassName();
+            subTwoId = jClassAdviceDict.getjExamSubclassDict().getId();
+            examLabid = jClassAdviceDict.getjExamSubclassDict().getjExamClass().getId();
+        } else {
+            examLabName = jClassAdviceDict.getjLabClass().getClassName();
+            examLabid = jClassAdviceDict.getjLabClass().getId();
+        }
+        classAdviceDictName = jClassAdviceDict.getAdviceName();
+        Doctor doctor = SecuritySupport.getDoctor();
+        if (doctor.getDoctorType() == Doctor.Doctor_Type.Sub_Doctor) {
+            doctor = doctorService.getDoctor(doctor.getPrimaryDoctorId());
+        }
+        Doctor finalDoctor = doctor;
+        JDoctorExamLab jDoctorExamLab = jDoctorExamLabService.findBySpecification((root, query, cb) -> cb.and(
+                cb.equal(
+                        root.get(JDoctorExamLab_.classAdviceDictName),
+                        classAdviceDictName
+                ),
+                cb.equal(
+                        root.get(JDoctorExamLab_.doctorId),
+                        finalDoctor.getId()
+                ),
+                cb.equal(
+                        root.get(JDoctorExamLab_.type),
+                        jClassAdviceDict.getAdviceType()
+                )
+        ));
+        if (jDoctorExamLab == null) {
+            jDoctorExamLab = new JDoctorExamLab();
+            jDoctorExamLab.setDoctorId(SecuritySupport.getDoctorId());
+            jDoctorExamLab.setPrice(0D);
+            jDoctorExamLab.setType(jClassAdviceDict.getAdviceType());
+            jDoctorExamLab.setExamLabId(examLabid);
+            jDoctorExamLab.setExamLabName(examLabName);
+            jDoctorExamLab.setClassAdviceDictName(classAdviceDictName);
+            if (jDoctorExamLab.getType() == JClassAdviceDict.Advice_Type.JianCha) {
+                jDoctorExamLab.setSubId(subTwoId);
+                jDoctorExamLab.setSubTwoId(jClassAdviceDictId);
+            } else {
+                jDoctorExamLab.setSubId(jClassAdviceDictId);
+            }
+            jDoctorExamLabService.save(jDoctorExamLab);
+        } else {
+            if (jDoctorExamLab.getType() == JClassAdviceDict.Advice_Type.JianCha) {
+                jDoctorExamLab.setSubId(subTwoId);
+                jDoctorExamLab.setSubTwoId(jClassAdviceDictId);
+            } else {
+                jDoctorExamLab.setSubId(jClassAdviceDictId);
+            }
+        }
+
+
+        return Result.ok().setData(jDoctorExamLab);
+    }
+
+    @RequestMapping(value = "/fragment/addExamOrLabBox")
+    public String addExamOrLab(
+            @ModelAttribute("type") JClassAdviceDict.Advice_Type type,
+            Model model
+    ) {
+        if (type == JClassAdviceDict.Advice_Type.JianCha) {
+            List<JExamClass> jExamClassList = jExamClassService.findAll();
+            model.addAttribute("ClassList", jExamClassList);
+        } else {
+            List<JLabClass> jLabClassList = jLabClassService.findAll();
+            model.addAttribute("ClassList", jLabClassList);
+        }
+
+        EmrJClassAdviceDict emrJClassAdviceDict = new EmrJClassAdviceDict();
+        emrJClassAdviceDict.setType(type);
+        model.addAttribute("emrJClassAdviceDict", emrJClassAdviceDict);
+
+        return "/fragment/addPhyItems";
+    }
+
+    @RequestMapping(value = "/fragment/addExamOrLabToSystem", method = RequestMethod.POST)
+    @ResponseBody
+    public Result addExamOrLabToSystem(
+            @RequestParam("type") JClassAdviceDict.Advice_Type type,
+            @RequestParam("classId") Long classId,
+            @RequestParam(value = "classSubId", required = false) Long classSubId,
+            @RequestParam("examOrLabName") String examOrLabName
+    ) {
+        if (jClassAdviceDictService.findBySpecification((root, query, cb) -> cb.and(
+                cb.equal(
+                        root.get(JClassAdviceDict_.adviceName),
+                        examOrLabName
+                ),
+                cb.equal(
+                        root.get(JClassAdviceDict_.adviceType),
+                        type
+                )
+        )).size() > 0) {
+            return Result.fail().setMsg("该" + type.getName() + "已经存在啦!");
+        }
+        JClassAdviceDict jClassAdviceDict = new JClassAdviceDict();
+        jClassAdviceDict.setAdviceType(type);
+        jClassAdviceDict.setAdviceName(examOrLabName);
+        if (type == JClassAdviceDict.Advice_Type.JianCha) {
+            jClassAdviceDict.setjExamSubclassDict(new JExamSubclassDict(classSubId));
+        } else {
+            jClassAdviceDict.setjLabClass(new JLabClass(classId));
+        }
+        jClassAdviceDict.setCreateBy(SecuritySupport.getDoctor().getName());
+        jClassAdviceDict.setCreateDate(new Date());
+        jClassAdviceDict.setHelpCode(PinyinHelper.getShortPinyin(examOrLabName));
+        try {
+            jClassAdviceDictService.save(jClassAdviceDict);
+        } catch (Exception e) {
+            return Result.fail().setMsg(e.getMessage());
+        }
+        return Result.ok();
+    }
+
+    /**
+     * 通过 examClassId 获取 JClassAdviceDict List集合  用于检查下拉框改变触发事件
+     */
+    @RequestMapping(value = "/fragment/getExamAdviceDictSubById")
+    @ResponseBody
+    public Result getExamAdviceDictSubByFId(
+            @RequestParam("id") Long id
+    ) {
+        System.out.println(1);
+        return Result.ok().setData(jExamClassService.findById(id).getjExamSubclassDictList());
+    }
+
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hmp.iml" filepath="$PROJECT_DIR$/.idea/modules/hmp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hmp-admin/hmp-admin.iml" filepath="$PROJECT_DIR$/.idea/modules/hmp-admin/hmp-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hmp-advertising/hmp-advertising.iml" filepath="$PROJECT_DIR$/.idea/modules/hmp-advertising/hmp-advertising.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hmp-api/hmp-api.iml" filepath="$PROJECT_DIR$/.idea/modules/hmp-api/hmp-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hmp-modules/hmp-core/hmp-core.iml" filepath="$PROJECT_DIR$/.idea/modules/hmp-modules/hmp-core/hmp-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hmp-modules/hmp-modules.iml" filepath="$PROJECT_DIR$/.idea/modules/hmp-modules/hmp-modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hmp-op/hmp-op.iml" filepath="$PROJECT_DIR$/.idea/modules/hmp-op/hmp-op.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hmp-opweb/hmp-opweb.iml" filepath="$PROJECT_DIR$/.idea/modules/hmp-opweb/hmp-opweb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hmp-phar/hmp-phar.iml" filepath="$PROJECT_DIR$/.idea/modules/hmp-phar/hmp-phar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hmp-pharweb/hmp-pharweb.iml" filepath="$PROJECT_DIR$/.idea/modules/hmp-pharweb/hmp-pharweb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hmp-remote/hmp-remote.iml" filepath="$PROJECT_DIR$/.idea/modules/hmp-remote/hmp-remote.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hmp-web/hmp-web.iml" filepath="$PROJECT_DIR$/.idea/modules/hmp-web/hmp-web.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,269 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/springside-form.tld" prefix="form" %>
+<%@ taglib prefix="hmp" uri="/WEB-INF/TLD/HmpLoadStaticFile.tld" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>易佳诊健康管理平台-注册</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta http-equiv="Cache-Control" content="no-store"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link type="image/x-icon" href="${ctx}/assets/styles/images/favicon.ico" rel="shortcut icon">
+    <link href="${ctx}/assets/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="${ctx}/assets/styles/style.css">
+    <hmp:HmpLoadFile ctx="${ctx}" url="/assets/styles/green.css" type="css" needChengStyle="true"/>
+    <link href="${ctx}/assets/jquery-validation/1.11.1/validate.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <div class="register">
+        <div class="company-name">
+            <img src="${ctx}/assets/styles/images/logo2.png" alt="logo">
+            <h2>医生帐号注册</h2>
+        </div>
+        <div class="register-table">
+            <c:if test="${error != null}">
+                <div class="alert alert-danger text-left" style="margin-bottom: 0px">${error}</div>
+            </c:if>
+            <c:if test="${msg != null}">
+                <div class="alert alert-success text-left" style="margin-bottom: 0px">${msg}</div>
+            </c:if>
+            <form:form modelAttribute="doctor" id="registerForm" class="form-inline" action="${ctx}/anon/save" method="post" enctype="multipart/form-data">
+                <form:hidden path="province" ></form:hidden>
+                <form:hidden path="city" ></form:hidden>
+                <form:hidden path="area" ></form:hidden>
+                <div class="outpatient">
+                    <h5>门诊信息</h5>
+                    <table border="0">
+                        <tr>
+                            <td align="right" style="width: 150px"><b>门诊名称 :&nbsp;&nbsp;</b></td>
+                            <td><input type="text" name="outpatientService" value="${doctor.outpatientService}" class="form-control" style="width: 100%"/></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><b>门诊地址 :&nbsp;&nbsp;</b></td>
+                            <td>
+                                <form:select path="provinceNo" items="${provinceList}" itemLabel="areaName" itemValue="areaNo"></form:select> &nbsp;
+                                <form:select path="cityNo" itemLabel="areaName" itemValue="areaNo"></form:select> &nbsp;
+                                <form:select path="areaNo" itemLabel="areaName" itemValue="areaNo"></form:select>
+                                <input type="text" name="businessAddr" value="${doctor.businessAddr}" class="form-control"  style="width: 100%;margin-top:5px" placeholder="详细地址"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><b>法人代表 :&nbsp;&nbsp;</b></td>
+                            <td>
+                                <input type="text" name="legal" value="${doctor.legal}" class="form-control"/>
+
+                                <b>法人身份证号 :&nbsp;&nbsp;</b>
+                                <input type="text" name="legalCard" value="${doctor.legalCard}" class="form-control" />
+                            </td>
+                        </tr>
+                        <%--<tr>
+                            <td align="right"><b>门诊营业执照号码 :&nbsp;&nbsp;</b></td>
+                            <td><input type="text" name="businessLicense" value="${doctor.businessLicense}" class="form-control"/></td>
+                        </tr>--%>
+                        <tr>
+                            <td align="right"><b>营业执照图片:&nbsp;&nbsp;</b></td>
+                            <td><input type="file" name="file" style="width:478px"/></td>
+                        </tr>
+                    </table>
+                </div>
+                <span class="dividing"></span>
+                <div class="doctors-infro">
+                    <h5>医生信息</h5>
+                    <div class="row doctors-infro-table">
+                        <table border="0">
+                            <tr>
+                                <td align="right" style="width: 100px"><b>姓 名 :&nbsp;&nbsp;</b></td>
+                                <td><input type="text" name="name" value="${doctor.name}" class="form-control" style=""/></td>
+                                <td align="right" style="width: 100px"><b>性 别 :&nbsp;&nbsp;</b></td>
+                                <td  style="width: 160px"><form:bsradiobuttons path="gender" items="${genderMap}" labelCssClass="radio-inline"/></td>
+                            </tr>
+                            <tr>
+                                <td align="right" style=""><b>邮 箱 :&nbsp;&nbsp;</b></td>
+                                <td><input type="text" name="email" value="${doctor.email}" class="form-control" style=""/></td>
+                                <td align="right" style=""><b>身份证号码 :&nbsp;&nbsp;</b></td>
+                                <td><input type="text" name="card" value="${doctor.card}" class="form-control"/></td>
+                            </tr>
+                            <tr>
+                                <td align="right" style=""><b>手机号码 :&nbsp;&nbsp;</b></td>
+                                <td><input type="number" name="mobile" value="${doctor.mobile}" class="form-control"
+                                           style="" id="mobile"/></td>
+                                <td align="right" style=""><b>密 码 :&nbsp;&nbsp;</b></td>
+                                <td><input type="password" name="plainPassword" class="form-control" id="plainPassword" /></td>
+                            </tr>
+                            <tr>
+                                <td align="right" style=""><b>验证码 :&nbsp;&nbsp;</b></td>
+                                <td>
+                                    <input type="text" name="identifyCode" class="form-control" id="identify_code">
+                                    <img src="${ctx}/anon/getRandCode" id="CreateCheckCode" align="middle"
+                                         title="点击刷新验证码" onclick="getCode()" style="cursor: pointer;">
+                                </td>
+                                <td align="right" style=""><b>确认密码 :&nbsp;&nbsp;</b></td>
+                                <td><input type="password" name="confirmPwd" class="form-control" id="confirmPwd" /></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><b>手机验证码 :&nbsp;&nbsp;</b></td>
+                                <td colspan="3">
+                                        <%--<input type="text" name="recommendMobile" value="${doctor.recommendMobile}" class="form-control"/>--%>
+                                    <input type="text" name="authCode" class="form-control" id="write-code">
+                                    <button class="btn btn-sm btn-success" style="padding: 5px 3px;" id="sendCode"
+                                            disabled="true">免费获取验证码
+                                    </button>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <button id="btnRegister" class="btn btn-success btn-lg mt10" type="submit" style="width: 180px">
+                    注&nbsp;册
+                </button>
+            </form:form>
+        </div>
+    </div>
+</div>
+<%@ include file="/WEB-INF/layouts/footer.jsp" %>
+<script src="${ctx}/assets/jquery/jquery-1.11.2.min.js" type="text/javascript"></script>
+<script src="${ctx}/assets/layer/layer.js" type="text/javascript"></script>
+<script src="${ctx}/assets/jquery-validation/1.11.1/jquery.validate.min.js" type="text/javascript"></script>
+<script src="${ctx}/assets/jquery-validation/1.11.1/messages_bs_zh.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#registerForm").validate({
+            rules: {
+                outpatientService: "required",
+                businessAddr: "required",
+                legal: "required",
+                legalCard:  {
+                    required : true,
+                    minlength : 18,
+                    maxlength : 18
+                },
+                businessLicense: "required",
+                name: "required",
+                email: "required email",
+                mobile: "required number",
+                card: {
+                    required : true,
+                    minlength : 18,
+                    maxlength : 18
+                },
+                plainPassword: {
+                    required : true,
+                    minlength : 6,
+                    maxlength : 16
+                },
+                confirmPwd: {
+                    required : true,
+                    minlength : 6,
+                    maxlength : 16,
+                    equalTo: "#plainPassword"
+                },
+                authCode: "required",
+                file: "required",
+                identifyCode: {
+                    required: true,
+                    minlength: 0,
+                    maxlength: 4
+                }
+            }
+        });
+
+        $("#sendCode").click(function () {
+            var phone = $("#mobile").val();
+            if(phone == ""){
+                layer.alert("请输入手机号。");
+                return false;
+            }
+            var seconds = 60;
+            var setTime = function () {
+                if (seconds == 0) {
+                    $("#sendCode").removeAttr("disabled");
+                    $("#sendCode").html("免费获取验证码");
+                    seconds = 60;
+                    clearInterval(timer);
+                } else {
+                    $("#sendCode").attr("disabled",true);
+                    $("#sendCode").html("重新发送(" + seconds + "s)");
+                    seconds--;
+                }
+            }
+            var timer = setInterval(function(){setTime();},1000);
+            $.getJSON("${ctx}/anon/sendAuthCode",{"phone":phone},function(result){
+                if(!result.success){
+                    layer.alert("验证码发送失败！请重新发送。",{icon: 0});
+                }
+            });
+            return false;
+        });
+        $("#provinceNo").change(function(){
+            $("#cityNo").empty();
+            $("#areaNo").empty();
+            var proId = $(this).val();
+            $.getJSON("${ctx}/anon/getNations/" + proId,function(result){
+                $.each(result.data,function(i,n){
+                    $("#cityNo").append("<option value='"+ n.areaNo+"'>"+ n.areaName+"</option>")
+                });
+                $("#cityNo").change();
+            });
+            var text = $("#provinceNo option:selected").text();
+            $("#province").val(text);
+        });
+        $("#cityNo").change(function(){
+            $("#areaNo").empty();
+            var cityId = $(this).val();
+            $.getJSON("${ctx}/anon/getNations/" + cityId,function(result){
+                $.each(result.data,function(i,n){
+                    $("#areaNo").append("<option value='"+ n.areaNo+"'>"+ n.areaName+"</option>")
+                });
+                $("#areaNo").change();
+            });
+            var text = $("#cityNo option:selected").text();
+            $("#city").val(text);
+        });
+        $("#areaNo").change(function(){
+            var text = $("#areaNo option:selected").text();
+            $("#area").val(text);
+        });
+        $("#provinceNo").change();
+
+        //当失去焦点的时候触发
+        $("#identify_code").blur(function () {
+            debugger
+            isRandCode();
+        });
+
+        $("#identify_code").keyup(function () {
+            var length = this.value.length;
+            if (length == 4) {
+                isRandCode();
+            }
+        });
+        
+
+    });
+    /*判断输入的验证码*/
+    function isRandCode() {
+        $.post("${ctx}/anon/isRandCode", {"identifyCode": $("#identify_code").val()}, function (data) {
+            if (!data.success) {
+                layer.msg("你输入的验证码不正确！");
+                $("#sendCode").prop("disabled", true);
+            } else {
+                debugger
+                $("#sendCode").prop("disabled", false);
+            }
+        });
+    }
+
+    function getCode() {
+        $("#CreateCheckCode").attr('src', "${ctx}/anon/getRandCode?nocache=" + new Date().getTime());
+    }
+</script>
+</body>
+</html>

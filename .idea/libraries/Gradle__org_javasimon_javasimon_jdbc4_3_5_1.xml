@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.javasimon:javasimon-jdbc4:3.5.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.javasimon/javasimon-jdbc4/3.5.1/1bc16f59794bb63579b6ff10fc2cd965ee1c18f/javasimon-jdbc4-3.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.javasimon/javasimon-jdbc4/3.5.1/d7c406dae1690cbb43928e86aca1a74ddf233e1f/javasimon-jdbc4-3.5.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

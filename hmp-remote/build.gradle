@@ -1,0 +1,116 @@
+group 'com.qiaobei'
+version '1.0.0'
+
+apply plugin: 'eclipse-wtp'
+apply plugin: 'war'
+//apply plugin: 'jetty'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    providedCompile(
+            libs.'servlet-api',
+            libs.'jsp-api',
+    )
+    runtime libs.'jstl'
+
+    compile(
+            project(':hmp-modules:hmp-core'),
+//            project(':springside:springside-metrics'),
+
+            libs.'spring-context-support',
+            libs.'spring-webmvc',
+
+            libs.'spring-data-jpa',
+            libs.'hibernate-ehcache',
+            libs.'hibernate-entitymanager',
+
+            libs.'mybatis',
+            libs.'mybatis-spring',
+
+            libs.'sitemesh',
+            libs.'ehcache-core',
+            libs.'ehcache-core-ee',
+
+            libs.'mysql',
+//            libs.'h2',
+
+            libs.'aspectjrt',
+            libs.'aspectjweaver',
+
+            libs.'fastjson',
+            libs.'druid',
+
+            libs.'shiro-spring',
+            libs.'shiro-ehcache',
+
+            libs.'httpclient',
+            libs.'jackson-datatype-joda',
+
+            libs.'javasimon-spring',
+            libs.'javasimon-jdbc4',
+            libs.'javasimon-console-embed',
+
+            libs.'commons-fileupload',
+
+            libs.'xstream',
+            libs.'springfox-swagger2',
+            libs.'springfox-swagger-ui',
+
+//            libs.'shiro-quartz',
+//            libs.'poi',
+//            libs.'poi-ooxml',
+//            libs.'poi-ooxml-schemas',
+//            libs.'ooxml-schemas',
+//            libs.'odfdom-java',
+//            libs.'quartz',
+//            libs.'barbecue',
+    )
+    testCompile(
+            project(':hmp-modules:hmp-core'),
+    )
+    compile group: 'com.querydsl', name: 'querydsl-apt', version: '4.1.4'
+    compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.1.4'
+}
+//war {
+//    manifest {
+//        attributes("Implementation-Title": "Gradle")
+//    }
+//}
+//
+//jettyRun {
+//    httpPort = 8090
+//    contextPath = 'hmp'
+//    reload = 'manual'
+//}
+//
+//jettyRunWar {
+//    httpPort = 8090
+//    contextPath = 'hmp'
+//    reload = 'manual'
+//}
+//
+//task release(dependsOn: 'war', description: 'Build production war.') << {
+//    println 'release'
+//}
+
+gradle.taskGraph.whenReady { taskGraph ->
+
+    // 执行release 的时候将其 profile 置为生产状态
+    // 执行war 的时候则是开发状态，且版本后面加上snapshot标记
+    if (taskGraph.hasTask(release)) {
+        sourceSets {
+            main {
+                resources {
+                    srcDirs = ["src/main/resources", "src/main/resources-prod"]
+                }
+            }
+        }
+    } else {
+        version += '-SNAPSHOT'
+    }
+}

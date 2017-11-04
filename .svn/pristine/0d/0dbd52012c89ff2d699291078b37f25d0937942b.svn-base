@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
+    <title>日期选择器</title>
+
+    <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Mobiscroll JS and CSS Includes -->
+
+    <script src="js/mobiscroll.core.js"></script>
+    <script src="js/mobiscroll.frame.js"></script>
+    <script src="js/mobiscroll.scroller.js"></script>
+
+    <script src="js/mobiscroll.util.datetime.js"></script>
+    <script src="js/mobiscroll.datetimebase.js"></script>
+    <script src="js/mobiscroll.datetime.js"></script>
+
+    <script src="js/mobiscroll.frame.android-holo.js"></script>
+    <script src="js/i18n/mobiscroll.i18n.zh.js"></script>
+
+    <link href="css/mobiscroll.animation.css" rel="stylesheet" type="text/css" />
+    <link href="css/mobiscroll.icons.css" rel="stylesheet" type="text/css" />
+    <link href="css/mobiscroll.frame.css" rel="stylesheet" type="text/css" />
+    <link href="css/mobiscroll.frame.android-holo.css" rel="stylesheet" type="text/css" />
+    <link href="css/mobiscroll.scroller.css" rel="stylesheet" type="text/css" />
+    <link href="css/mobiscroll.scroller.android-holo.css" rel="stylesheet" type="text/css" />
+
+
+    <script>
+        $(function () {
+
+
+            function init() {
+                $.mobiscroll
+                $(".yijiazhen-date").each(function () {
+                    var thisme = $(this)
+                    $(this).mobiscroll().date({
+                        theme: theme,
+                        mode: mode,
+                        display: display,
+                        lang: lang,
+                        clickObj: thisme
+                    });
+                })
+
+            }
+
+            // -------------------------------------------------------------------
+            // Demo page code START, you can disregard this in your implementation
+            var demo, theme, mode, display, lang;
+
+            /*   demo="date";
+             theme="android-holo";
+             mode="scroller";
+             display="modal";
+             lang="zh";
+             */
+            $('.demo-cont').on('change', function () {
+                /*demo = $('#demo').val();
+                 theme = $('#theme').val() || $.mobiscroll.defaults.theme,
+                 mode = $('#mode').val(),
+                 display = $('#display').val(),
+                 lang = $('#language').val();*/
+                demo = "date";
+                theme = "android-holo";
+                mode = "scroller";
+                display = "modal";
+                lang = "zh";
+
+                /*$('.demo-cont').hide();*/
+                $("#demo_cont_" + demo).show();
+
+                init();
+            });
+
+            $('#demo').trigger('change');
+            // Demo page code END
+            // -------------------------------------------------------------------
+        });
+    </script>
+</head>
+
+<body>
+
+<div data-role="fieldcontain" class="demo-cont">
+    <label>日期：</label>
+
+    <div id="demo">
+        <br><br>
+        <hr>
+        <input style="float: left" type="text" id="demo_date1" class="yijiazhen-date" />至
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input style="float: left" type="text" id="demo_date2" class="yijiazhen-date">
+
+    </div>
+</div>
+
+
+</body>
+</html>    

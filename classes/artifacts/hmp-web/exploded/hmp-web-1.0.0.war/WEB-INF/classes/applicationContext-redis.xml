@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="200"/>
+        <property name="maxIdle" value="300"/>
+        <property name="minIdle" value="10"/>
+        <property name="maxWaitMillis" value="3000"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="testOnReturn" value="true"/>
+    </bean>
+
+
+    <bean id="wxCache" class="com.qiaobei.hmp.redis.WxCache">
+        <property name="redisTemplate" ref="redisTemplate"/>
+    </bean>
+    <bean id="medicineCache" class="com.qiaobei.hmp.redis.MedicineCache">
+        <property name="redisTemplate" ref="redisTemplate"/>
+    </bean>
+
+    <bean id="medicinePrivateCache" class="com.qiaobei.hmp.redis.MedicinePrivateCache">
+        <property name="redisTemplate" ref="redisTemplate"/>
+    </bean>
+
+    <bean id="medicineCountCache" class="com.qiaobei.hmp.redis.MedicineCountCache">
+        <property name="redisTemplate" ref="redisTemplate"/>
+    </bean>
+
+    <bean id="jedisFacotry" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="127.0.0.1"/>
+        <property name="port" value="6379"/>
+        <property name="timeout" value="3000"/>
+        <property name="usePool" value="true"/>
+        <property name="password" value=""/>
+        <property name="poolConfig" ref="jedisPoolConfig"/>
+    </bean>
+
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisFacotry"/>
+        <property name="defaultSerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
+    </bean>
+
+    <bean id="shiroCommonRedisCache" class="com.qiaobei.hmp.modules.redis.RedisManager">
+        <constructor-arg ref="redisTemplate"/>
+    </bean>
+</beans>

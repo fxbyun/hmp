@@ -1,0 +1,151 @@
+package com.qiaobei.hmp.modules.service.impl;
+
+import com.google.common.collect.Lists;
+import com.qiaobei.hmp.modules.entity.*;
+import com.qiaobei.hmp.modules.repository.EmrJClassAdviceDictDao;
+import com.qiaobei.hmp.modules.service.DoctorService;
+import com.qiaobei.hmp.modules.service.EmrJClassAdviceDictService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import java.util.List;
+
+/**
+ * Created by IntelliJ IDEA 2016.4
+ * 汉化By http://www.java.sx  (凉生  &&  Sky——Pang)
+ * User 凉生
+ * Date 2016/11/8 0008
+ * Time 16:41
+ */
+@Service("emrJClassAdviceDictService")
+@Transactional
+public class EmrJClassAdviceDictServiceImpl implements EmrJClassAdviceDictService {
+    @Resource
+    private EmrJClassAdviceDictDao emrJClassAdviceDictDao;
+    @Resource(name = "doctorServiceCode")
+    private DoctorService doctorService;
+
+    @ReadOnlyProperty
+    @Override
+    public Page<EmrJClassAdviceDict> findByPatientAndExamLabName(Patient patient, String className, PageRequest pageRequest) {
+        return emrJClassAdviceDictDao.findAll((root, query, cb) -> cb.and(
+                cb.equal(
+                        root.get(EmrJClassAdviceDict_.patient),
+                        patient
+                ),
+                cb.equal(
+                        root.get(EmrJClassAdviceDict_.examLabName),
+                        className
+                )
+        ), pageRequest);
+    }
+
+    @Override
+    public EmrJClassAdviceDict findById(Long id) {
+        return emrJClassAdviceDictDao.findOne(id);
+    }
+
+    @Override
+    public Page<EmrJClassAdviceDict> findByDoctor(Doctor doctor, StatusEntity.Status status, PageRequest pageRequest) {
+        return emrJClassAdviceDictDao.findAll((root, query, cb) -> cb.and(
+                cb.equal(
+                        root.get(EmrJClassAdviceDict_.emr).get(Emr_.doctor),
+                        doctor
+                ),
+                cb.equal(
+                        root.get(EmrJClassAdviceDict_.status),
+                        status
+                )
+        ), pageRequest);
+    }
+
+    @Override
+    public Page<EmrJClassAdviceDict> findByDoctorAndStatusCardPwdNamePhoe(Doctor doctor, StatusEntity.Status status, String cardPwd, String name, String phone, PageRequest pageRequest) {
+        return emrJClassAdviceDictDao.findAll((root, query, cb) -> {
+            List<Predicate> predicateList = Lists.newArrayList();
+
+            if (doctor.getDoctorType() == Doctor.Doctor_Type.Clinic_Boss) {
+                List<Doctor> doctorList = doctorService.getSubDoctor(doctor);
+                CriteriaBuilder.In<Doctor> doctorIn = cb.in(root.join(EmrJClassAdviceDict_.emr).get(Emr_.doctor));
+                doctorList.forEach(doctorIn::value);
+                doctorIn.value(doctor);
+                predicateList.add(
+                        doctorIn
+                );
+            } else {
+                predicateList.add(
+                        cb.equal(
+                                root.join(EmrJClassAdviceDict_.emr).get(Emr_.doctor),
+                                doctor
+                        )
+                );
+            }
+
+            if (status == null) {
+                predicateList.add(
+                        cb.notEqual(
+                                root.get(EmrJClassAdviceDict_.status),
+                                StatusEntity.Status.Have_Exam_Or_Lab
+                        )
+                );
+            } else {
+                predicateList.add(
+                        cb.equal(
+                                root.get(EmrJClassAdviceDict_.status),
+                                status
+                        )
+                );
+            }
+
+            if (StringUtils.isNotEmpty(cardPwd)) {
+                predicateList.add(
+                        cb.equal(
+                                root.join(EmrJClassAdviceDict_.patient).get(Patient_.udid),
+                                cardPwd
+                        )
+                );
+            }
+
+            if (StringUtils.isNotEmpty(name)) {
+                predicateList.add(
+                        cb.like(
+                                root.join(EmrJClassAdviceDict_.patient).get(Patient_.name),
+                                "%" + name + "%"
+                        )
+                );
+
+            }
+
+            if (StringUtils.isNotEmpty(phone)) {
+                predicateList.add(
+                        cb.equal(
+                                root.join(EmrJClassAdviceDict_.patient).get(Patient_.mobile),
+                                phone
+                        )
+                );
+
+            }
+            query.where(
+                    predicateList.toArray(new Predicate[predicateList.size()])
+            );
+            query.orderBy(
+                    cb.desc(root.get(EmrJClassAdviceDict_.updateOn))
+                    , cb.desc(
+                            root.get(EmrJClassAdviceDict_.createOn)
+                    ));
+            return query.getRestriction();
+        }, pageRequest);
+    }
+
+    @Override
+    public void save(EmrJClassAdviceDict emrJClassAdviceDict) {
+        emrJClassAdviceDictDao.save(emrJClassAdviceDict);
+    }
+}

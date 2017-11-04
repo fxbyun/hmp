@@ -1,0 +1,128 @@
+group = "org.springside"
+version = "4.2.3-GA"
+
+uploadArchives {
+    repositories {
+//        mavenDeployer {
+//            pom.groupId = "org.springside"
+//            pom.artifactId = "springside-core"
+//            pom.version = "4.2.3-GA"
+//            repository(url: "http://192.168.1.199:8081/nexus/content/repositories/releases/") {
+//                authentication(userName: "admin", password: "p@123654")
+//            }
+//        }
+        mavenLocal()
+        maven { url "http://repo1.maven.org/maven2" }
+        mavenCentral()
+    }
+}
+
+sourceSets {
+    generated {
+        java {
+            srcDirs = ['hmp-modules/hmp-core/target/generated-sources']
+        }
+    }
+}
+configurations {
+    querydslapt
+    jpatype
+}
+
+dependencies {
+
+    compile(
+            libs.'servlet-api',
+            libs.'jsp-api',
+
+            libs.'hibernate-core',
+            libs.'hibernate-validator',
+
+            libs.'spring-webmvc',
+            libs.'spring-aop',
+            libs.'spring-data-jpa',
+
+            libs.'shiro-web',
+
+            libs.'guava',
+            libs.'dozer',
+            libs.'joda-time',
+            libs.'joda-time-jsptags',
+            libs.'commons-io',
+            libs.'commons-lang3',
+            libs.'commons-codec',
+            libs.'commons-beanutils',
+            libs.'commons-collections',
+
+            libs.'slf4j-api',
+            libs.'jcl-over-slf4j',
+            libs.'logback-classic',
+            libs.'log4j-over-slf4j',
+            libs.'fastjson',
+            libs.'httpclient',
+            libs.'asm',
+            libs.'cglib',
+            libs.'assertj-core',
+            libs.'jackson-databind',
+            libs.'jackson-module-jaxb-annotations',
+
+            libs.'httpcore',
+            libs.'googoleZxing',
+    )
+    testCompile(
+            libs.'mockito-core',
+            libs.'powermock-module-junit4',
+            libs.'powermock-api-mockito',
+            libs.'selenium-java',
+            libs.'selenium-remote-driver',
+            libs.'jetty-webapp',
+            libs.'jetty-jsp',
+    )
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.3'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.3'
+    compile group: 'org.springframework', name: 'spring-websocket', version: '4.3.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-messaging', version: '4.3.3.RELEASE'
+    compile group: 'com.querydsl', name: 'querydsl-apt', version: '4.1.4'
+    compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.1.4'
+    compile group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: '5.2.3.Final'
+    compile group: 'com.github.stuxuhai', name: 'jpinyin', version: '1.0'
+    compile group: 'org.apache.poi', name: 'poi', version: '3.14'
+    compile group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.5'
+    compile group: 'com.xiaoleilu', name: 'hutool', version: '2.12.0'
+    compile group: 'org.springframework.data', name: 'spring-data-redis', version: '1.4.0.RELEASE'
+    compile group: 'org.springframework', name: 'spring-expression', version: '4.0.0.RELEASE'
+
+
+
+
+    querydslapt "com.querydsl:querydsl-apt:jar:4.1.4"
+    jpatype 'org.hibernate:hibernate-jpamodelgen:jar:5.2.3.Final'
+
+    // 注意：这些libs目录是不包含子目录
+    // 
+    //compile fileTree(dir: 'libs', include: '*.jar')    
+}
+
+task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
+    source = sourceSets.main.java // input source set
+    classpath = configurations.compile + configurations.querydslapt // add processor module to classpath
+    // specify javac arguments
+    options.compilerArgs = [
+            "-proc:only",
+            "-processor", "com.querydsl.apt.jpa.JPAAnnotationProcessor" // your processor here
+    ]
+    // specify output of generated code
+    destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+}
+
+task generateJPATYPE(type: JavaCompile, group: 'build', description: 'Generates the JPATYPE query types') {
+    source = sourceSets.main.java // input source set
+    classpath = configurations.compile + configurations.jpatype // add processor module to classpath
+    // specify javac arguments
+    options.compilerArgs = [
+            "-proc:only",
+            "-processor", "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor" // your processor here
+    ]
+    // specify output of generated code
+    destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+}

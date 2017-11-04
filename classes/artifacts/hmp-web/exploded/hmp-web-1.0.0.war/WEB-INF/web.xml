@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+    <display-name>Health Management Platform</display-name>
+
+    <listener>
+        <listener-class>com.qiaobei.hmp.modules.listener.EnvironmentContextListener</listener-class>
+    </listener>
+    <!--Spring ApplicationContext 载入 -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.qiaobei.hmp.modules.listener.ApplicationContextPostListener</listener-class>
+    </listener>
+
+    <!-- Spring ApplicationContext配置文件的路径,可使用通配符，用于后面的Spring Context Loader -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath*:/applicationContext.xml
+            classpath*:/applicationContext-hmp.xml
+        </param-value>
+    </context-param>
+
+    <!-- 設定Spring Context的默认Profile -->
+    <context-param>
+        <param-name>spring.profiles.default</param-name>
+        <param-value>production</param-value>
+    </context-param>
+
+    <!-- Character Encoding filter -->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+
+    <!-- Shiro Security filter -->
+    <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+
+
+    <!-- Druid DataSource State View -->
+    <filter>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+        <init-param>
+            <param-name>exclusions</param-name>
+            <param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sessionStatMaxCount</param-name>
+            <param-value>1000</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sessionStatEnable</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>principalSessionName</param-name>
+            <param-value>user</param-value>
+        </init-param>
+        <init-param>
+            <param-name>profileEnable</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Spring MVC Servlet -->
+    <servlet>
+        <servlet-name>springServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/spring-mvc.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>springServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <!-- spring mvc end -->
+
+    <!-- Open Entity Manager in View filter -->
+    <filter>
+        <filter-name>openEntityManagerInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>openEntityManagerInViewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>DruidStatView</servlet-name>
+        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DruidStatView</servlet-name>
+        <url-pattern>/druid/*</url-pattern>
+    </servlet-mapping>
+
+    <!--&lt;!&ndash; Java Simple Monitoring Console Servlet &ndash;&gt;-->
+    <!--<filter>-->
+    <!--&lt;!&ndash; simon统计filter &ndash;&gt;-->
+    <!--<filter-name>simon-filter</filter-name>-->
+    <!--<filter-class>org.javasimon.javaee.SimonServletFilter</filter-class>-->
+    <!--&lt;!&ndash; optional &ndash;&gt;-->
+    <!--<init-param>-->
+    <!--<param-name>prefix</param-name>-->
+    <!--<param-value>com.qiaobei.hmp</param-value>-->
+    <!--</init-param>-->
+    <!--&lt;!&ndash; optional basic plain-text console &ndash;&gt;-->
+    <!--<init-param>-->
+    <!--<param-name>console-path</param-name>-->
+    <!--<param-value>/simon-filter</param-value>-->
+    <!--</init-param>-->
+    <!--&lt;!&ndash; optional, 需要报告的阀值 &ndash;&gt;-->
+    <!--<init-param>-->
+    <!--<param-name>report-threshold-ms</param-name>-->
+    <!--<param-value>1000</param-value>-->
+    <!--</init-param>-->
+    <!--&lt;!&ndash; optional, 告警 - 显示到标准输出，可以自己定制报告 &ndash;&gt;-->
+    <!--<init-param>-->
+    <!--<param-name>request-reporter-class</param-name>-->
+    <!--<param-value>org.javasimon.javaee.reqreporter.StandardRequestReporter</param-value>-->
+    <!--</init-param>-->
+    <!--&lt;!&ndash; optional, StopwatchSource instance &ndash;&gt;-->
+    <!--<init-param>-->
+    <!--<param-name>stopwatch-source-props</param-name>-->
+    <!--<param-value>includeHttpMethodName=ALWAYS</param-value>-->
+    <!--</init-param>-->
+    <!--</filter>-->
+
+    <!--&lt;!&ndash; Web Console 显示Web统计信息，访问/simon-console 查看&ndash;&gt;-->
+    <!--<filter>-->
+    <!--<filter-name>simon-console-filter</filter-name>-->
+    <!--<filter-class>org.javasimon.console.SimonConsoleFilter</filter-class>-->
+    <!--<init-param>-->
+    <!--<param-name>url-prefix</param-name>-->
+    <!--<param-value>/simon-console</param-value>-->
+    <!--</init-param>-->
+    <!--</filter>-->
+    <!--&lt;!&ndash; 大部分情况web查看console不是需要监控的，注意filter顺序 &ndash;&gt;-->
+    <!--<filter-mapping>-->
+    <!--<filter-name>simon-console-filter</filter-name>-->
+    <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
+
+    <!--<filter-mapping>-->
+    <!--<filter-name>simon-filter</filter-name>-->
+    <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
+
+    <filter>
+        <filter-name>sitemeshFilter</filter-name>
+        <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>sitemeshFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <trim-directive-whitespaces>true</trim-directive-whitespaces>
+        </jsp-property-group>
+    </jsp-config>
+
+    <!-- 出错页面定义 -->
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/WEB-INF/views/error/500.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/error/500.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/assets/errorPage/404.html</location>
+    </error-page>
+</web-app>

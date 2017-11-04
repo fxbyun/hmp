@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/layouts/">
+    <excludes>
+        <pattern>/logon</pattern>
+        <pattern>/index</pattern>
+        <pattern>/fragment/*</pattern>
+        <pattern>/medicine/add*</pattern>
+        <pattern>/medicine/edit/*</pattern>
+        <pattern>/medicine/usage/*</pattern>
+        <pattern>/rp/add*</pattern>
+        <pattern>/rp/toadd*</pattern>
+        <pattern>/rp/edit/*</pattern>
+        <pattern>/rp/select/*</pattern>
+        <pattern>/rpCate/add*</pattern>
+        <pattern>/rpCate/edit/*</pattern>
+        <pattern>/rpCate/manage/*</pattern>
+        <pattern>/anon/*</pattern>
+        <pattern>/pub/*</pattern>
+        <pattern>/patient/*</pattern>
+        <pattern>/assets/*</pattern>
+        <pattern>/cxf/*</pattern>
+        <pattern>/api/*</pattern>
+        <pattern>/druid/*</pattern>
+        <pattern>/javasimon/*</pattern>
+        <pattern>/newPage/sunPage/*</pattern>
+        <pattern>/oldPatient/oldPtDetail/*</pattern>
+        <pattern>/msPage/*</pattern>
+        <pattern>/learn/login</pattern>
+        <pattern>/learn/subPage/*</pattern>
+    </excludes>
+
+    <decorator name="default" page="default.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+</decorators>

@@ -1,0 +1,64 @@
+/* header */
+.header {
+    background-color: #5E5E5E;
+    color: #fff;
+    padding: 10px;
+    overflow: hidden;
+    margin-bottom: 2px;
+}
+
+.header a {
+    color: #fff;
+}
+
+.header a:hover {
+    text-decoration: none;
+}
+
+body {
+    background-color: #fff;
+}
+
+/* footer */
+.footer {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #AEAEAE;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    rigth: 0;
+    border-top: 1px solid #ccc;
+    padding-top: 5px;
+    background-color: #fff;
+    z-index: 999999;
+}
+
+.foot-btn .fa {
+    font-size: 2.3rem;
+    color: #AEAEAE;
+}
+
+.foot-btn a {
+    color: #aeaeae;
+    font-size: 1rem;
+}
+
+.icon-regis {
+    background: url("/assets/images/icon_01.png") no-repeat;
+    padding: 5px 15px;
+
+}
+
+.foot-btn .col-xs-6 div {
+    height: 1.3em;
+}
+
+.foot-btn .col-xs-6.active .icon-regis {
+    background: url("/assets/images/icon_02.png") no-repeat;
+}
+
+.foot-btn .col-xs-6.active, .foot-btn .col-xs-6.active a, .foot-btn .col-xs-6.active .fa {
+    color: #5cb531;
+}
+

@@ -1,0 +1,145 @@
+/* @group page components   1024px
+---------------------------------------------------*/
+@media screen and (max-width: 1024px) {
+
+    .patientManage .intro-sign.form-inline input[name="patient"], .patientList .intro-sign.form-inline input[name="patient"], .patientCon .intro-sign.form-inline input[name="patient"],
+    .oldPatient .intro-sign.form-inline input[name="patient"], .oldPatientList .intro-sign.form-inline input[name="patient"] {
+        width: 60%;
+    }
+
+    .patientManage .intro-sign.form-inline .row .col-md-4.col-sm-4:nth-of-type(3), .patientList .row .col-md-4.col-sm-4:nth-of-type(3),
+    .patientCon .row .col-md-5.col-sm-4:nth-of-type(3), .oldPatient .row .col-md-4.col-sm-4:nth-of-type(3), .oldPatientList .row .col-md-4.col-sm-4:nth-of-type(3) {
+        padding: 0;
+    }
+
+    .intro-sign.form-inline .form_date {
+        width: 32% !important;
+    }
+
+    .patientManage #moreSeach .col-md-5.col-sm-5 input, .patientList #moreSeach .col-md-5.col-sm-5 input, .oldPatient #moreSeach .col-md-5.col-sm-5 input {
+        width: 45% !important;
+    }
+
+    .patientDetail .row .col-md-3.col-sm-3:nth-of-type(3), .patientDetail .row .col-md-2.col-sm-2:nth-of-type(4), .oldPtDetail .row .col-md-3.col-sm-3:nth-of-type(3) {
+        padding: 0;
+    }
+
+    .patientDetail .row .col-md-2.col-sm-2:nth-of-type(5), .oldPtDetail .row .col-md-2.col-sm-2:nth-of-type(5) {
+        margin-left: 38px !important;
+    }
+
+    .patientDetail .pt-detail > .doctors-action, .oldPtDetail .pt-detail > .doctors-action {
+        width: 18% !important;
+    }
+
+    .patientDetail .pt-detail .pt-infor, .oldPtDetail .pt-detail .pt-infor {
+        width: 82% !important;
+    }
+
+    .outp-change .col-md-8.col-sm-8 > .form-group:nth-of-type(1) input {
+        width: 75% !important;
+    }
+
+    .outp-change .col-md-8.col-sm-8 > div:last-child .form-group:first-child, .outp-change .col-md-8.col-sm-8 div:last-child .form-group:first-child input {
+        width: 45% !important;
+    }
+
+    .outp-change .col-md-8.col-sm-8 > div:last-child .form-group:last-child, .outp-change .col-md-8.col-sm-8 div:last-child .form-group:last-child input {
+        width: 55% !important;
+    }
+
+    .pers-change-content table {
+        width: 100% !important;
+    }
+
+    .diagnose #divTags .col-sm-4.col-xs-4 {
+        padding-right: 5px;
+    }
+
+    .diagnose #divTags .col-sm-4.col-xs-4 button, .diagnose #divOtherTags .col-sm-4.col-xs-4 button {
+        width: 46%;
+        padding: 6px 8px;
+    }
+
+    .diagnose #divTags .span-tag {
+        min-width: 100px;
+    }
+
+    .index .col-sm-6, .diagnosisEdit .col-sm-6 {
+        width: 50% !important;
+    }
+
+    .right-show-box .main-sTitle ul li input[type="text"] {
+        border-radius: 0;
+    }
+
+    .right-show-box .main-sTitle ul:nth-of-type(1) li:last-child input, .diagnosisEdit .main-sTitle ul:nth-of-type(1) li:last-child input {
+        width: 10.2em !important;
+    }
+
+    .right-show-box .main-sTitle ul:nth-of-type(2) li:last-child input, .diagnosisEdit .main-sTitle ul:nth-of-type(2) li:last-child input {
+        width: 15.5em !important;
+    }
+
+    .right-show-box .main-sTitle ul:nth-of-type(3) li div, .diagnosisEdit .main-sTitle ul:nth-of-type(3) li div {
+        width: 26.2em !important;
+    }
+
+    .right-show-box .main-sTitle ul:nth-of-type(4) li:last-child div, .diagnosisEdit .main-sTitle ul:nth-of-type(4) li:last-child div {
+        width: 10.8em !important;
+    }
+
+    .patient-label-box .tab-box-list span.tag {
+        width: 141px;
+    }
+
+    .row.talk-tab .keyboard > div:first-child button {
+        width: 35px;
+    }
+
+    .row.talk-tab .keyboard > div button:last-child {
+        width: 55px !important;
+    }
+
+    .row.talk-tab .keyboard > div:last-child button {
+        width: 52px;
+    }
+
+    .patient-label-box .btn-boxs > div.up-dpwn-bt, .diagnosis-label-box .btn-boxs > div.up-dpwn-bt, .medicine-label-box .btn-boxs > div.up-dpwn-bt {
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .patient-label-box .btn-boxs > div.up-dpwn-bt button, .diagnosis-label-box .btn-boxs > div.up-dpwn-bt button, .medicine-label-box .btn-boxs > div.up-dpwn-bt button {
+        padding: 6px 10px;
+    }
+
+    .patient-label-box .btn-boxs > div.up-dpwn-bt .input-group, .diagnosis-label-box .btn-boxs > div.up-dpwn-bt .input-group, .medicine-label-box .btn-boxs > div.up-dpwn-bt .input-group {
+        width: 210px;
+    }
+
+    .index #tabtwo .col-md-6:nth-child(2), .diagnosisEdit #tabtwo .col-md-6:nth-child(2) {
+        width: 40% !important;
+    }
+
+    .index #tabtwo .col-md-6:nth-child(3), .diagnosisEdit #tabtwo .col-md-6:nth-child(3) {
+        margin-left: 0;
+    }
+
+    .diagnosis-label-box .tab-box-list.first-box-list span.tag {
+        width: 48% !important;
+    }
+
+    .medicine-label-box .tab-box-list.west-boxs span.tag, .medicine-label-box .tab-box-list.first-box-list span.tag {
+        width: 48% !important;
+    }
+
+    .diagnosisEdit .btn-boxs .btn-default {
+        margin-right: 0;
+    }
+
+    .patientManage .form_date2, .patientList .form_date2 {
+        width: 104px !important;
+    }
+
+}

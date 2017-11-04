@@ -1,0 +1,151 @@
+package com.qiaobei.hmp.service.impl;
+
+import com.google.common.collect.Lists;
+import com.qiaobei.hmp.modules.entity.*;
+import com.qiaobei.hmp.repository.OldPatientDao;
+import com.qiaobei.hmp.service.OldPatientService;
+import com.qiaobei.hmp.support.DateFilter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import javax.persistence.criteria.Predicate;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * Created by IntelliJ IDEA 15.0
+ * User ZW_Teemoer
+ * Date 2016/7/28 0028
+ * Time 10:52
+ */
+@Service("oldPatientService")
+public class OldPatientServiceImpl implements OldPatientService {
+    @Resource
+    private OldPatientDao oldPatientDao;
+
+    @Override
+    public Page<OldPatient> getAllOldPatientByDoctor(final Doctor doctor, Pageable pageable) {
+
+        return oldPatientDao.findAll((root, query, cb) -> {
+            List<Predicate> predicateList = Lists.newArrayList();
+            predicateList.add(
+                    cb.equal(root.join(OldPatient_.doctor), doctor)
+            );
+            //query.orderBy(cb.desc(root.join(OldPatient_.oldPatientBinglis).get(OldPatientBingli_.createTime))) ;
+            return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
+        }, pageable);
+    }
+
+    @Override
+    public Page<OldPatient> findCountByPatient(Pageable page, final Doctor doctor, String patientName, DateFilter
+            dateFilter, DateFilter ageFilter, final Gender
+                                                       genderSex, String diagonsisName) {
+        Date startDateCreate = null;
+        Date startDateBr = null;
+
+        Date endDateCreate = new Date();
+        Date endDateBr = new Date();
+        if (null != dateFilter && dateFilter.isValid()) {
+            startDateCreate = dateFilter.getStartDate();
+            endDateCreate = dateFilter.getRealEndDate();
+        }
+        if (null != ageFilter && ageFilter.isValid()) {
+            startDateBr = ageFilter.getStartDate();
+            endDateBr = ageFilter.getRealEndDate();
+        }
+
+        if (null == diagonsisName) {
+            diagonsisName = "";
+        }
+        if (null == patientName) {
+            patientName = "";
+        }
+
+        final String finalDiagonsisName = diagonsisName;
+        final Date finalStartDateCreate = startDateCreate;
+        final Date finalEndDateCreate = endDateCreate;
+        final Date finalStartDateBr = startDateBr;
+        final Date finalEndDateBr = endDateBr;
+        final String finalPatientName = patientName;
+        final String finalPatientName1 = patientName;
+        return oldPatientDao.findAll((root, query, cb) -> {
+            List<Predicate> predicateList = Lists.newArrayList();
+            predicateList.add(
+                    cb.equal(root.join(OldPatient_.doctor), doctor)
+            );
+
+            if (!Objects.equals(finalDiagonsisName, "") && !"".equals(finalDiagonsisName)) {
+                predicateList.add(
+                        cb.like(root.get(OldPatient_.zhenduan), "%" + finalDiagonsisName + "%")
+                );
+            }
+            if (!Objects.equals(finalDiagonsisName, "") && !"".equals(finalDiagonsisName)) {
+                predicateList.add(
+                        cb.like(root.get(OldPatient_.zhenduan), "%" + finalDiagonsisName + "%")
+                );
+            }
+
+            if (finalStartDateCreate != null && finalEndDateCreate != null) {
+                predicateList.add(
+                        cb.between(root.join(OldPatient_.oldPatientBinglis).get(OldPatientBingli_.createTime),
+                                finalStartDateCreate, finalEndDateCreate)
+                );
+            }
+
+            if (finalStartDateBr != null && finalEndDateBr != null) {
+                predicateList.add(
+                        cb.between(root.get(OldPatient_.birthday),
+                                finalStartDateBr, finalEndDateBr)
+                );
+            }
+
+            if (genderSex != null) {
+                predicateList.add(
+                        cb.equal(
+                                root.get(OldPatient_.gender), genderSex
+                        )
+                );
+            }
+            if (!"".equals(finalPatientName)) {
+                predicateList.add(
+                        cb.like(root.get(OldPatient_.name), "%" + finalPatientName1 + "%")
+                );
+            }
+
+            query.distinct(true);
+            return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
+        }, page);
+    }
+
+    @Override
+    public OldPatient getById(Long oldPatientId) {
+        return oldPatientDao.findOne(oldPatientId);
+    }
+
+    @Override
+    public void activeOldPatientByOldId(Long oldPtientId) {
+        OldPatient oldPatient = new OldPatient(oldPtientId);
+        oldPatient.setStatus(OldPatient.Status.ACTIVATION);
+        oldPatientDao.save(oldPatient);
+    }
+
+    @Override
+    public void save(OldPatient oldPatient) {
+        oldPatientDao.save(oldPatient);
+    }
+
+    @Override
+    public OldPatient findOneByNewPatient(final Patient patient) {
+        return oldPatientDao.findOne((root, query, cb) -> {
+            List<Predicate> predicateList = Lists.newArrayList();
+
+            predicateList.add(cb.equal(root.join(OldPatient_.patient), patient));
+
+            return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
+        });
+
+    }
+}

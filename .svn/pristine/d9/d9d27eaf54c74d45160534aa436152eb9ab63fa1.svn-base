@@ -1,0 +1,57 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2016/10/27
+  Time: 11:20
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/commons/include.jsp" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+
+<script type="application/javascript">
+    $(function () {
+
+    })
+    function loadExamLabPage(page) {
+        $("#detailTable").load("/newPage/sunPage/loadExamLabPage?id=${patient.id}&page={0}&className=${className}".format(page));
+    }
+</script>
+<table width="100%" class="table-bordered table-hover">
+    <colgroup width="20%"></colgroup>
+    <colgroup width="20%"></colgroup>
+    <colgroup width="60%"></colgroup>
+
+    <c:forEach items="${emrJClassAdviceDictList.content}" var="oneEmrJClass">
+        <tr onclick="tableResult(${oneEmrJClass.id})"  <c:if
+                test="${oneEmrJClass.status=='Have_Exam_Or_Lab'}"> style="background-color: #e1ffdd" </c:if> >
+            <td>
+                <fmt:formatDate value="${oneEmrJClass.emr.createOn}" pattern="yyyy/MM/dd HH:mm:ss"></fmt:formatDate>
+            </td>
+            <td>
+                    ${oneEmrJClass.adviceName}
+            </td>
+            <td>
+                <span class="val-text" style="width: 880px;">
+                        ${oneEmrJClass.info}
+                </span>
+            </td>
+        </tr>
+    </c:forEach>
+
+
+</table>
+<div class="text-right" style="margin-top:15px;">
+    <c:if test="${emrJClassAdviceDictList.number >0}">
+        <button type="button" class="btn btn-default" onclick="loadExamLabPage(${emrJClassAdviceDictList.number-1})">
+            上一页
+        </button>
+    </c:if>
+
+    <c:if test="${emrJClassAdviceDictList.number + 1 < emrJClassAdviceDictList.totalPages}">
+        <button type="button" class="btn btn-default" onclick="loadExamLabPage(${emrJClassAdviceDictList.number+1})">
+            下一页
+        </button>
+    </c:if>
+
+</div>

@@ -1,0 +1,115 @@
+group 'com.qiaobei'
+version '1.0.0'
+
+apply plugin: 'eclipse-wtp'
+apply plugin: 'war'
+apply plugin: 'jetty'
+apply plugin: 'maven'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    providedCompile(
+            libs.'servlet-api',
+            libs.'jsp-api',
+    )
+    runtime libs.'jstl'
+
+    compile(
+            project(':hmp-modules:hmp-core'),
+
+            libs.'spring-context-support',
+            libs.'spring-webmvc',
+
+            libs.'spring-data-jpa',
+            libs.'hibernate-ehcache',
+            libs.'hibernate-entitymanager',
+
+            libs.'mybatis',
+            libs.'mybatis-spring',
+
+            libs.'sitemesh',
+            libs.'ehcache-core',
+            libs.'ehcache-core-ee',
+
+            libs.'mysql',
+
+            libs.'aspectjrt',
+            libs.'aspectjweaver',
+
+            libs.'fastjson',
+            libs.'druid',
+
+            libs.'shiro-spring',
+            libs.'shiro-ehcache',
+
+            libs.'httpclient',
+            libs.'jackson-datatype-joda',
+
+            libs.'javasimon-spring',
+            libs.'javasimon-jdbc4',
+            libs.'javasimon-console-embed',
+
+            libs.'commons-fileupload',
+
+            libs.'xstream',
+            libs.'httpcore',
+            libs.'googoleZxing',
+            libs.'jedis',
+    )
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.3'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.3'
+    compile group: 'org.springframework', name: 'spring-websocket', version: '4.3.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-messaging', version: '4.3.3.RELEASE'
+    compile group: 'com.querydsl', name: 'querydsl-apt', version: '4.1.4'
+    compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.1.4'
+    compile group: 'org.javasimon', name: 'javasimon-core', version: '4.1.0'
+    compile group: 'org.javasimon', name: 'javasimon-javaee', version: '4.1.0'
+
+
+    testCompile(
+            project(':hmp-modules:hmp-core'),
+    )
+}
+war {
+    manifest {
+        attributes("Implementation-Title": "Gradle")
+    }
+}
+
+jettyRun {
+    httpPort = 8090
+    contextPath = 'hmp'
+    reload = 'manual'
+}
+
+jettyRunWar {
+    httpPort = 8090
+    contextPath = 'hmp'
+    reload = 'manual'
+}
+
+task release(dependsOn: 'war', description: 'Build production war.') << {
+    println 'release'
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+
+    // 执行release 的时候将其 profile 置为生产状态
+    // 执行war 的时候则是开发状态，且版本后面加上snapshot标记
+    if (taskGraph.hasTask(release)) {
+        sourceSets {
+            main {
+                resources {
+                    srcDirs = ["src/main/resources", "src/main/resources-prod"]
+                }
+            }
+        }
+    } else {
+        version += '-SNAPSHOT'
+    }
+}

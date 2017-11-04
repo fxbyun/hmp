@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processor name="com.querydsl.apt.jpa.JPAAnnotationProcessor" />
+        <processor name="org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="hmp-admin" target="9" />
+      <module name="hmp-advertising" target="9" />
+      <module name="hmp-api" target="9" />
+      <module name="hmp-core" target="9" />
+      <module name="hmp-modules" target="9" />
+      <module name="hmp-op" target="9" />
+      <module name="hmp-opweb" target="9" />
+      <module name="hmp-phar" target="9" />
+      <module name="hmp-pharweb" target="9" />
+      <module name="hmp-remote" target="9" />
+      <module name="hmp-web" target="9" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

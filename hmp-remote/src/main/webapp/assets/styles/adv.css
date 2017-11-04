@@ -1,0 +1,394 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: '微软雅黑';
+    font-size: 16px;
+    background-color: #fff;
+}
+
+.adv-warp {
+    width: 1080px;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+/*.adv-warp:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}*/
+.clear-fax:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.adv-warp header {
+    height: 130px;
+    background-color: #5cb531;
+    color: #fff;
+}
+
+.adv-warp header h1 {
+    font-size: 45px;
+    text-align: center;
+    font-family: '宋体';
+}
+
+.adv-time {
+    overflow: hidden;
+}
+
+.adv-time p {
+    margin: 0;
+}
+
+.adv-fl-span {
+    float: left;
+}
+
+.adv-fr-span {
+    float: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.adv-warp .row {
+    margin: 0;
+}
+
+.video {
+    height: 580px;
+}
+
+.adv-solid {
+    border-bottom: 3px solid #e8e8e8;
+    height: 95px;
+}
+
+.adv-solid02 {
+    width: 180px;
+    height: 95px;
+    border-bottom: 4px solid #5cb531;
+    text-align: center;
+}
+
+.line-up-span {
+    font-size: 43px;
+    color: #717171;
+    font-weight: bold;
+    line-height: 2.8em;
+}
+
+.icon-line01 {
+    /*background: url("/assets/images/img03.png") center no-repeat;*/
+    padding-right: 20px;
+    font-size: 45px;
+    vertical-align: middle;
+
+}
+
+.icon-line02 {
+    background: url("/assets/images/img_05.png") left center no-repeat;
+    padding: 40px;
+}
+
+.icon-line03 {
+    background: url("/assets/images/img_07.png") left center no-repeat;
+    padding: 35px;
+}
+
+.icon-line04 {
+    background: url("/assets/images/img_06.png") center no-repeat;
+    padding: 35px;
+}
+
+.btn.btn-success {
+    width: 220px;
+    height: 100px;
+    border-radius: 10px;
+    background-color: #5cb531;
+    color: #fff;
+    font-size: 30px;
+    border: none;
+    font-family: '微软雅黑';
+    margin-top: 1em;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.line-up {
+    padding: 20px 0 20px 10px;
+    position: relative;
+}
+
+li {
+    list-style-type: none;
+    float: left;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+.line-paid {
+    position: absolute;
+    width: 100%;
+    height: 224px;
+    top: 0;
+    left: 0;
+}
+
+.line-paid ul li {
+    color: #aac8f7;
+    font-size: 20px;
+    width: 80px;
+    text-align: center;
+    margin-right: 5px;
+}
+
+.line-paid ul li i {
+    width: 76px;
+    height: 160px;
+    background: url("/assets/images/line_bg.png") no-repeat -152px 16px;
+    padding: 15px 0;
+    display: block;
+}
+
+.line-paid ul li .line-up-number {
+    width: 76px;
+    height: 36px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 28px;
+    text-align: center;
+    line-height: 35px;
+    background-color: #aac8f7;
+}
+
+.line-paid ul li.line-one {
+    color: #ff7124;
+    /* position: absolute;
+     top:40px;
+     left: 15px;*/
+}
+
+.line-paid ul li.line-one i {
+    background: url("/assets/images/line_bg.png") no-repeat -70px 16px;
+}
+
+.line-paid ul li.line-one .line-up-number {
+    background-color: #ff7124;
+}
+
+.line-paid ul li.line-two {
+    color: #5cb531;
+}
+
+.line-paid ul li.line-two i {
+    background: url("/assets/images/line_bg.png") no-repeat 15px 16px;
+}
+
+.line-paid ul li.line-two .line-up-number {
+    background-color: #5cb531;
+}
+
+.line-paid ul li.line-three {
+    color: #a0a0a0;
+}
+
+.line-paid ul li.line-three i {
+    background: url("/assets/images/line_bg.png") no-repeat -818px 16px;
+}
+
+.line-paid ul li.line-three .line-up-number {
+    background-color: #a0a0a0;
+}
+
+.line-op {
+    width: 207px;
+    height: 240px;
+    position: absolute;
+    background: url("/assets/images/img_bg04.png") center no-repeat;
+    top: 20px;
+    left: 872px;
+    z-index: 999;
+}
+
+.line-prompt {
+    width: 940px;
+    height: 80px;
+    border-radius: 38px;
+    border: 1px solid #5cb531;
+    background-color: #f0feeb;
+    margin-left: 60px;
+    margin-top: 30px;
+    text-align: center;
+    line-height: 4.5em;
+}
+
+.line-prompt span:first-child {
+    font-size: 20px;
+    color: #5cb531;
+    font-weight: bold;
+}
+
+.line-prompt span {
+    font-size: 17px;
+    color: #777777;
+}
+
+.adv-ban {
+    height: 449px;
+    position: relative;
+}
+
+.adv-btn {
+    padding: 30px 140px 22px;
+    height: 64px;
+}
+
+.adv-btn li {
+    padding: 0 47px;
+}
+
+footer .adv-info {
+    height: 134px;
+    font-size: 20px;
+    background: url("/assets/images/bg_01.jpg") no-repeat;
+    color: #fff;
+    border: none;
+}
+
+.logo {
+    width: 18%;
+    text-align: center;
+    margin-top: 2.5em;
+}
+
+.adv-content {
+    position: relative;
+}
+
+.adv-msg {
+    position: absolute;
+    top: 200px;
+    left: 330px;
+    min-width: 350px;
+    height: 150px;
+    background-color: #000;
+    filter: alpha(opacity=60);
+    background-color: rgba(0, 0, 0, .6);
+    color: #fff;
+    border: none;
+    text-align: center;
+    font-size: 4em;
+    line-height: 2em;
+    z-index: 9999;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+
+/* @ doctor style
+--------------------------------------------------*/
+.doctor-info {
+    padding: 10px;
+}
+
+.doctor-info .nav li.active {
+    border: 2px solid #5cb531;
+}
+
+.doctor-info .nav li {
+    width: 200px;
+    height: 280px;
+    border: 1px solid #ccc;
+    margin-right: 1.5%;
+    cursor: pointer;
+
+}
+
+li {
+    list-style-type: none;
+    float: left;
+}
+
+.doctor-info .nav li:hover, .doctor-info .nav li:focus {
+    color: #555;
+    background-color: #f1f1f1;
+}
+
+.doctor-info .nav li:nth-of-type(3n + 0) {
+    margin-right: 0;
+}
+
+.doctor-info .nav li div:first-child {
+    margin: 10px auto;
+}
+
+.doctor-info .nav li img {
+    border: 1px solid #ccc;
+}
+
+.doctor-info button.active {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.doctor-info .col-xs-4.col-sm-4 li.active button {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.doctor-info .btn.btn-success {
+    width: 65px;
+    height: 34px;
+    font-size: 14px;
+    -webkit-border-radius: 4px;;
+    -moz-border-radius: 4px;;
+    border-radius: 4px;
+    margin-top: 0;
+    margin-right: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

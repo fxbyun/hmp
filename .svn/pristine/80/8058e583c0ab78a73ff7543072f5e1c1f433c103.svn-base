@@ -1,0 +1,520 @@
+<!DOCTYPE HTML>
+<head>
+
+    <!-- Define Charset -->
+    <meta charset="utf-8"/>
+
+    <!-- Responsive Metatag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+    <!-- Page Title -->
+    <title> 易佳诊门诊运营管理平台 </title>
+
+    <!-- Description and Keyword -->
+    <meta name="description" content="能帮门诊多赚钱的运营管理系统">
+    <meta name="keywords" content="门诊,电子病历,健康档案,用药补贴,病历系统,用药分析">
+    <meta name="author" content="乔北科技">
+
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Styles CSS -->
+    <link rel="stylesheet" href="css/styles.css"/>
+
+    <!-- Skins / Colors -->
+    <!--<link rel="stylesheet" href="css/skins/blue.css"/>-->
+    <!-- <link rel="stylesheet" href="css/skins/orange.css"/> -->
+    <link rel="stylesheet" href="css/skins/green.css"/>
+    <!-- <link rel="stylesheet" href="css/skins/red.css"/> -->
+    <!-- <link rel="stylesheet" href="css/skins/cyan.css"/> -->
+
+
+    <!-- Google Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css"/>
+    <link href="http://fonts.googleapis.com/css?family=Varela+Round" rel='stylesheet' type='text/css'>
+
+    <!-- Font Awesome Icons  -->
+    <link rel="stylesheet" href="fonts/css/font-awesome.min.css"/>
+
+    <!-- ANIMATIONS  -->
+    <link rel="stylesheet" href="css/animate.css"/>
+
+    <link rel="stylesheet" href="css/lightbox.css"/>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon"/>
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+<body>
+<!--
+<div class="loader"><img src="img/loading-main.gif" alt="加载中……" /></div>-->
+
+
+<!-- Header -->
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#listup-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img src="img/logo.png" alt="logo"/></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="listup-collapse">
+                <ul id="naviga" class="nav navbar-nav navbar-right">
+                    <li class="current"><a href="#main-section">概述</a></li>
+                    <li><a href="#features">主要功能</a></li>
+                    <li><a href="#gallery">产品赏析</a></li>
+                    <li><a href="#faqs">常见问题</a></li>
+                    <li class="pop-co external"><a href="http://www.yijiazhen.com"><i class="fa fa-comment"></i>登录系统</a>
+                    </li>
+
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>
+<!-- End of Header -->
+
+
+<!-- Main Section -->
+<section id="main-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center" style="background-color: rgba(53, 174, 66,.4);">
+                <h1 class="text-center">新型诊所一体化解决方案平台</h1>
+
+                <p class="text-center" style="line-height: 25px;">
+                    易佳诊新型诊所一体化解决方案平台以医生坐诊端为源，链接患者端、供应端和诊所现场端形成一核三端的平台结构；<br>为诊所升级提供从软件开发到技术培训、品牌顾问和资源整合等支持和服务，满足基层社区诊所发展升级的需求。<br><br>
+                    <span>同时，深圳市易佳诊科技有限公司还联合基层优秀诊所发起并组建易佳诊社区医疗联盟。<br>通过联盟为基层优秀诊所对接中心城市的优质医疗、药材和设备资源，<br>提升基层优秀诊所的医疗技术及服务水平，为基层诊所的发展升级提供服务。</span>
+                </p>
+                <!--<p class="text-left"></p>-->
+                <img src="img/011.png" alt="product_name" width="100%"/>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End of Main Section -->
+
+
+<!-- Features Section -->
+<section id="features">
+    <div class="container">
+        <div class="row">
+            <div class="title text-center">
+                <h2>主要特点</h2>
+                <span class="title-span"></span>
+                <div class="tags">
+                    <span>智能化</span>
+                    <span>一体化</span>
+                    <span>移动化</span>
+                </div>
+
+            </div>
+            <div class="title text-center">
+                <h2>主要功能介绍</h2>
+                <span class="title-span"></span>
+            </div>
+
+        </div>
+    </div>
+    <!-- Extras Section 1 -->
+    <div class="overlo">
+        <section id="extras">
+            <div class="container">
+                <div class="row" style="margin-right: 0;">
+
+                    <div class="col-md-5 extras-txt ">
+                        <div class="featu-txt">
+                            <h2 class="featu-txt-h2"><span class="fa fa-paint-brush"
+                                                           style="padding: 0 20px; color: #fff;"> </span>医生端</h2>
+                            <h3>病历管理
+                            <span class="fa fa-plus-square" style="float: right; color:#ccc;"></span>
+                            </h3>
+
+                            <p>
+                                <b>电子病历</b>——患者刷健康卡关联个人健康信息，全面诊断、科学治疗；切合诊所业务模式，快速实现基层病历建立、输入、存档。病历积分直接用于采购抵扣费用，降低患者费用。<br>
+                                <b>健康档案统计管理</b>——患者健康数据授权共享查阅，同页展示；医生可全面掌握患者健康状况后进行科学诊疗。<br>
+                                <b>我的患者 历史病历</b>——医生所接诊的患者、病症交叉分类显示，且辅以患者姓名、就诊日期、患者年龄段、病症四个搜索项，方便快速查阅和调用。
+                            </p></div>
+                    </div>
+                    <div class="col-md-1">
+
+                    </div>
+                    <div class="col-md-6 extras-img">
+                        <div class="laptop-img FadeRight"><img src="img/007.png" alt="" width="100%"/></div>
+
+                    </div>
+
+                </div>
+                <div style="overflow: hidden; margin-top: 50px;">
+
+                    <div style="border-bottom:1px dashed #ccc; width: 96%; float:left; padding-top: 10px;"></div>
+                    <span class="fa fa-plus" style="float: right; font-size: 16px; color: #ccc"></span>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- End of Extras Section -->
+
+    <!-- Extras Section 2 -->
+    <div class="overlo">
+        <section id="extras">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 extras-img">
+                        <div class="laptop-img FadeRight"><img src="img/012.png" alt="" width="100%"/></div>
+
+                    </div>
+
+                    <div class="col-md-1">
+
+                    </div>
+                    <div class="col-md-5 extras-txt">
+                        <div class="featu-txt"><h3><!--<span class="fa fa-flask"
+                                                         style="padding-right: 20px; color: #6eae35;"></span>-->诊疗管理
+                            <span class="fa fa-plus-square" style="float: right; color:#ccc;"></span>
+                        </h3>
+
+                            <p>
+                                <b>标签化智能化显示</b>——病症、药品等名称标签化管理且智能关联，自动前置排序，诊疗便捷速效。随时管理患者病史、处方和药品标签。<br>
+                                <b>处方记忆模版</b>——处方和药品按相应症候分类建档，归纳常用药方和记忆医生用药及治疗习惯；便于医生快速调用、修改和开具药方。<br>
+                                <b>一键式输入方式</b>——专业词汇标签化自动排序管理，鼠标点击输入、删除和修改，首字母快速查询。<br>
+                                <b>智能关联排序</b>——药品及处方标签实现与诊断的同步关联，前置排序。同时与医生用药习惯、近期多发病症同步关联并前置排序。
+
+                            </p></div>
+
+                    </div>
+
+
+                </div>
+                <div style="overflow: hidden; margin-top: 50px;">
+                    <span class="fa fa-plus" style="float: left; font-size: 16px; color: #ccc"></span>
+
+                    <div style="border-bottom:1px dashed #ccc; width: 96%; float:right; padding-top: 10px;"></div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- End of Extras Section -->
+
+    <div class="overlo">
+        <section id="extras">
+            <div class="container" style="margin-top:80px;">
+                <ul class="row list-unstyled FadeIn2">
+                    <li class="col-sm-4">
+                        <h2 class="featu-txt-h2"><span class="fa fa-qrcode"></span>患者端</h2>
+                        <div class="featu-txt"><h3> 健康管理 </h3>
+
+                            <p style="width: 100%; padding: 0;">
+                                <b>就诊互动管理</b>——诊疗全流程，医、药、患实时微信、短信互动管理，就诊信息微信自动推送。<br>
+                                <b>候诊管理</b>——医药产业信息终端设备诊所叫号机、广告屏挂号、微信预约挂号，引导患者有序就诊；提升患者就诊体验，方便医生顺畅接诊。<br>
+                                <b>随机管理</b>——任意时间段数据查询，报告图表一目了然。<br>
+                                <b>全程健康管理</b>——诊前、诊中、诊后咨询互动；医嘱、建议、药膳食疗自动关联推送，医患可通过短信、微信实时互动咨询答疑及预约，全程健康指导；拓展诊所价值。
+                            </p>
+                        </div>
+                    </li>
+                    <li class="col-sm-4">
+                        <h2 class="featu-txt-h2"><span class="fa fa-gift"></span>诊所端</h2>
+
+                        <div class="featu-txt"><h3>现场及流程管理</h3>
+                            <p>
+                                <b>自助终端</b>——结合自助挂号终端设备，为诊所和患者提供现场流程管理支持。患者可根据自身病情和时间安排，通过微信预约挂号、自助挂号终端取号满足节约时间、减少排队带来的不舒适感的需求；<br>
+                                <b>流程管理</b>——诊所可通过微信预约挂号、自助挂号终端叫号的功能达到流程管理和现场管理的目的，实现分流患者、有序候诊就诊。<br>
+                                <b>环境管理</b>——保持现场环境清洁、营造现场安静友好的环境和氛围，为患者提供舒适放松的就医环境。<br>
+                                <b>形象管理</b>——为诊所提供形象设计、室内装修、现场包装和传播管理等方面的专业建议，提升诊所的品牌形象认知和体验。
+
+                            </p></div>
+                    </li>
+                    <li class="col-sm-4">
+                        <h2 class="featu-txt-h2"><span class="fa fa-files-o"></span>运营端</h2>
+                        <div class="featu-txt"><h3>绩效管理</h3>
+                            <p>
+                                <b>日常管理</b>——自动化统计和分析诊所的接诊数、病症数及用药量，以报告图表方式清晰展示。方便诊所向主管部门提交报表，通过审核。<br>
+                                <b>供需管理</b>——统计管理诊所设备和药品的使用量和需求量，并积累反映诊所医疗技术及设备、药品的使用特点，形成精准订单对接供应端，有效降低运营成本。
+
+                            </p>
+                        </div>
+                        <div class="featu-txt"><h3>品牌管理</h3>
+                            <p>
+                                <b>诊所品牌指导</b>——诊所品牌指导顾问服务，建设和提升诊所品牌，提升诊所市场形象和竞争力。<br>
+                                <b>诊所品牌服务</b>——诊所及医生报道、诊所形象设计等，提升诊所的品牌体验。<br>
+                                <b>整合传播</b>——诊所信息传播管理，整合广告屏、微信公众号及平台相关信息渠道为诊所提供传播指导，整合传播内容、合适的渠道和成本，对诊所品牌传播进行科学管理。
+
+                            </p>
+                        </div>
+                    </li>
+
+
+                </ul>
+
+
+            </div>
+        </section>
+    </div>
+</section>
+<!-- End of Features Section -->
+
+<section id="gallery">
+    <div class="container">
+        <div class="title text-center">
+            <h2>易佳诊社区医疗联盟</h2>
+            <span class="title-span"></span>
+            <p><span>易佳诊社区医疗联盟是由深圳市易佳诊科技有限公司发起，联合基层优秀诊所成立的为诊所提供服务的平台。</span><br>
+                <span>联盟为基层优秀诊所和广大民众引进中心城市的优质医疗、药材和设备资源，<br>改变以往基层社区诊所因为交通、采购数量等方面的制约而导致的在药品、设备等方面的不足，<br>来提升基层优秀诊所的医疗技术及服务水平，让广大的基层民众能够享受到更加优质的医疗服务和健康服务。</span>
+            </p>
+        </div>
+
+        <div class="title text-center">
+            <h2>产品展示</h2>
+
+            <p>易佳诊诊所运营管理平台面赏析</p>
+            <span class="title-span"></span>
+        </div>
+
+
+        <ul class="row">
+            <li class="col-md-3">
+                <a href="img/a01.jpg" class="lightbox-go" data-lightbox="image1"><img src="img/j01.png" class="a"
+                                                                                      alt=""/>
+
+                    <div class="ber"></div>
+                </a>
+            </li>
+            <li class="col-md-3">
+                <a href="img/a02.jpg" class="lightbox-go" data-lightbox="image1"><img src="img/j02.png" class="a"
+                                                                                      alt=""/>
+
+                    <div class="ber"></div>
+                </a>
+
+            </li>
+            <li class="col-md-3">
+                <a href="img/a03.jpg" class="lightbox-go" data-lightbox="image1"><img src="img/j03.png" class="a"
+                                                                                      alt=""/>
+
+                    <div class="ber"></div>
+                </a>
+            </li>
+            <li class="col-md-3">
+                <a href="img/a04.jpg" class="lightbox-go" data-lightbox="image1"><img src="img/j04.png" class="a"
+                                                                                      alt=""/>
+
+                    <div class="ber"></div>
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+</section>
+
+
+<!-- Divider -->
+<div class=" divi2"></div>
+
+
+<section id="faqs">
+    <div class="container">
+        <div class="row">
+
+            <!-- Faqs Start -->
+            <div class="col-md-6 FadeIn">
+
+                <div class="title2">
+                    <span class="fa fa-question-circle"></span>
+                    <h3>常见问题解答</h3>
+                    <p>我们立志为广大基层诊疗机构提供最适合的患者健康管理系统，除以下常见问题外，如有其他疑问可随时与我们联系！</p>
+                    <span class="divi"> </span>
+
+                </div>
+
+
+                <div id="accordion">
+                    <h3><span class="fa fa-cloud-download"></span> 软件系统收费吗 ? </h3>
+                    <div>
+                        <p>
+                            软件免费，且提供终生免费升级及7x24小时在线技术支持服务。易佳诊诊所运营管理平台是一个面向基层诊疗机构设计的平台，您的支持并持续使用就是对我们最大的鼓励！ </p>
+                    </div>
+
+
+                    <h3><span class="fa fa-edit"></span> 我们是谁 ?</h3>
+                    <div>
+                        <p>
+                            我们是来自深圳南山科技园的一家医疗信息技术服务公司，团队以服务基层诊疗机构为宗旨，希望通过提高基层诊疗机构的业务服务水平，让中国人民更加健康幸福。
+                        </p>
+                    </div>
+
+
+                    <h3><span class="fa fa-credit-card"></span> 如何联系我们 ?</h3>
+
+                    <div style="line-height: 25px; margin-top: 20px; color:#949799;">
+                        <li>
+                            地址：深圳市宝安区新安六路众里社区303
+                        </li>
+                        <li>
+                            联系电话：13500048003
+                        </li>
+                        <li>
+                            邮箱：info@qpart.cc
+                        </li>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <!-- Faqs End -->
+
+            <!-- Testimlonials Start  -->
+            <div class="testimonials col-md-6 FadeIn2">
+                <div class="title2">
+                    <span class="fa fa-comment"></span>
+                    <h3>团队寄语</h3>
+
+                    <p>创新汇源，开放包容，希望能易佳诊团队的努力，让中国的普通老百姓都更加健康、长寿！</p>
+                    <span class="divi"> </span>
+
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="testi-slider">
+
+
+                    <div class="testi">
+                        <div class="testi-txt">
+                            <p style="text-align: left;">
+                                基层诊疗是实现中国长久发展的关键环节，承担中国广大民众健康服务任务的基层医疗是未来健康产业的中坚力量。要干实质的就要帮助基层和民营强大起来！
+                            </p>
+                        </div>
+                        <span class="arrow"><i class="fa fa-caret-down"></i></span>
+                        <div class="testi-info">
+                            <div class="testi-img"><img src="img/testi1.png" alt=""/></div>
+                            <div class="testi-data"><h3>李轩仪</h3>
+                                <p> 项目创始人 <span>CEO</span></p></div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="slider-navi">
+                    <a id="prev2"><i class="fa fa-angle-left"></i></a>
+                    <span class="slider-div"></span>
+                    <a id="next2"><i class="fa fa-angle-right"></i></a>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+<!-- Partners Start  -->
+<section id="partners">
+    <div class="container">
+
+        <div class="title text-center">
+            <h2>合作伙伴</h2>
+            <p>感谢以下合作伙伴的支持与鼓励</p>
+            <span class="title-span"></span>
+        </div>
+
+        <ul class="partn ">
+            <li class="FadeIn"><img src="img/partner1.png" alt=""></li>
+            <li class="FadeIn2"><img src="img/partner3.png" alt=""></li>
+            <li class="FadeIn3"><img src="img/partner2.png" alt=""></li>
+            <li class="FadeIn4"><img src="img/partner4.png" alt=""></li>
+            <li class="lastone FadeIn5"><img src="img/partner5.png" alt=""></li>
+
+        </ul>
+    </div>
+</section>
+<!-- Partners End  -->
+
+<!-- Cta Start -->
+<div id="cta">
+    <div class="cta-bg">
+        <div class="container">
+            <h3>赶快免费申请吧！</h3>
+
+            <p> 易佳诊诊所运营管理平台现免费接受预约中，申请信息审核通过即可成为易佳诊平台用户，免费获得软件终生使用权！</p>
+            <a href="http://www.yijiazhen.com/anon/register">
+                <button class="center-block Shaki">点击申请 <i class="fa fa-arrow-right"></i></button>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Cta End -->
+
+
+<!-- Footer Start  -->
+<footer>
+    <div class="container">
+
+        <!-- Copyright -->
+        <div class="copy">
+            <p><strong>易佳诊</strong> <a
+                    href="http://www.miitbeian.gov.cn/publish/query/indexFirst.action">ICP备15089657号</a> &#169;
+                copyright 2015. all rights reserved </p>
+        </div>
+
+        <!-- Social -->
+    </div>
+</footer>
+<!-- Footer End  -->
+
+
+<!-- Contact Form -->
+
+<div class="wrap" id="overlay_form">
+
+    <a href="#" id="close2"></a>
+    <h1> DROP US AN EMAIL </h1>
+
+
+    <span class="divi"> </span>
+
+
+</div>
+
+
+<div id="popi-bg"></div>
+
+<div class="scroll-top"><a href="#"><i class="fa fa-angle-up"></i></a></div>
+
+
+<!-- Javascript Library -->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jquery.nav.js"></script>
+<script type="text/javascript" src="js/jquery.scrollTo.js"></script>
+<script type="text/javascript" src="js/backstretch.js"></script>
+<script type="text/javascript" src="js/jquery.inview.js"></script>
+<script type="text/javascript" src="js/lightbox.js"></script>
+<script type="text/javascript" src="js/cycle.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+
+</body>
+</html>

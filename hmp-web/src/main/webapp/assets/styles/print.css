@@ -1,0 +1,78 @@
+body {
+    background-color: #fff;
+}
+
+.print-title {
+    font-size: 30px;
+}
+
+.print-mg {
+    padding: 10px;
+    width: 210mm;
+    height: 140mm;
+    margin: 0 auto;
+}
+
+.print-mg table tr {
+    height: 48px;
+}
+
+.print-mg table th, .print-mg table td {
+    text-align: center;
+}
+
+.print-p {
+    margin-bottom: 5px;
+}
+
+.print-p span:first-child {
+    float: left;
+}
+
+.print-p span:last-child {
+    float: right;
+}
+
+.financialTales.print-mg {
+    width: 530px;
+}
+
+.financialTales table {
+    margin-bottom: 15px;
+}
+
+.financialTales table th {
+    font-size: 14px;
+    font-weight: 200;
+}
+
+.financialTales table tr {
+    height: 35px;
+}
+
+.financialTales table:nth-of-type(2) {
+    float: left;
+}
+
+.financialTales table:nth-of-type(3) {
+    float: right;
+}
+
+.infu-inject {
+    width: 530px;
+    min-height: 748px;
+}
+
+.infu-inject table * {
+    font-size: 16px;
+}
+
+.infu-inject .content1 {
+    margin-bottom: 5px;
+    line-height: 22px;
+}
+
+.infu-inject .content1 p {
+    font-size: 14px;
+    margin: 0;
+}

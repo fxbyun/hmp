@@ -1,0 +1,176 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/WEB-INF/commons/include.jsp" %>
+<%--@elvariable id="medicine" type="com.qiaobei.hmp.modules.entity.Medicine"--%>
+<%--@elvariable id="medPrivate" type="com.qiaobei.hmp.modules.entity.MedicinePrivate"--%>
+<div style="margin: 20px;" class="form-horizontal">
+    <input type="hidden" id="medicineId" value="${medicine.id}" />
+    <input type="hidden" id="medicinePrivateId" value="${medPrivate.id}"/>
+    <input type="hidden" id="medicineName" value="${medicine.name}" />
+    <input type="hidden" id="medicineType" value="${medicine.type}" />
+    <input type="hidden" id="medicineUnit" value="${medicine.unit}" />
+    <input type="hidden" id="companyId" value="${medicine.defaultCompany.id}" />
+
+    <div class="form-group">
+        <label class="col-xs-2 col-sm-2 control-label text-right">治疗方式</label>
+
+        <div class="col-xs-4 col-sm-4">
+            <select name="useMode" id="selUseMode" class="form-control">
+                <c:forEach var="u" items="${medicineUseModes}">
+                    <option value="${u}" <c:if test='${medPrivate.useMode==u}'>selected</c:if>>${u}</option>
+                </c:forEach>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" id="divUseTimes">
+        <label class="col-xs-2 col-sm-2 control-label text-right">标准用量</label>
+
+        <%--<div class="col-xs-6 col-sm-6">
+            <label for="chkHasUsage"><input type="checkbox" id="chkHasUsage" <c:if test='${medicine.usageFlag == true}'>checked</c:if>> 设置标准用量</label>
+        </div>--%>
+
+
+        <div class="col-xs-9 col-sm-9"
+             style="background-color: #F2F2F2; border:1px solid #ccc; margin-left: 13px; padding-left: 0;">
+            <div class="col-xs-12 col-sm-12" style="padding: 10px 15px;">
+                <input type="radio" id="useYes" name="usageFlag" value="0"
+                       <c:if test="${medPrivate.usageFlag}">checked</c:if> > 适用
+                <input id="useNo" type="radio" name="usageFlag" style="margin-left: 10px;"
+                       <c:if test="${!medPrivate.usageFlag}">checked</c:if>
+                       value="1"> 不适用
+
+            </div>
+            <div class="col-xs-12 col-sm-12" id="showDiv" style="margin-bottom: 10px; padding-left: 0;">
+                <div class="col-xs-3 col-sm-3" style="padding-right: 0;">
+                    <select id="selUseTimes" class="form-control">
+                        <c:forEach var="u" items="${medicineUseTimes}">
+                            <option value="${u}" <c:if test='${medPrivate.useTimes==u}'>selected</c:if>>${u}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <label class="col-xs-2 col-sm-1 text-center" style="line-height: 32px; padding: 0;"> 每次</label>
+
+                <div class="col-xs-2 col-sm-2" style="padding-left: 0px;">
+                    <form:input path="medPrivate.useQty" type="number" cssClass="form-control"/>
+                </div>
+                <div class="col-xs-2 col-sm-2" style="padding:0; margin-left:-18px;">
+                    <form:select cssStyle="margin-left:22px;" path="medPrivate.useUnit" cssClass="form-control"
+                                 items="${medicineUnits}"/>
+                </div>
+                <div class="col-xs-3 col-sm-3" style="margin-left: 25px;">
+                    <select id="selUsingTime" class="form-control">
+                        <c:forEach var="u" items="${medicineUsingTimes}">
+                            <option value="${u}" <c:if test='${medPrivate.usingTime==u}'>selected</c:if>>${u}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <%--    <div class="form-group" id="divUseTimes">
+            <div class="col-xs-offset-2 col-sm-offset-2 col-xs-3 col-sm-3">
+                <select id="selUseTimes" class="form-control" style="width: 150px">
+                    <c:forEach var="u" items="${medicineUseTimes}">
+                        <option value="${u}" <c:if test='${medicine.useTimes==u}'>selected</c:if>>${u}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="col-xs-3 col-sm-3">
+                <select id="selUsingTime" class="form-control" style="width: 150px">
+                    <c:forEach var="u" items="${medicineUsingTimes}">
+                        <option value="${u}" <c:if test='${medicine.usingTime==u}'>selected</c:if>>${u}</option>
+                    </c:forEach>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 col-sm-2 control-label text-right" style="margin-left:40px; margin-right: 5px; padding-right:0;">每次</label>
+
+            <div class="col-xs-2 col-sm-2">
+                <form:input path="medicine.useQty" type="number" cssClass="form-control"/>
+            </div>
+            <div class="col-xs-3 col-sm-3">
+                <form:select cssStyle="width: 150px; margin-left:22px;" path="medicine.useUnit" cssClass="form-control" items="${medicineUnits}" />
+            </div>
+
+
+            <div class="col-xs-2 col-sm-2">
+                &lt;%&ndash;<button id="btnSaveMedicineUsage" type="button" class="btn btn-success">更新用量</button>&ndash;%&gt;
+            </div>
+        </div>--%>
+
+    <div class="form-group" style="border-top:1px solid #ccc; padding-top: 15px;">
+        <label class="col-xs-2 col-sm-2 control-label text-right" for="txtMedicineQty">数量/单位</label>
+
+        <div class="col-xs-2 col-sm-2">
+            <input type="number" min="1" class="form-control" id="txtMedicineQty" value="${medPrivate.realQty}">
+        </div>
+        <div class="col-xs-2 col-sm-2">
+            <select name="medicineUnit" id="selMedicineUnit" class="form-control">
+                <c:forEach var="u" items="${medicineUnits}">
+                    <option value="${u.key}"
+                            <c:if test='${medPrivate.realUnit==u.key}'>selected</c:if>>${u.value}</option>
+                </c:forEach>
+            </select>
+        </div>
+        <label class="col-xs-1 col-sm-1 text-center" for="txtMedicineQty" style="line-height: 30px;">X</label>
+
+        <div class="col-xs-2 col-sm-2">
+            <input type="number" min="1" class="form-control" id="txtMedicineCopies" value="1">
+        </div>
+        <label class="col-xs-1 col-sm-1" for="txtMedicineQty" style="line-height: 30px;"> 次</label>
+    </div>
+    <div id="divConversion"></div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('input[name="usageFlag"]').change(function () {
+
+            var type = $('input[name="usageFlag"]:checked').val();
+            var usageFlag = true;
+            if (type == 0) {
+                $('#showDiv').show();
+            } else {
+                $('#showDiv').hide();
+            }
+
+            var url = "/medicine/updateUsageFlag/${medicine.id}";
+            $.postJSON(url, {'usageFlag': usageFlag});
+        });
+        $('input[name="usageFlag"]').change();
+        $('#selMedicineUnit').change(function () {
+            var unit = $('#medicineUnit').val();
+            var $opt = $('#selMedicineUnit option:selected');
+            var selUnit = $('#selMedicineUnit').val();
+            var text = $opt.text();
+            if (unit == selUnit) $('#divConversion,#btnConvert').hide();
+            else {
+                $('#divConversion,#btnConvert').show();
+                /*$('#divConversion').load("/fragment/conversion/select?medicineId=", {'unit': selUnit});*/
+                $('#divConversion').load("/fragment/medicine/updateRateForm?medicineId=${medicine.id}", {'unit': selUnit});
+
+            }
+        });
+        $('#selMedicineUnit').change();
+        $('#btnSaveMedicineUsage').click(function () {
+            var data = {
+                id: $('#medicineId').val(),
+                useTimes: $('#selUseTimes').val(),
+                useQty: $('#useQty').val(),
+                useUnit: $("#useUnit").val(),
+                usingTime: $('#selUsingTime').val(),
+                tmpErrorId: "1"
+            }
+            $.postJSON("/medicine/saveUsage", data, function (result) {
+                if (result.success) {
+                    layer.msg(result.msg);
+                } else {
+                    layer.msg(reult.msg);
+                }
+            })
+        });
+    });
+</script>

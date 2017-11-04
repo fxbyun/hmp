@@ -1,0 +1,90 @@
+body {
+    background-color: #fff;
+    font-size: 12px;
+}
+
+.print-title {
+    font-size: 18px;
+}
+
+.print-box {
+    padding: 0 10px 0;
+    width: 165mm;
+    height: 80mm;
+    margin: 0 auto;
+}
+
+.print-box p.text-right {
+    margin: 0;
+    line-height: 12px;
+}
+
+.print-box p.text-right span:nth-of-type(odd) {
+    display: inline-block;
+    width: 40px;
+}
+
+.print-box p.text-right span:nth-of-type(even) {
+    display: inline-block;
+    width: 10px;
+}
+
+.print-box table tr {
+    height: 24.1px;
+}
+
+.print-box table tr, .print-box table td, .print-box table th {
+    text-align: center;
+    font-size: 12px;
+}
+
+.print-dx span {
+    /*display: inline-block;*/
+    width: 16px;
+    padding-left: 6px;
+    letter-spacing: 5px;
+}
+
+.print-dx span:first-child {
+    padding-left: 6px;
+}
+
+.print-check input {
+    width: 40px;
+    text-align: left;
+}
+
+.print-mg .print-title {
+    font-size: 30px;
+}
+
+.print-mg {
+    padding: 10px;
+    width: 210mm;
+    height: 140mm;
+    margin: 0 auto;
+}
+
+.print-mg table tr {
+    height: 48px;
+}
+
+.print-mg table tr, .print-mg table td {
+    text-align: center;
+}
+
+.print-temp {
+    width: 186mm;
+    height: 100mm;
+    border: 0px solid #ccc;
+    padding: 0 50.4px;
+}
+
+.print-temp table tr, .print-temp table td, .print-temp table th {
+    text-align: center;
+    font-size: 12px;
+}
+
+.print-temp table tr {
+    height: 18.1px;
+}

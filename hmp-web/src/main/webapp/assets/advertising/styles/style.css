@@ -1,0 +1,281 @@
+body {
+    font-family: '微软雅黑';
+    background-color: #dde6ea;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+footer.footer {
+    height: 60px;
+    font-size: 16px;
+    text-align: center;
+    padding-top: 23px;
+    background-color: #cfd0d0;
+}
+
+.ele-navbar {
+    background-color: #5cb531;
+}
+
+.ele-navbar .container {
+    padding: 28px 20px;
+    color: #fff;
+}
+
+.ele-navbar .outpatient-name {
+    font-size: 2.5em;
+}
+
+.ele-navbar .per-name {
+    font-size: 1.5em;
+    padding-right: 20px;
+    line-height: 2.3em;
+}
+
+.ele-navbar .per-name + a {
+    font-size: 1.5em;
+    color: #fff;
+}
+
+.ele-navbar .per-name + a:hover {
+    text-decoration: none;
+}
+
+.advIndex {
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 10px auto;
+}
+
+.advIndex .btn-success {
+    background-color: #5cb531;
+}
+
+.adv-title {
+    border-bottom: 3px solid #e8e8e8;
+    height: 80px;
+}
+
+.line-up-span {
+    font-size: 2.52em;
+    color: #717171;
+    font-weight: bold;
+    line-height: 2.5em;
+    border-bottom: 4px solid #5cb531;
+    text-align: center;
+    padding: 10px 15px;
+}
+
+.div-box {
+    overflow: hidden;
+    padding-top: 2em;
+}
+
+.div-box div:first-child > button {
+    width: 95%;
+    height: 70px;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    background-color: #5cb531;
+    border-radius: 10px;
+    outline: none;
+}
+
+.div-box div:first-child > button:first-child {
+    background-color: #ff7124;
+    border-color: #ff7124;
+}
+
+.box-left {
+    float: left;
+}
+
+.box-right {
+    float: right;
+}
+
+.icon-line01 {
+    padding-right: 12px;
+    font-size: 30px;
+    vertical-align: middle;
+}
+
+.icon-line02 {
+    background: url("/assets/advertising/images/img_05.png") left center no-repeat;
+    padding: 23px;
+    background-size: 40px;
+}
+
+.icon-line03 {
+    background: url("/assets/advertising/images/img_07.png") left center no-repeat;
+    padding: 23px;
+    background-size: 40px;;
+}
+
+.icon-line04 {
+    background: url("/assets/advertising/images/img_06.png") center no-repeat;
+    padding: 23px;
+    background-size: 35px;
+}
+
+.line-up {
+    padding: 20px 0 10px 0;
+    position: relative;
+}
+
+li {
+    list-style-type: none;
+    float: left;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+.line-paid {
+    position: absolute;
+    width: 100%;
+    height: 224px;
+    top: 0;
+    left: 0;
+}
+
+.line-paid ul li {
+    color: #aac8f7;
+    font-size: 20px;
+    width: 75px;
+    text-align: center;
+    margin-right: 4px;
+}
+
+.line-paid ul li i {
+    width: 76px;
+    height: 160px;
+    background: url("/assets/advertising/images/line_bg.png") no-repeat -152px 16px;
+    padding: 15px 0;
+    display: block;
+}
+
+.line-paid ul li .line-up-number {
+    width: 76px;
+    height: 36px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 25px;
+    text-align: center;
+    line-height: 35px;
+    background-color: #aac8f7;
+}
+
+.line-paid ul li.line-one {
+    color: #ff7124;
+    /* position: absolute;
+     top:40px;
+     left: 15px;*/
+}
+
+.line-paid ul li.line-one i {
+    background: url("/assets/advertising/images/line_bg.png") no-repeat -70px 16px;
+}
+
+.line-paid ul li.line-one .line-up-number {
+    background-color: #ff7124;
+}
+
+.line-paid ul li.line-two {
+    color: #5cb531;
+}
+
+.line-paid ul li.line-two i {
+    background: url("/assets/advertising/images/line_bg.png") no-repeat 15px 16px;
+}
+
+.line-paid ul li.line-two .line-up-number {
+    background-color: #5cb531;
+}
+
+.line-paid ul li.line-three {
+    color: #a0a0a0;
+}
+
+.line-paid ul li.line-three i {
+    background: url("/assets/advertising/images/line_bg.png") no-repeat -818px 16px;
+}
+
+.line-paid ul li.line-three .line-up-number {
+    background-color: #a0a0a0;
+}
+
+.line-op {
+    width: 207px;
+    height: 240px;
+    position: absolute;
+    background: url("/assets/advertising/images/img_bg04.png") center no-repeat;
+    top: 20px;
+    left: 772px;
+    z-index: 999;
+}
+
+.line-prompt {
+    width: 940px;
+    height: 68px;
+    border-radius: 38px;
+    border: 1px solid #5cb531;
+    background-color: #f0feeb;
+    margin-top: 30px;
+    text-align: center;
+    line-height: 4.5em;
+}
+
+.line-prompt span:first-child {
+    font-size: 20px;
+    color: #5cb531;
+    font-weight: bold;
+}
+
+.line-prompt span {
+    font-size: 17px;
+    color: #777777;
+}
+
+.outpatient-tab > button.btn-success {
+    background-color: #ff7124;
+    color: #fff;
+    width: 160px;
+    border-radius: 10px;
+    margin: 10px;
+    outline: none;
+    border-color: #ff7124;
+}
+
+.outpatient-tab > button.btn-success:hover, .outpatient-tab > button.btn-success:active {
+    background-color: #ff7124;
+    color: #fff;
+    border-color: #ff7124;
+
+}
+
+.outpatient-tab > button span {
+    font-size: 1.8em;
+}
+
+footer .adv-info {
+    height: 134px;
+    font-size: 20px;
+    background: url("/assets/advertising/images/bg_01.jpg") no-repeat;
+    color: #fff;
+    border: none;
+    background-size: 1170px;
+}
+
+.logo {
+    width: 18%;
+    text-align: center;
+    margin-top: 2.2em;
+}
+
+

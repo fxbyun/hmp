@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/layouts/">
+    <excludes>
+        <pattern>/logon</pattern>
+        <pattern>/assets/*</pattern>
+        <pattern>/fragment/*</pattern>
+        <pattern>/table/*</pattern>
+        <pattern>/table</pattern>
+    </excludes>
+    <decorator name="admin" page="admin.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+</decorators>

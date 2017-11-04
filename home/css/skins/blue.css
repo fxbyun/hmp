@@ -1,0 +1,33 @@
+/* ######## Blue Skins #########  */
+
+#subscribe-form form input {
+    background-color: #00679b !important;
+}
+
+.title-span, .title2 span.divi, .cta-bg, .testi-txt, #contactform .submit-contact, #subscribe-form form button i, #cta button i, #gallery ul li a, #subscribe-form {
+    background-color: #2193cd;
+}
+
+#features ul li span, .extras-txt ul li span, #accordion h3.ui-state-active span, .title2 span, .arrow i, .testi-data p span, header a:hover i, #extras2 .about-txt a:hover, #extras2 .about-txt a i, #subscribe-form button:hover i {
+    color: #2193cd;
+}
+
+.cta-bg {
+    background-color: rgba(33, 147, 205, 0.9);
+}
+
+.navbar-nav > li.current > a {
+    border-top: 5px solid #0d8ed0;
+}
+
+#subscribe-form ::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+#subscribe-form form input.form-control {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.form-control::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.8) !important;
+}

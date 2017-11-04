@@ -1,0 +1,10 @@
+rootProject.name = 'hmp'
+
+include 'hmp-modules:hmp-core'
+include 'hmp-web'
+include 'hmp-pharweb'
+include 'hmp-opweb'
+include 'hmp-advertising'
+include 'hmp-admin'
+include 'hmp-op'
+include 'hmp-phar'

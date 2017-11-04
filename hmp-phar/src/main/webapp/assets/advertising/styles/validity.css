@@ -1,0 +1,462 @@
+/* @validityManage public style
+---------------------------------------------------*/
+.rp-table {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 3px 3px #d9d9d9;
+    margin-bottom: 30px;
+}
+
+.rp-table thead tr th, table.rp-table tr td {
+    text-align: center;
+    vertical-align: middle;
+    border: 0;
+}
+
+.rp-table thead tr th {
+    padding: 15px 0;
+    font-weight: normal;
+    font-size: 16px;
+
+}
+
+.rp-table thead tr th:first-child, table.rp-table tbody tr td:first-child {
+    text-align: center;
+    padding-left: 2%;
+}
+
+.rp-table tbody tr, .rp-table tbody tr td {
+    height: 100px;
+}
+
+.demo {
+    text-align: center;
+    height: 60px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+}
+
+table.rp-table tr:last-child td:first-child, .employee tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+table.rp-table tr:last-child td:last-child, .employee tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+.rp-table .btn-default {
+    background-color: #dcdddd;
+    border: none;
+    box-shadow: 0 2px 3px -1px #666;
+    padding: 6px 15px;
+}
+
+#currentPage {
+    width: 50px;
+    text-align: center;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.bg-color-f9 {
+    background-color: #f9e6cc !important;
+}
+
+.bg-color-7c {
+    color: #fff;
+    background-color: #7cbf51;
+}
+
+.bg-color-ff {
+    background-color: #FF0000;
+    color: #fff;
+}
+
+.val-text {
+    width: 125px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    word-break: break-all;
+    word-wrap: break-word;
+    vertical-align: middle;
+}
+
+.saveValList {
+    background-color: #fff;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.val-list-h4 {
+    padding-left: 2%;
+    text-align: left;
+    padding-top: 10px;
+    height: 60px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #eeeeee;
+}
+
+.val-list-medicine {
+    text-align: left;
+    padding-left: 2%;
+    padding-right: 2%;
+    margin-bottom: 1em;
+}
+
+.saveLossList .pull-right textarea.form-control {
+    display: inline-block;
+    width: 85%;
+    height: 5.6em;
+}
+
+/* END
+---------------------------------------------------*/
+
+.validityManage .rp-table tbody tr, .validityManage .rp-table tbody tr td {
+    height: 60px;
+    cursor: pointer;
+}
+
+.validityManage table > tbody > tr:nth-of-type(odd) {
+    background-color: #e5e5e5;
+}
+
+.validityManage table > tbody > tr:nth-of-type(even) {
+    background-color: #eeeeee;
+}
+
+.validityManage table.rp-table thead tr:first-child td {
+    padding-top: 1.5%;
+    height: 80px;
+}
+
+.validityManage table.rp-table tr td.val-fa-color {
+    text-align: left;
+    padding-left: 3%;
+}
+
+.val-fa-color span {
+    padding-right: 20px;
+}
+
+.val-fa-color span:first-child i {
+    color: #f9e6cc;
+    padding-right: 5px;
+}
+
+.val-fa-color span:nth-of-type(2) i {
+    padding-right: 5px;
+    color: #7cbf51;
+}
+
+.val-fa-color span:last-child i {
+    color: #FF0000;
+    padding-right: 5px;
+}
+
+.validityManage table.rp-table tr td.val-btn {
+    text-align: right;
+    padding-right: 2%;
+}
+
+.validityManage table.rp-table tr td.val-btn button {
+    margin-top: -4px;
+}
+
+.validityManage .rp-table a.btn-default {
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    margin-left: 10px;
+}
+
+.validityManage .rp-table a.btn-default:hover, .validityManage .rp-table a.btn-default.active {
+    color: #fff;
+    border-color: #ccc;
+    background-color: #7cbf51;
+}
+
+.saveValList .text-center .btn, .overdueMedicine .text-center .btn {
+    margin-right: 5px;
+}
+
+.saveValList table.rp-table thead tr:nth-of-type(2) td:first-child, .saveValList table.rp-table thead tr:nth-of-type(3) td:first-child {
+    padding-right: 10%;
+}
+
+.saveValList table.rp-table thead tr:nth-of-type(2) td:last-child, .saveValList table.rp-table thead tr:nth-of-type(3) td:last-child {
+    padding-right: 2%;
+}
+
+.saveLossList table.rp-table thead tr:nth-of-type(2) td {
+    text-align: right;
+    line-height: 4em;
+}
+
+.list-medicine {
+    float: right;
+    width: 68%;
+}
+
+.list-medicine > a {
+    float: left;
+    line-height: 2.6em;
+    color: #000;
+}
+
+.list-medicine > a:hover, .list-medicine > a:focus {
+    text-decoration: none;
+}
+
+.list-medicine .list-tab {
+    position: relative;
+    float: left;
+    width: 97%;
+    height: 50px;
+    visibility: visible;
+    overflow: hidden;
+}
+
+.list-medicine .scroll_demo {
+    overflow: hidden;
+    position: absolute;
+    width: 200000em;
+    left: 7px;
+    top: 0;
+}
+
+.list-medicine .scroll_demo li {
+    float: left;
+    list-style-type: none;
+}
+
+.list-medicine .scroll_demo li span.tag {
+    font-size: 16px;
+    margin: 0 10px 0 0;
+    min-width: 91px;
+}
+
+.list-medicine .scroll_demo span.tag.tag-i {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.tag-medicine {
+    overflow: hidden;
+}
+
+.content-left, .content-right {
+    float: left;
+    width: 50%;
+    padding-right: 5%;
+}
+
+.tag-medicine input.form-control, .tag-medicine select.form-control {
+    display: inline;
+    width: 70%;
+    margin-left: 5px;
+}
+
+.tag-medicine p {
+    margin: 1.5em 0;
+}
+
+.tag-medicine p label {
+    font-weight: normal;
+}
+
+.val-text.loss-text {
+    width: 245px;
+}
+
+.order-num {
+    display: none;
+}
+
+.repOrders table tbody tr {
+    cursor: pointer;
+}
+
+.overdueMedicine .over-seach {
+    width: 100%;
+    overflow: hidden;
+    background-color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: right;
+    padding-top: 20px;
+    padding-right: 2%;
+
+}
+
+.overdueMedicine .over-seach a.btn {
+    margin-left: 10px;
+}
+
+.nav-tabs {
+    border-bottom: none;
+}
+
+.over-seach .nav.nav-tabs > li.active > a, .over-seach .nav.nav-tabs > li.active > a:focus, .over-seach .nav.nav-tabs > li.active > a:hover {
+    color: #fff;
+    background-color: #218e3f;
+    border-color: #218e3f;
+}
+
+.over-seach .nav.nav-tabs > li > a.btn {
+    height: 35px;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    padding: 8px 12px;
+    box-shadow: none;
+}
+
+.overdueMedicine table.rp-table {
+    border-radius: 0;
+}
+
+.media-h3 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-top: 0;
+    overflow: hidden;
+}
+
+.media-h3 span, .media-h3 div {
+    color: #333;
+    font-size: 14px;
+}
+
+.media-h3 .fa.fa-edit {
+    font-size: 20px;
+    color: #218e3f;
+}
+
+.color-red {
+    color: red !important;
+}
+
+.chargeDetail {
+    margin: 20px;
+}
+
+.chargeDetail table {
+    border: 1px solid #ccc;
+}
+
+.chargeDetail table > thead > tr > th, .chargeDetail table > tbody > tr > td {
+    text-align: center;
+    height: 30px;
+}
+
+.chargeDetail table > tbody > tr > td i {
+    padding-left: 10px;
+    cursor: pointer;
+    color: #23527c;
+}
+
+.chargeDetail table > tbody > tr > td:first-child span {
+    display: block;
+    width: 230px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.chargeDetail input {
+    text-align: center;
+}
+
+.editSupplier div:nth-of-type(1) {
+    height: 303px;
+    border: 1px solid #ccc;
+    overflow-y: auto;
+}
+
+.editSupplier th, .editSupplier td {
+    height: 50px;
+    text-align: center;
+}
+
+.editSupplier tbody tr:nth-of-type(odd), .employee tbody tr:nth-of-type(odd) {
+    background-color: #eee;
+}
+
+.editSupplier tbody tr:nth-of-type(even), .employee tbody tr:nth-of-type(even) {
+    background-color: #e5e5e5;
+}
+
+.editSupplier table .btn-default {
+    background-color: #dcdddd;
+    border: none;
+    box-shadow: 0 2px 3px -1px #666;
+    padding: 6px 15px;
+}
+
+/* @ tag style
+------------------------------------------------*/
+.list-medicine .scroll_demo {
+    overflow: hidden;
+    position: absolute;
+    width: 200000em;
+    left: 7px;
+    top: 0;
+}
+
+.list-medicine .scroll_demo li {
+    float: left;
+    list-style-type: none;
+}
+
+.list-medicine .scroll_demo li span.tag {
+    font-size: 16px;
+    margin: 0 10px 0 0;
+    min-width: 91px;
+}
+
+.list-medicine .scroll_demo span.tag.tag-i {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.tag {
+    padding: 6px 4px;
+    color: #333;
+    font-weight: normal;
+    background-color: #fff;
+    border-radius: 5px;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 1px 2px 2px #eee;
+    border: 1px solid #dfdfdf;
+}
+
+.icon-val-order {
+    background: url("/assets/images/icon_01.png") center no-repeat;
+    background-size: 30px;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.icon-val-per {
+    background: url("/assets/images/icon_02.png") center no-repeat;
+    background-size: 38px;
+    padding: 15px;
+    cursor: pointer;
+}
+
+/* end
+----------------------------------------------*/

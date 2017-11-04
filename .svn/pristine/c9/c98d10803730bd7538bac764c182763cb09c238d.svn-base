@@ -1,0 +1,1014 @@
+/**
+ * Created by 凉生 on 2016/8/29 0029 - 9:53.
+ * Use IDEA 2016.2.2  汉化By: www.java.sx
+ */
+/*药品的修改和添加，都会将数据保存在medObjArr[]中*/
+var selectMedUseModType = "";
+var lastSelectXwOrFenBao = "";
+var medObjArr = [];
+var tagNum = 0;
+/**
+ * 清空medObjArr数组中药品记录
+ *
+ * */
+function delOldMed(medObj) {
+    var index = 0;
+    $(medObjArr).each(function () {
+        if ($(this)[0]["multiplexTag"] == undefined) {
+            $(this)[0]["multiplexTag"] = "";
+        }
+        var fuckOne = $(this)[0]["medicineId"] + $(this)[0]["multiplexTag"];
+        if (fuckOne == (medObj.medicineId + medObj.multiplexTag)) {
+            medObjArr.splice(index, 1);
+        }
+        index++;
+    })
+}
+/**
+ * 清空添加药品面板中的记录
+ *
+ * */
+function clearAddNewItem() {
+    $(".content1").remove();
+    //$("#divWesternItems").html("")
+    $("#divWesternItems span").each(function () {
+        $(this).remove()
+    })
+    $("#divChineseItems span").each(function () {
+        $(this).remove()
+    })
+    //遍历数组并将没有分组单位药品放在前面
+    medObjArr = compare666(medObjArr);
+    priceMap.keys().forEach(function (one) {
+        try {
+            if (one.indexOf("examLab") < 0) {
+                priceMap.remove(one);
+            }
+        } catch (e) {
+            priceMap.remove(one);
+        }
+    });
+    // priceMap.clear();
+    $("#cost").val(0);
+    $(medObjArr).each(function () {
+        if (this.medType != undefined) {
+            fn_SelectMedicine(this, this.medType, "arr");
+        } else {
+            /*这里的data是一样的含义，但是由于前面js定义的data的不规范，导致传进来的data的属性名可能不一样*/
+            fn_SelectMedicine(this, this.medicineType, "arr");
+        }
+    })
+}
+/**
+ *
+ * @param tag    span 的ID
+ * @param medicineName     药品名字
+ * @param qty              数量
+ * @param unitLabel        单位
+ * @param copies           分数
+ * @param data
+ * @param exist            是否已经存在
+ */
+function doPullMedToPaper(tag, data, exist) {
+    if (parseFloat(data.copies) > 1) {
+        var copiesTmp = (data.copies + "").split(".");
+        if (copiesTmp.length > 1) {
+            if (copiesTmp[1] == 0) {
+                data.copies = copiesTmp[0];
+            }
+        }
+    }
+    if (data.useMode == "研末") {
+        groupNameArray = pakegNameArray;
+    } else if ($.inArray(data.useMode, xwArray) >= 0) {
+        groupNameArray = acuPointsArrs;
+    } else {
+        groupNameArray = groupBackNameArray;
+    }
+    var span = '<span class="tag" id="{0}">{1}&nbsp{6}{2}{3}x{4}份&nbsp({5})'.format(tag, data.medicineName, data.qty,
+            data.unitLabel, data.copies, data.specialInstructions, data.standard) + '</span>';
+    //服用方式  如 口服  取值   data.useMode
+    if (data.useQty != "" && data.useQty != undefined && data.useQty != NaN) {
+        if (data.useQty.indexOf("每次 ") < 0) {
+            data.useQty = " 每次 " + data.useQty;
+        }
+    }
+    //如果 标准用量不适用
+    if (!data.hasUsage) {
+        data.useTimes = "";
+        data.usingTime = "";
+        data.useUnit = "";
+        data.useQty = ""
+    }
+    //是否新建服用类型Div 比如 口服 滴注 嚼服
+    if (isNeddCreateNewMedDiv(data.useMode)) {
+        var strs = createAllTypeDiv(data, tag);
+        deletMedForPaper("medicineTag_" + data.medicineId)
+        $("#medContext").append(strs)
+    } else {
+        var oldTypeName = isThisMedHaveInAnerType("medicineTag_" + data.medicineId, true, data.useMode);
+        var noode = thisTypeHaveHowMnyMed(data.useMode);
+        if (exist) {
+            var objs = $('div [ids="' + tag + '"]');
+            noode.size = $(objs.find('div')[0]).find('span').text().replace("、", "");
+            noode.chinedJqObj = objs;
+        }
+        var tmpMedDiv = createMedDiv(tag, data);
+        if (oldTypeName == data.useMode) {
+            var groupName = $(noode.chinedJqObj).parent().prev().text().replace("：", "");
+            if (!exist) {
+                if (groupName == groupNameArray[data.groupIndex]) {
+                    $(noode.chinedJqObj).after(tmpMedDiv);
+                } else {
+                    var ppTop = '<div class="beizhu">';
+                    var ppFloer = '</div>';
+                    var fenHao = "：";
+                    var pTop = '<div style="float:left; width:85%;">';
+                    if (data.groupIndex == 10 || data.groupIndex == 0) {
+                        fenHao = "";
+                        pTop = '<div style="float:left; width:100%; padding-left: 38px;">';
+                    }
+                    var groupNameDiv = '<div class="groupName" style="width:15%; float:left; font-size:16px; font-weight:bold;">' + groupNameArray[data.groupIndex] + fenHao + '</div>';
+
+                    var pFloer = "</div>";
+                    var endMendWithGroupDiv = ppTop + groupNameDiv + pTop + tmpMedDiv + pFloer + ppFloer;
+                    $(noode.chinedJqObj).parent().parent().after(endMendWithGroupDiv)
+                }
+            } else {
+                if (groupName == groupNameArray[data.groupIndex]) {
+                    $(noode.chinedJqObj).replaceWith(tmpMedDiv);
+                } else {
+                    var beizhuDiv = "";
+                    var nowTypeHaveMedSize = 0;
+                    $('strong').each(function () {
+                        if ($(this).text().replace(":", "") == data.useMode) {
+                            beizhuDiv = $(this).parent().parent();
+                            return;
+                        }
+                    });
+                    var groupName = $(noode.chinedJqObj).parent().prev().text().replace("：", "");
+                    var thisGroupNameNextBeiZhu1Div = "";
+                    $(beizhuDiv).parent().find("div[class='groupName']").each(function () {
+                        if ($(this).text().replace("：", "") == groupNameArray[data.groupIndex]) {
+                            thisGroupNameNextBeiZhu1Div = $(this).next().find("div[class='beizhu1']:last");
+                            nowTypeHaveMedSize = $(this).next().find("div[class='beizhu1']").size();
+                        }
+                    });
+                    if ($(noode.chinedJqObj).parent().find("div[class='beizhu1']").size() > 1) {
+                        $(noode.chinedJqObj).remove();
+                    } else {
+                        beizhuDiv = $(beizhuDiv).parent();
+                        $(noode.chinedJqObj).parent().parent().remove();
+                    }
+                    if (thisGroupNameNextBeiZhu1Div == "") {
+                        var ppTop = '<div class="beizhu">';
+                        var ppFloer = '</div>';
+                        var fenHao = "：";
+                        var pTop = '<div style="float:left; width:85%;">';
+                        if (data.groupIndex == 10 || data.groupIndex == 0) {
+                            fenHao = "";
+                            pTop = '<div style="float:left; width:100%; padding-left: 38px;">';
+                        }
+                        var groupNameDiv = '<div class="groupName" style="width:15%; float:left; font-size:16px; font-weight:bold;">' + groupNameArray[data.groupIndex] + fenHao + '</div>';
+                        var pFloer = "</div>";
+                        tmpMedDiv = createMedDiv(tag, data);
+                        var endMendWithGroupDiv = ppTop + groupNameDiv + pTop + tmpMedDiv + pFloer + ppFloer;
+                        if ($(beizhuDiv).find("div[class='beizhu1']").size() > 0) {
+                            $(beizhuDiv).parent().append(endMendWithGroupDiv)
+                        } else {
+                            $(beizhuDiv).append(endMendWithGroupDiv)
+                        }
+                    } else {
+                        tmpMedDiv = createMedDiv(tag, data);
+                        thisGroupNameNextBeiZhu1Div.after(tmpMedDiv)
+                    }
+                }
+            }
+        } else {
+            var nowTypeHaveMedSize = 0;
+            var beizhuDiv = "";
+            $('strong').each(function () {
+                if ($(this).text().replace(":", "") == data.useMode) {
+                    beizhuDiv = $(this).parent().parent();
+                    return;
+                }
+            });
+            var groupName = $(noode.chinedJqObj).parent().prev().text().replace("：", "");
+            var thisGroupNameNextBeiZhu1Div = "";
+            $(beizhuDiv).parent().find("div[class='groupName']").each(function () {
+                var groupNameTxt = $(this).text().replace("：", "").replace("[", "").replace("]", "").replace(data.useMode, "");
+                if (groupNameTxt == groupNameArray[data.groupIndex] || (groupNameTxt == "" && groupNameArray[data.groupIndex] == " ")) {
+                    thisGroupNameNextBeiZhu1Div = $(this).next().find("div[class='beizhu1']:last");
+                    nowTypeHaveMedSize = $(this).next().find("div[class='beizhu1']").size();
+                }
+            });
+            if (thisGroupNameNextBeiZhu1Div == "") {
+                var ppTop = '<div class="beizhu">';
+                var ppFloer = '</div>';
+                var hou_fenHao = "]";
+                var pre_fenHao = "[";
+                var pTop = '<div style="float:left; width:85%;padding-left: 38px;">';
+                var groupNameTxt = data.useMode + pre_fenHao + groupNameArray[data.groupIndex] + hou_fenHao;
+                if (groupNameArray[data.groupIndex] == " ") {
+                    groupNameTxt = "";
+                }
+                if (data.groupIndex == 10 || data.groupIndex == 0) {
+                    fenHao = "";
+                    pTop = '<div style="float:left; width:100%; padding-left: 38px;">';
+                }
+                var groupNameDiv = '<div class="groupName" style="width:27%; float:left; font-size:16px; font-weight:bold;">' + groupNameTxt + '</div>';
+                var pFloer = "</div>";
+                tmpMedDiv = createMedDiv(tag, data);
+                var endMendWithGroupDiv = ppTop + groupNameDiv + pTop + tmpMedDiv + pFloer + ppFloer;
+                if ($(beizhuDiv).nextAll().size() > 0) {
+                    if (groupNameArray[data.groupIndex] == " ") {
+                        $(beizhuDiv).siblings("span").after(endMendWithGroupDiv);
+                    } else {
+                        $(beizhuDiv).nextAll().last().after(endMendWithGroupDiv)
+                    }
+                } else {
+                    if (groupNameArray[data.groupIndex] == " ") {
+                        $(beizhuDiv).parent().find("strong").parent().after(endMendWithGroupDiv)
+                    } else {
+                        $(beizhuDiv).after(endMendWithGroupDiv)
+                    }
+                }
+            } else {
+                tmpMedDiv = createMedDiv(tag, data);
+                thisGroupNameNextBeiZhu1Div.after(tmpMedDiv)
+            }
+        }
+    }
+}
+/**
+ *  @param medName 药品名称
+ *  @return 返回老分类的名称
+ */
+function isThisMedHaveInAnerType(medId, needDelete, data) {
+    var isSave = false;
+    var ids = "";
+    var oldTypeName = "";
+    $('#medContext div [class="beizhu1"]').each(function () {
+        if ($(this).attr("ids") == medId) {
+            isSave = true;
+            oldTypeName = $(this).parent().parent().parent().find("strong").eq(0).text().replace(":", "");
+            return;
+        }
+    });
+    if (needDelete && medId != "" && (oldTypeName != data.useMode)) {
+        deletMedForPaper(medId)
+    }
+    return oldTypeName;
+}
+/**
+ * 根据ID  删除 处方笺上面的药品
+ * @param findId
+ */
+function deletMedForPaper(findId) {
+
+    $('#medContext div [class="beizhu1"]').each(function () {
+        var nowObjIds = $(this).attr("ids");
+        if (nowObjIds == findId) {
+            if ($(this).parent().parent().parent().find('div [class="beizhu1"]').size() > 1) {
+                var nowObj2 = $('div [ids="' + findId + '"]');
+                //判断 当前是第几个
+                var nowIden = nowObj2.index() + 1;
+                //判断总共有多少个药品
+                var childrenSize = nowObj2.parent().children().size();
+                if (childrenSize > nowIden) {
+                    for (var i = nowIden; i < childrenSize; i++) {
+                        //nowObj2.parent().children().eq(i).find('span').eq(0).text(i);
+                    }
+                }
+                //删除 某种服药方式类型下面的单个药品 比如 煎服下面的 巴豆
+                var medSize = $(this).parent().parent().find("div[class='beizhu1']").size();
+                if (medSize > 1) {
+                    //当分组中药瓶为1时，删除分组符号
+                    if ($(this).parent().find("div[class='beizhu1']").size() == 1) {
+                        //不分组时HTML结构完全不同
+                        if ($(this).parent().prev().prev().attr("class") == "beizhu") {
+                            $(this).parent().prev().remove();
+                            $(this).parent().remove();
+                        } else {
+                            $(this).parent().prev().prev().remove();
+                            $(this).parent().prev().remove();
+                            $(this).parent().remove();
+                        }
+                    } else {
+                        $(this).remove();
+                    }
+                } else {
+                    $(this).parent().parent().remove();
+                }
+            } else {
+                //当药品全部被删除的时候 也一起删除 服药方式类型
+                $(this).parent().parent().parent().remove();
+            }
+            return true;
+        }
+    })
+}
+
+/**
+ *
+ * @param typeName
+ * @returns {boolean}  根据传递进来点 Typename 判断  是否需要创建 TypeDiv
+ */
+function isNeddCreateNewMedDiv(typeName) {
+    if ($('.content1 strong').size() > 0) {
+        var flag = true;
+        $('.content1 strong').each(function () {
+            var typeOldName = $(this).text().replace(":", "");
+            if (typeOldName == typeName) {
+                flag = false;
+                return false;
+            }
+        })
+        return flag;
+    } else {
+        return true;
+    }
+}
+
+/**
+ *
+ * @param typeName  要查询的类别名字
+ * @returns {{size: number, chinedJqObj: null}}   当前分类有的药的数量   最后一个药的JQ对象
+ */
+function thisTypeHaveHowMnyMed(typeName) {
+    var retObj = {size: 0, chinedJqObj: null};
+    $('.content1 strong').each(function () {
+        if (typeName == $(this).text()) {
+            var thisTypeNameChined = $(this).parent().parent().find('div[class="beizhu1"]');
+            var chinedSize = parseInt($(thisTypeNameChined).size()) + 1;
+            var chinedJqObj = $(this).parent().parent().find('div[class="beizhu1"]:last');
+            retObj.size = chinedSize;
+            retObj.chinedJqObj = chinedJqObj;
+        }
+    });
+    return retObj;
+}
+
+
+/**
+ *
+ * @param typeName  要创建的 大分类 Div 类型 比如  口服  煎服 等
+ * @param num       当前药品的顺序
+ * @param medName   药品名称
+ * @param qty       数量
+ * @param danWei    单位
+ * @param size      分数
+ * @param pl        频率
+ * @param fhf       饭后服  还是饭前 data.useTimes
+ */
+function createAllTypeDiv(data, tag) {
+    var fuSize = "";
+    var fen = "份";
+    var isJZ = data.qty + data.unitLabel + '&nbsp;x&nbsp;' + data.copies + fen;
+    if (parseFloat(data.copies) <= 0 || parseFloat(data.copies) == 1) {
+        isJZ = data.qty + data.unitLabel;
+    }
+
+    if (data.useMode == "煎服") {
+        fuSize = '<strong style="cursor: pointer" title="修改中药副数">(</strong>' +
+            '<strong id="fuSize" onclick="cheangChinaQry()" style="cursor: pointer" title="修改中药副数">'
+            + $('#chineseQty').val() + '</strong>' +
+            '<strong onclick="cheangChinaQry()" style="cursor: pointer" title="修改中药副数">副)</strong>';
+        fen = "";
+        //isJZ = "";
+        isJZ = data.qty + data.unitLabel + data.useUnit;
+        if (data.useUnit == data.unitLabel) {
+            isJZ = data.qty + data.unitLabel;
+        }
+
+    }
+
+    var groupText = '';
+    var pre_fenHao = "[";
+    var hou_fenHao = "]";
+    var groupDivTop = '<div style="float:left; width:85%;">';
+    var groupNameTxt = pre_fenHao + groupNameArray[data.groupIndex] + hou_fenHao
+    if (groupNameArray[data.groupIndex] == " " || data.useMode == "煎服" || groupNameArray[data.groupIndex] == "") {
+        groupNameTxt = "";
+    }
+    if (data.groupIndex == 10 || data.groupIndex == 0) {
+        fenHao = "";
+        groupDivTop = '<div style="float:left; width:100%; padding-left: 38px;">';
+    }
+    groupText = '<div class="groupName" style="width:15%; float:left; font-size:16px; font-weight:bold;">' + groupNameTxt + '</div>';
+
+    var groupDivfloter = '</div>';
+    var sty = "";
+    var nedNbsp = "";
+    if (data.medType == "Western") {
+        //$(".beizhu1").css("float","none");
+        sty = "float:none;"
+        nedNbsp = "";
+    } else if (data.medType == undefined) {
+        //$(".beizhu1").css("float", "left");
+        sty = "float:left;"
+        nedNbsp = "";
+    } else if (data.useMode != "煎服") {
+        sty = "float:none;";
+        nedNbsp = "";
+    } else {
+        //$(".beizhu1").css("float", "left");
+        sty = "float:left;"
+        nedNbsp = "&nbsp;";
+    }
+    //特殊说明为空
+    var specialStr = null;
+    if (data.specialInstructions == null || data.specialInstructions == "") {
+        specialStr = "";
+        //data.specialInstructions = "";
+    } else {
+        specialStr = "(" + data.specialInstructions + ")";
+        //data.specialInstructions = "(" + data.specialInstructions + ")";
+    }
+    //煎服的div
+    var standardUseQty = '<div>' +
+        '<span style="margin-right: 1em;" medType="tmpNbsp">' + data.useTimes + data.useQty + data.useUnit + nedNbsp + '</span>' +
+        '<span >' + data.usingTime + '</span>' +
+        '</div>';
+    //当煎服时，不显示加入该div
+    if (data.useMode == "煎服") {
+        standardUseQty = "";
+    }
+
+    var medNameClickCall = "onclick=fn_ShowEditMedicine('" +
+        data.medicineId +
+        "','undefined','" +
+        "medicineTag_" + data.medicineId +
+        "','" +
+        data.medType +
+        "','" + data.status + "')";
+    var obj = "$('#medicineTag_" + data.medicineId + "')";
+    obj = obj.trim();
+    // var obj = "'" + data.medicineId + "'";
+    var medSpanDelCall = '<i class="fa fa-trash-o" style="font-size:16px; color: #eab065;line-height: 1.5;"' +
+        ' onclick="fn_RemoveElement(' + obj +
+        ',\'' + data.status + '\')"></i>';
+
+    var str = '<div class="content1">' +
+        '<div class="beizhu">' +
+        '<span><strong>' + data.useMode + "" + '</strong>' +
+        '' + fuSize +
+        '</span>'
+        + groupText + groupDivTop +
+        '<div class="beizhu1" style="' + sty + '"   ids="' + tag + '">' +
+        '<div class="beizhu2">' +
+        '<span>'
+        + '</span>' +
+        '</div>' +
+        '<div>' +
+        '<div class="beizhu_name">' +
+        '<span ' + medNameClickCall +
+        ' style="cursor: pointer" title="修改药品">' + data.medicineName + '</span>' +
+        '<span style="margin-left: 5px"> </span>' +
+        '<span>' + data.standard + '</span>' +
+        '<span style="margin-left: 10px">' + isJZ + '</span>' +
+        '<span style="margin-left: 10px"> </span>' +
+        '<span>' + specialStr + '</span>' +
+        medSpanDelCall
+        +
+        '</div>' +
+        standardUseQty +
+        '</div>' +
+        '</div>' + groupDivfloter +
+        '</div>'
+        + '</div>';
+
+
+    /*if (data.useQty != "") {
+     data.useQty = data.useQty.replace(" 每次 ", "");
+     }*/
+    return str;
+}
+/**
+ *
+ * @param num       当前药品的顺序
+ * @param medName   药品名称
+ * @param qty       数量
+ * @param danWei    单位
+ * @param size      分数
+ * @param pl        频率
+ * @param fhf       饭后服  还是饭前
+ */
+function createMedDiv(tagId, data) {
+    var fen = "份";
+    var isJZ = data.qty + data.unitLabel + '&nbsp;x&nbsp;' + data.copies + fen;
+    if (parseFloat(data.copies) <= 0 || parseFloat(data.copies) == 1) {
+        isJZ = data.qty + data.unitLabel;
+    }
+    if (data.useMode == "煎服") {
+        fen = "";
+        isJZ = data.qty + data.unitLabel + data.useUnit;
+        if (data.useUnit == data.unitLabel) {
+            isJZ = data.qty + data.unitLabel;
+        }
+    }
+    var sty = "";
+    var nedNbsp = "";
+    if (data.medType == "Western") {
+        sty = "float:none;";
+        nedNbsp = "";
+    } else if (data.medType == undefined) {
+        sty = "float:left;";
+
+        nedNbsp = "";
+    } else if (data.useMode != "煎服") {
+        sty = "float:none;";
+        nedNbsp = "";
+    }
+    else {
+        sty = "float:left;";
+        nedNbsp = "&nbsp;";
+    }
+    //特殊说明为空
+    var specialStr = null;
+    if (data.specialInstructions == null || data.specialInstructions == "") {
+        specialStr = "";
+        //data.specialInstructions = "";
+    } else {
+        specialStr = "(" + data.specialInstructions + ")";
+        //data.specialInstructions = "(" + data.specialInstructions + ")";
+    }
+    //煎服的div
+    var standardUseQty = '<div>' +
+        '<span style="margin-right: 1em;" medType="tmpNbsp">' + data.useTimes +
+        data.useQty + data.useUnit + nedNbsp + '</span>' +
+        '<span >' + data.usingTime + '</span>' +
+        '</div>';
+    //当煎服时，不显示加入该div
+    if (data.useMode == "煎服") {
+        standardUseQty = "";
+    }
+    var medNameClickCall = "onclick=fn_ShowEditMedicine('" +
+        data.medicineId +
+        "','undefined','" +
+        "medicineTag_" + data.medicineId +
+        "','" +
+        data.medType +
+        "','" + data.status + "')";
+    // var obj = $("#medicineTag_" + data.medicineId);
+    // var obj = "'" + data.medicineId + "'";
+    var obj = "$('#medicineTag_" + data.medicineId + "')";
+    obj = obj.trim();
+    var medSpanDelCall = '<i class="fa fa-trash-o" style="font-size:16px; color: #eab065;line-height: 1.5;"' +
+        ' onclick="fn_RemoveElement(' + obj +
+        ',\'' + data.status + '\')"></i>';
+    var str = '<div class="beizhu1" style="' + sty + '"  ids="' + tagId + '">' +
+        '<div class="beizhu2">' +
+        '<span>'
+        + '</span>' +
+        '</div>' +
+        '<div>' +
+        '<div class="beizhu_name">' +
+        '<span ' + medNameClickCall +
+        '  style="cursor: pointer" title="修改药品">' + data.medicineName + '</span>' +
+        '<span style="margin-left: 5px"></span>' +
+        '<span>' + data.standard + '</span>' +
+        '<span style="margin-left: 10px">' + isJZ + '</span>' +
+        '<span style="margin-left: 10px"></span>' +
+        '<span>' + specialStr + '</span>' +
+        medSpanDelCall
+        +
+        '</div>' +
+        standardUseQty +
+        '</div>';
+    return str;
+}
+
+/**
+ *  排序
+ * @param 药品数组对象
+ * @returns {已排序 药品数组对象Array}
+ */
+function compare2(obj) {
+    var tempObj = [];
+
+    for (var i = 0; i < obj.length && obj.length > 1;) {
+        if (obj[i].groupIndex == 10) {
+            for (var k = i + 1; k < obj.length; k++) {
+                if (obj[k].groupIndex != 10 || obj[i].tagNum > obj[k].tagNum) {
+                    continue;
+                } else {
+                    var temp = obj[i];
+                    obj[i] = obj[k];
+                    obj[k] = temp;
+                }
+            }
+            tempObj.push(obj[i]);
+            obj.splice(i, 1);
+            if (obj.length == 1) {
+                tempObj.push(obj[i]);
+                obj.splice(i, 1);
+            }
+        } else {
+            i++;
+        }
+    }
+    for (var i = 0; i < obj.length; i++) {
+        for (var j = i + 1; j < obj.length; j++) {
+            if (obj[i].groupIndex < obj[j].groupIndex) {
+                continue;
+            } else if (obj[i].groupIndex == obj[j].groupIndex) {
+                if (obj[i].tagNum > obj[j].tagNum) {
+                    continue;
+                } else {
+                    var temp = obj[i];
+                    obj[i] = obj[j];
+                    obj[j] = temp;
+                }
+            }
+            else {
+                var temp = obj[i];
+                obj[i] = obj[j];
+                obj[j] = temp;
+            }
+        }
+        tempObj.push(obj[i]);
+    }
+    return tempObj;
+}
+
+var tmpUserModObj = {};
+function compare666() {
+    tmpUserModObj = {};
+    medObjArr.forEach(function (i) {
+
+        var tmpGroupArr = {};
+        if (i != undefined) {
+            var userMode = i.useMode;
+            //如果该 使用方式 不存在 对象中
+            if (tmpUserModObj[userMode] == undefined) {
+                var medArr = [];
+                medArr.push(i);
+                var groupIndex = i.groupIndex;
+                if (groupIndex == 10) {
+                    groupIndex = 0;
+                }
+                tmpGroupArr[groupIndex] = medArr;
+                tmpUserModObj[userMode] = tmpGroupArr;
+            } else {
+                var tmpIndexArr = [];
+                for (groupIndexObj in tmpUserModObj[i.useMode]) {
+                    tmpIndexArr.push(groupIndexObj + "")
+                }
+                var groupIndex = i.groupIndex;
+                if (groupIndex == 10) {
+                    groupIndex = 0;
+                }
+                if ($.inArray(groupIndex, tmpIndexArr) != -1 || (tmpIndexArr.length && groupIndex == tmpIndexArr[0])) {
+                    tmpUserModObj[i.useMode][groupIndex].push(i);
+                } else {
+                    var tmpNewIndexMedinfoArr = [];
+                    tmpNewIndexMedinfoArr.push(i);
+                    if (tmpUserModObj[i.useMode][groupIndex] == undefined) {
+                        tmpUserModObj[i.useMode][groupIndex] = tmpNewIndexMedinfoArr;
+                    } else {
+                        tmpUserModObj[i.useMode][groupIndex].push(i);
+                    }
+                }
+            }
+        }
+    })
+    var medObjTmpArr = [];
+    for (useModeKey in tmpUserModObj) {
+        var gropuIndexObj = tmpUserModObj[useModeKey];
+        for (groupIndexKey in gropuIndexObj) {
+            var medInfoArr = gropuIndexObj[groupIndexKey];
+            for (index in medInfoArr) {
+                medObjTmpArr.push(medInfoArr[index]);
+            }
+        }
+    }
+    return medObjTmpArr;
+}
+
+
+function cheangChinaQry() {
+
+    var indexHunder = layer.prompt({title: '修改煎服副数', maxlength: 200, value: $("#chineseQty").val(), offset: "70px"},
+        function (value, index, elem) {
+            var fuSize = parseInt(value.substring(0, 3));
+            $("#chineseQty").val(fuSize);
+            $('#fuSize').text(fuSize);
+            clearAddNewItem();
+            layer.close(indexHunder);
+        })
+}
+/**
+ *  增加检验或者检查到纸上
+ * @param obj
+ */
+function addExamOrLab(obj) {
+    var classDiv = $("#inspect");
+    if (obj.oldId != undefined && obj.oldId != "") {
+        var old = $(classDiv).find("div[ids='" + obj.oldId + "']");
+        priceMap.remove("examLab_" + obj.oldId);
+        $(old).remove();
+    }
+    var old = $(classDiv).find("div[ids='" + obj.id + "']");
+    $(old).remove();
+
+    var prices = 0;
+    priceMap.remove("examLab_" + obj.id);
+    priceMap.put("examLab_" + obj.id, obj);
+
+    $.each(priceMap.values(), function (index, val) {
+        prices = parseFloat(prices) + parseFloat(val.price);
+    });
+    $("#cost").val(prices.toFixed(2));
+
+    Utlis_Create_All_Paper_Ele(classDiv, obj);
+
+}
+
+//增加中医疗priceMap中
+function addTherapyToMap(obj) {
+    priceMap.remove("therapy_" + obj.id);
+    priceMap.put("therapy_" + obj.id, obj);
+}
+
+
+/**
+ * 删除就诊单上面的检查或检验
+ * @param obj
+ */
+function removeExamOrLab(obj) {
+
+
+    var thisClassDiv = $(obj).parent().parent();
+    $("#cost").val(parseFloat($("#cost").val()) -
+        parseFloat(priceMap.get("examLab_" + $(thisClassDiv).attr("ids")).price));
+
+    priceMap.remove("examLab_" + obj.id);
+    priceMap.remove("examLab_" + $(thisClassDiv).attr("ids"));
+    if ($(thisClassDiv).parent().find("div").length == 1) {
+        $(thisClassDiv).parent().remove();
+    } else {
+        $(thisClassDiv).remove();
+    }
+
+}
+
+/**
+ * 修改检查/检验项目
+ * @param id
+ */
+function editExamOrLab(id, tmpId) {
+    if (tmpId) {
+        Alert.warning("拍摄的检查/检验图片不能进行修改!")
+        return;
+    }
+    var div = $("div[ids='{0}']".format(id));
+    var price = $($("div[ids='" + id + "']").find("input[name='examOrLabPrice']")).val();
+    var info = $($("div[ids='" + id + "']").find("input[name='examOrLabInfo']")).val();
+    if (price == undefined || info == undefined) {
+        price = 0;
+        info = "无";
+    }
+    layer.open({
+        type: 2,
+        title: '编辑项目',
+        area: ['460px', '360px'],
+        scrollbar: false,
+        content: '/fragment/editPhyItems?id={0}&type=edit&price={1}&info={2}'.format(id, price, info),
+    });
+}
+
+function Utlis_Create_All_Paper_Ele(classDiv, obj) {
+    //判断是否已经存在对应要增加的类型
+    //判断是否已经存在大类  最外面的div和H4标签
+    if ($(classDiv).find("div[type='" + obj.adviceType + "']").length > 0) {
+        //如果已经存在
+        $($(classDiv).find("div[type='" + obj.adviceType + "']")).append(
+            Utils_Create_Exam_Lab_One_Div(obj)
+        );
+
+    } else {
+        //如果不存在 创建项目类型的Div和H4
+        var classDivH4 = Utlis_Create_Div_And_H4(obj);
+        var oneClassSub = Utils_Create_Exam_Lab_One_Div(obj);
+        $(classDivH4).append($(oneClassSub));
+        $(classDiv).append($(classDivH4));
+    }
+
+    $("#inspectLi").trigger("click");
+}
+
+/**
+ * 创建项目类型的Div和H4
+ * @param obj
+ * @returns {*|jQuery}
+ * @constructor
+ */
+function Utlis_Create_Div_And_H4(obj) {
+    var div = Utlis_CreateEle("div");
+    $(div).attr("class", "phy-box inspect").attr("type", obj.adviceType);
+    var h4 = Utlis_CreateEle("h4");
+    if (obj.adviceType == "JianCha") {
+        $(h4).text("检查项目")
+    } else {
+        $(h4).text("检验项目")
+    }
+    return $(div).append($(h4));
+}
+/**
+ * 创建一个项目
+ * @param obj
+ * @returns {*|jQuery|HTMLElement}
+ * @constructor
+ */
+function Utils_Create_Exam_Lab_One_Div(obj) {
+    var All_Class_Type = "";
+    if (obj.adviceType == "JianCha") {
+        All_Class_Type = "检查";
+    } else {
+        All_Class_Type = "检验";
+    }
+
+    //一个项目的最外层div
+    var div = Utlis_CreateEle("div");
+    $(div).attr("ids", obj.id);
+    div = Utlis_Create_Hidden_Input(obj, $(div));
+
+    //第一个P
+    var pClassName = Utlis_CreateEle("p");
+    var spanClassName = Utlis_CreateEle("span");
+    $(spanClassName).text(All_Class_Type + "项目:");
+    var strong = Utlis_CreateEle("strong");
+    $(strong).attr("onclick", "editExamOrLab('" + obj.id + "','" + obj.tmpId + "')");
+    //examOrLabName 为第一菜单内容  如 检验:临检类  检查:DR
+    $(strong).text(obj.examOrLabName);
+    var i = Utlis_CreateEle("i");
+    $(i).attr("class", "fa fa-trash-o").attr("onclick", "removeExamOrLab(this)");
+    $(pClassName).append($(spanClassName));
+    $(pClassName).append($(strong));
+    $(pClassName).append($(i));
+    $(div).append($(pClassName));
+
+    //第二个P
+    var pClassName2 = Utlis_CreateEle("p");
+    var spanClassName2 = Utlis_CreateEle("span");
+    $(spanClassName2).text(All_Class_Type + "类别:" + obj.adviceName);
+    $(pClassName2).append($(spanClassName2));
+    $(div).append($(pClassName2));
+
+    //第三个P
+    var pClassName3 = Utlis_CreateEle("p");
+    var spanClassName3 = Utlis_CreateEle("span");
+    $(spanClassName3).text("特殊说明:" + obj.info);
+    $(pClassName3).append($(spanClassName3));
+    $(div).append($(pClassName3));
+    return $(div);
+}
+
+/**
+ * 根据参数创建地址的html对象
+ * @param eleName
+ * @returns {Element}
+ * @constructor
+ */
+function Utlis_CreateEle(eleName) {
+    return document.createElement(eleName);
+}
+
+/**
+ * 根据Div和Obj创建隐藏的Input
+ * @param obj
+ * @param div
+ * @returns {*|jQuery}
+ * @constructor
+ */
+function Utlis_Create_Hidden_Input(obj, div) {
+    var displaySpan = Utlis_CreateEle("span");
+    var hiddInput_id = Utlis_CreateEle("input");
+    $(hiddInput_id).attr("type", "hidden");
+    $(hiddInput_id).attr("name", "examOrLabIds");
+    $(hiddInput_id).val(obj.id);
+    var hiddInput_price = Utlis_CreateEle("input");
+    $(hiddInput_price).attr("type", "hidden");
+    $(hiddInput_price).attr("name", "examOrLabPrice");
+    $(hiddInput_price).val(obj.price);
+    var hiddInput_info = Utlis_CreateEle("input");
+    $(hiddInput_info).attr("type", "hidden");
+    $(hiddInput_info).attr("name", "examOrLabInfo");
+    $(hiddInput_info).val(obj.info);
+
+    var hiddInput_type = Utlis_CreateEle("input");
+    $(hiddInput_type).attr("type", "hidden");
+    $(hiddInput_type).attr("name", "examOrLabtypeType");
+    $(hiddInput_type).val(obj.adviceType);
+
+    var hiddInput_adviceName = Utlis_CreateEle("input");
+    $(hiddInput_adviceName).attr("type", "hidden");
+    $(hiddInput_adviceName).attr("name", "adviceName");
+    $(hiddInput_adviceName).val(obj.adviceName);
+
+    var hiddInput_examOrLabName = Utlis_CreateEle("input");
+    $(hiddInput_examOrLabName).attr("type", "hidden");
+    $(hiddInput_examOrLabName).attr("name", "examOrLabName");
+    $(hiddInput_examOrLabName).val(obj.examOrLabName);
+
+    var hiddInput_TmpId = Utlis_CreateEle("input");
+    $(hiddInput_TmpId).attr("type", "hidden");
+    $(hiddInput_TmpId).attr("name", "tmpId");
+    if (obj.tmpId == "" || obj.tmpId == "0")
+        obj.tmpId = "";
+    $(hiddInput_TmpId).val(obj.tmpId);
+
+    return $(div).append(
+        $(displaySpan).append(
+            $(hiddInput_id)).append(
+            $(hiddInput_price)).append(
+            $(hiddInput_info)).append(
+            $(hiddInput_type)).append(
+            $(hiddInput_adviceName)).append(
+            $(hiddInput_examOrLabName)).append(
+            $(hiddInput_TmpId))
+    );
+}
+
+
+//  以下为  附加费用 js
+
+/**
+ *  将 选择的 数据 组合成html代码 显示到 处方签上
+ * @param obj
+ */
+function addPresOrDiv2(obj) {
+    var classdiv = $("#charges");
+
+    Util_Create_All_Ele(classdiv, obj);
+    $("#fujiaId").trigger("click");
+}
+
+/**
+ * //创建 html 对象
+ * @param classdiv 附加费用在 处方签上面的最大的div对象
+ * @param obj       即将添加的 附件费用的  信息 如 id name price
+ * @constructor
+ */
+function Util_Create_All_Ele(classdiv, obj) {
+    //判断是否已经存在对应要增加的类型
+    //判断是否已经存在大类  最外面的div和H4标签
+    var prices = 0;
+    priceMap.remove("examLab_fujia_" + obj.id);
+    priceMap.put("examLab_fujia_" + obj.id, obj);
+
+    $.each(priceMap.values(), function (index, val) {
+        prices = parseFloat(prices) + parseFloat(val.price);
+    });
+    $("#cost").val(prices.toFixed(2));
+    if ($(classdiv).find("div[type='fujia']").length > 0) {
+        $($(classdiv).find("div[type='fujia']")).append(Utils_Create_Exam_Cost_One_Div(obj));
+    } else {
+        var classDivH4 = Utlis_Create_Div_And_H4_Cost2(obj);
+        var oneClassSub = Utils_Create_Exam_Cost_One_Div(obj);
+        $(classDivH4).append($(oneClassSub));
+        $(classdiv).append($(classDivH4));
+    }
+
+}
+
+function Utils_Create_Exam_Cost_One_Div(obj) {
+    var div2 = Utlis_CreateEle("div");
+    $(div2).attr("ids", obj.id);
+    var Strong = Utlis_CreateEle("Strong");
+    $(Strong).attr("onclick", "editFujiaItems(" + obj.id + ")").text(obj.name);
+    var inputName = Utlis_CreateEle("input");
+    $(inputName).attr("name", "fuJiaNames").attr("type", "hidden").attr("value", obj.name);
+    var span = Utlis_CreateEle("span");
+    $(span).text(obj.price);
+    var inputPrice = Utlis_CreateEle("input");
+    $(inputPrice).attr("name", "fuJiaPrices").attr("type", "hidden").attr("value", obj.price);
+
+    var inputId = Utlis_CreateEle("input");
+    $(inputId).attr("name", "fuJiaIds").attr("type", "hidden").attr("value", obj.id);
+
+    var i = Utlis_CreateEle("i");
+    $(i).attr("class", "fa fa-trash-o").attr("onclick", "fn_delContent(this)");
+
+    $(Strong).append($(inputName));
+    $(div2).append($(Strong));
+    $(span).append($(inputPrice));
+    $(span).append($(inputId));
+    $(div2).append($(span));
+    $(div2).append($(i));
+
+    return $(div2);
+}
+
+function Utlis_Create_Div_And_H4_Cost2(obj) {
+    var div1 = Utlis_CreateEle("div");
+    $(div1).attr("class", "phy-box charges").attr("type", "fujia");
+    var h4 = Utlis_CreateEle("h4");
+    $(h4).text("附加项目费用");
+    return $(div1).append($(h4));
+
+}
+
+// 附加费用 end
+

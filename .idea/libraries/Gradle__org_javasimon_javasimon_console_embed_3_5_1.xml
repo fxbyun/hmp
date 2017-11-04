@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.javasimon:javasimon-console-embed:3.5.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.javasimon/javasimon-console-embed/3.5.1/4da293a2fc207101c9524e08465a97c5bc59ac40/javasimon-console-embed-3.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.javasimon/javasimon-console-embed/3.5.1/b6263c912d39a4fd96a5744be24146f83d5fd5ac/javasimon-console-embed-3.5.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

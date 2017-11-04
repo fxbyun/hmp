@@ -1,0 +1,155 @@
+package com.qiaobei.hmp.modules.service.impl;
+
+import com.google.common.collect.Lists;
+import com.qiaobei.hmp.modules.entity.IaiLossDetail;
+import com.qiaobei.hmp.modules.entity.MedicineContainer;
+import com.qiaobei.hmp.modules.entity.RetailMedicine;
+import com.qiaobei.hmp.modules.entity.StatusEntity;
+import com.qiaobei.hmp.modules.service.IaiLossDetailService;
+import com.qiaobei.hmp.modules.service.MedicineContainerService;
+import com.qiaobei.hmp.modules.support.EntityTmpCloumsVal;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ *
+ */
+@Service("medicineContainerService")
+@Transactional
+public class MedicineContainerServiceImpl implements MedicineContainerService {
+
+
+    @Resource
+    private IaiLossDetailService iaiLossDetailService;
+
+
+    @Override
+    public IaiLossDetail convert_retail_medicine(MedicineContainer container, Double totalNum, Date validityDate) {
+        IaiLossDetail iaiLossDetail = new IaiLossDetail();
+        iaiLossDetail.setMedicine(container.getMedicinePrivate());
+        iaiLossDetail.setCreateDate(new Date());
+        iaiLossDetail.setLossType(IaiLossDetail.IaiLossType.NORMAL);
+        iaiLossDetail.setBayingPrice(container.getPrice());
+        iaiLossDetail.setCompanyId(container.getMedicinePrivate().getDefaultCompany().getId());
+        iaiLossDetail.setStandard(container.getStandard());
+        iaiLossDetail.setTotalNumber(totalNum);
+        iaiLossDetail.setValidityDate(validityDate);
+        iaiLossDetail.setStatus(StatusEntity.Status.Normal);
+        if (container.getStatus() == MedicineContainer.Status.RETAIL) {
+            iaiLossDetail.setLossType(IaiLossDetail.IaiLossType.RETAIL);
+        }
+        return iaiLossDetail;
+    }
+
+    @Override
+    public MedicineContainer convert(RetailMedicine retailMedicine) {
+        MedicineContainer container = new MedicineContainer();
+
+        container.setMedicinePrivate(retailMedicine.getMedicinePrivate());
+        container.setHaveManager(retailMedicine.getMedicinePrivate().getHaveManager());
+        container.setPrice(retailMedicine.getRetailPrice());
+        container.setQty(retailMedicine.getQty());
+        //默认设置为1
+        container.setRate(Optional.ofNullable(retailMedicine.getRate()).orElse(1D));
+        container.setUnit(retailMedicine.getUnit());
+        container.setStandard(retailMedicine.getStandard());
+        container.setType(retailMedicine.getMedicinePrivate().getType());
+        container.setCopies(retailMedicine.getCopies());
+        container.setStatus(MedicineContainer.Status.RETAIL);
+        return container;
+    }
+
+    public List<MedicineContainer> convertList(List<RetailMedicine> retMedList) {
+        List<MedicineContainer> medConList = Lists.newArrayList();
+        retMedList.forEach(retailMedicine ->
+                medConList.add(convert(retailMedicine))
+        );
+        return medConList;
+    }
+
+    public void insertLossDetail(List<MedicineContainer> medConList) {
+
+        List<IaiLossDetail> iaiLossDetailListEnd = Lists.newArrayList();
+
+        medConList.forEach(container -> {
+            List<EntityTmpCloumsVal> entityTmpCloumsValList =
+                    iaiLossDetailService.getIaiLossDetilStockByMedPaivate(container.getMedicinePrivate());
+
+            if (entityTmpCloumsValList.size() > 0) {
+                //当前药品使用的 数量总数   数量/单位 X 份数=使用总量
+                Double totleUse = container.getQty() * container.getCopies();
+                //统计当前库存该药品总计数量    总数*换算单位=库存总量
+
+                Double totleHave = entityTmpCloumsValList.stream().mapToDouble(
+                        entityTmpCloumsVal -> entityTmpCloumsVal.getTotlenSize()).sum() * container.getRate();
+
+                //如果 使用总量小于或等于当前库存总量  说明 为正库存
+                if (totleUse <= totleHave) {
+                    boolean haveFull = false;
+                    for (EntityTmpCloumsVal entityTmpCloumsVal : entityTmpCloumsValList) {
+                        haveFull = true;
+                        //如果
+                        if (entityTmpCloumsVal.getTotlenSize() * container.getRate() > totleUse && totleUse != 0D) {
+                            iaiLossDetailListEnd.add(
+                                    convert_retail_medicine(container,
+                                            totleUse,
+                                            entityTmpCloumsVal.getValidityDate()
+                                    )
+                            );
+                            totleUse = 0D;
+                        } else if (entityTmpCloumsVal.getTotlenSize() > 0 && totleUse != 0D) {
+                            iaiLossDetailListEnd.add(
+                                    convert_retail_medicine(container,
+                                            entityTmpCloumsVal.getTotlenSize() * container.getRate()
+                                            , entityTmpCloumsVal.getValidityDate()
+                                    )
+                            );
+                            totleUse = totleUse - entityTmpCloumsVal.getTotlenSize() * container.getRate();
+                        }
+                    }
+                } else {
+                    //如果 库存总数小于0 说明 所有药品已经 没有了 直接采用 最后一个有效期 进行负库存操作
+                    if (totleHave <= 0 && totleUse != 0D) {
+                        EntityTmpCloumsVal entityTmpCloumsVal = entityTmpCloumsValList.get(entityTmpCloumsValList.size() - 1);
+                        iaiLossDetailListEnd.add(
+                                convert_retail_medicine(container,
+                                        totleUse, entityTmpCloumsVal.getValidityDate()
+                                )
+                        );
+                        totleUse = 0D;
+                    } else if (totleUse != 0D) {
+                        //循环 取出每个 有效期可能还剩余的 药品数量 减去
+                        for (int i = 0; i < entityTmpCloumsValList.size(); i++) {
+                            EntityTmpCloumsVal entityTmpCloumsVal = entityTmpCloumsValList.get(i);
+                            if (entityTmpCloumsVal.getTotlenSize() > 0) {
+                                iaiLossDetailListEnd.add(
+                                        convert_retail_medicine(container,
+                                                entityTmpCloumsVal.getTotlenSize() * container.getRate()
+                                                , entityTmpCloumsVal.getValidityDate())
+                                );
+                                totleUse = totleUse - entityTmpCloumsVal.getTotlenSize() * container.getRate();
+                            }
+                        }
+                        //循环完毕  但是  库存还是不够用 所以直接把 最近的到期时间 负库存记录
+                        EntityTmpCloumsVal entityTmpCloumsVal = entityTmpCloumsValList.get(entityTmpCloumsValList.size() - 1);
+                        iaiLossDetailListEnd.add(
+                                convert_retail_medicine(container,
+                                        totleUse,
+                                        entityTmpCloumsVal.getValidityDate()
+                                )
+                        );
+                        totleUse = 0D;
+                    }
+                }
+            }
+        });
+        iaiLossDetailService.saveList(iaiLossDetailListEnd);
+    }
+
+
+}

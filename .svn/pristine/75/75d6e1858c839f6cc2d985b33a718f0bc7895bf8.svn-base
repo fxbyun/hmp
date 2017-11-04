@@ -1,0 +1,469 @@
+package com.qiaobei.hmp.web;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.qiaobei.hmp.modules.entity.*;
+import com.qiaobei.hmp.modules.support.DateUtils;
+import com.qiaobei.hmp.service.AdvertService;
+import com.qiaobei.hmp.service.AppointRewardService;
+import com.qiaobei.hmp.service.DoctorService;
+import com.qiaobei.hmp.service.EmrService;
+import com.qiaobei.hmp.support.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springside.modules.utils.Collections3;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**
+ * Created by IntelliJ IDEA 2016.4
+ * 汉化By http://www.java.sx  (凉生  &&  Sky——Pang)
+ * User 凉生
+ * Date 11/4/15
+ * Time 14:45
+ */
+@Controller
+public class PublicController extends ConstantsController {
+    private static Logger logger = LoggerFactory.getLogger(PublicController.class);
+    @Resource
+    private AppointRewardService appointRewardService;
+    @Resource
+    private EmrService emrService;
+    @Resource
+    private AdvertService advertService;
+    @Resource
+    private DoctorService doctorService;
+
+    @ModelAttribute("genderMap")
+    private EnumMap<Gender, String> genderMap(HttpServletRequest request) {
+        return GENDER_MAP;
+    }
+
+    @ModelAttribute("vitalSignLabels")
+    private EnumMap<VitalSign.Type, String> vitalSignLabelMap(HttpServletRequest request) {
+        return VITAL_SIGN_LABELS;
+    }
+
+    @ModelAttribute("vitalSignUnits")
+    private EnumMap<VitalSign.Type, String> vitalSignUnitMap(HttpServletRequest request) {
+        return VITAL_SIGN_UNITS;
+    }
+
+    @ModelAttribute("medicineTypes")
+    private EnumMap<Medicine.Type, String> medicineTypes(HttpServletRequest request) {
+        return MEDICINE_TYPES;
+    }
+
+    @ModelAttribute("medicineUnits")
+    private EnumMap<Medicine.Unit, String> medicineUnits(HttpServletRequest request) {
+        return MEDICINE_UNITS;
+    }
+
+    @ModelAttribute("groupArrys")
+    private Map<String, String> groupArrys(HttpServletRequest request) {
+        return GROUP_ARRYS;
+    }
+
+    @ModelAttribute("xwArrys")
+    private List<String> xwArrys(HttpServletRequest request) {
+        return XW_ARRYS;
+    }
+
+    //热敏打印
+    @RequestMapping(value = "/pub/printRp/{id}", method = RequestMethod.GET)
+    public String printRp(@PathVariable Long id, Model model, @RequestParam(value = "type", required = false,
+            defaultValue = "ALL")
+            String printType) {
+
+        Emr emr = emrService.getEmr(id);
+        Doctor doctor = emr.getDoctor();
+        if (doctor.getNeedAlonePrinTypeStrings() == null || "".equals(doctor.getNeedAlonePrinTypeStrings()))
+            doctor.setNeedAlonePrinTypeStrings("233333");
+
+        int printMedSize = 0;
+        for (EmrMedicine emrMedicine : emr.getEmrMedicineList()) {
+            if (doctor.getNeedAlonePrinTypeStrings().contains(emrMedicine.getUseMode())) {
+                printMedSize += 1;
+            }
+        }
+        if (printMedSize == emr.getEmrMedicineList().size()) {
+            printType = "alone";
+        }
+
+        model.addAttribute("printType", printType);
+        model.addAttribute("emr", emr);
+        model.addAttribute("doctor", doctor);
+        return "print/printRp"; // 此处为80MM热敏打印页面
+    }
+
+    //A5打印
+    @RequestMapping(value = "/pub/printRpA5/{id}", method = RequestMethod.GET)
+    public String printRpA5(@PathVariable Long id, Model model,
+                            @RequestParam(value = "type", required = false, defaultValue = "ALL") String printType,
+                            @RequestParam(value = "printModel", required = false, defaultValue = "快速打印") String
+                                    printModel) {
+        Emr emr = emrService.getEmr(id);
+        Doctor doctor = emr.getDoctor();
+        if (doctor.getNeedAlonePrinTypeStrings() == null || "".equals(doctor.getNeedAlonePrinTypeStrings())) {
+            doctor.setNeedAlonePrinTypeStrings("233333");
+        }
+        model.addAttribute("emr", emr);
+        model.addAttribute("doctor", doctor);
+        model.addAttribute("printType", printType);
+        model.addAttribute("printModel", printModel);
+        if ("快速打印".equals(printModel)) {
+            return "print/printRpA5";// 此处为A5纸打印页面
+        }
+        return "print/printRpPreviewA5";// 此处为A5纸打印页面
+
+    }
+
+    //A5处方-分页打印
+    @RequestMapping(value = "/pub/printnew/{id}", method = RequestMethod.GET)
+    public String printRpNewA5(@PathVariable Long id, Model model,
+                               @RequestParam(value = "type", required = false, defaultValue = "ALL") String printType,
+                               @RequestParam(value = "printModel", required = false, defaultValue = "快速打印") String
+                                       printModel) {
+        Emr emr = emrService.getEmr(id);
+        Doctor doctor = emr.getDoctor();
+        if (doctor.getNeedAlonePrinTypeStrings() == null || "".equals(doctor.getNeedAlonePrinTypeStrings())) {
+            doctor.setNeedAlonePrinTypeStrings("233333");
+        }
+        model.addAttribute("emr", emr);
+        model.addAttribute("doctor", doctor);
+        model.addAttribute("printType", printType);
+        model.addAttribute("printModel", printModel);
+        return "print/printNewRpA5";// 此处为A5纸打印页面
+    }
+
+    //打印就诊单
+    @RequestMapping(value = "/pub/printDiagnosis/{id}", method = RequestMethod.GET)
+    public String printDiagnosis(@PathVariable Long id, Model model) {
+        Emr emr = emrService.getEmr(id);
+        model.addAttribute("emr", emr);
+        List<Advert> adlist = advertService.getAdvertByPositionAndStatus(Advert.Position.Print, StatusEntity.Status
+                .Normal);
+        if (!Collections3.isEmpty(adlist)) {
+            model.addAttribute("ad", adlist.get(0));
+        }
+        return "print/printDiagnosis";
+    }
+
+    //打印A5就诊单(快速、预览)
+    @RequestMapping(value = "/pub/printDiagnosisA5/{id}", method = RequestMethod.GET)
+    public String printDiagnosisA5(@PathVariable Long id, Model model) {
+        Emr emr1 = emrService.getEmr(id);
+        model.addAttribute("emr", emr1);
+        List<Advert> adlist1 = advertService.getAdvertByPositionAndStatus(Advert.Position.Print, StatusEntity.Status
+                .Normal);
+        //23
+        if (!Collections3.isEmpty(adlist1)) {
+            model.addAttribute("ad", adlist1.get(0));
+        }
+        return "print/printRpDiagnosisA5";
+    }
+
+    //下载LODOP组件
+    @RequestMapping(value = "/pub/showLodopDownPage")
+    public String showLodopDownPage(Model model, @RequestParam("url") String url) {
+
+        model.addAttribute("url", url);
+        return "/print/downLodop";
+    }
+
+
+    //Ajax 查询是否需要独立打印
+    @RequestMapping(value = "/pub/isNeedAlonePrint", method = RequestMethod.POST)
+    @ResponseBody
+    public Result isNeedAlonePrint(@RequestParam("emrId") Long emrId) {
+        Emr emr = emrService.getEmr(emrId);
+        Doctor doctor = emr.getDoctor();
+        String age = emr.getPatient().getAge();
+        System.out.println("--------" + age);
+        int alenoSize = 0;
+        int notAlenSize = 0;
+        if (doctor.getNeedAlonePrinTypeStrings() != null) {
+            for (EmrMedicine emrMedicine : emr.getEmrMedicineList()) {
+                //如果药品的用药方式 和医生的独立打印相同
+                if (doctor.getNeedAlonePrinTypeStrings().contains(emrMedicine.getUseMode())) {
+                    alenoSize++;
+                } else {
+                    notAlenSize++;
+                }
+            }
+        }
+
+        if (alenoSize != 0) {
+
+            if (notAlenSize != 0) {
+                return Result.ok();
+            }
+
+            return Result.fail();
+        } else {
+            return Result.fail();
+        }
+    }
+
+
+    // TODO 项目检查申请表 2016-11-12 11:57:28
+    @RequestMapping(value = "/pub/printItemsTable")
+    public String printItemsTable(
+            @RequestParam("emrId") Long emrId,
+            Model model
+    ) {
+        Emr emr = emrService.getEmr(emrId);
+        SimplePropertyPreFilter filer = new SimplePropertyPreFilter(
+                EmrJClassAdviceDict.class,
+                "id", "type", "info", "resultInfo", "examLabName", "adviceName",
+                "price", "createOn", "status", "updateOn", "tmpFileNameId");
+
+        //分组格局emrAdviceDicts
+        Map<String, List<EmrJClassAdviceDict>> mapAdvice = emr.getEmrJClassAdviceDicts()
+                .stream()
+                .collect(Collectors.groupingBy(EmrJClassAdviceDict::getExamLabName));
+
+
+        String mapAdviceJson = JSONObject.toJSONString(mapAdvice, filer);
+        String JClassAdviceJson = JSONObject.toJSONString(emr.getEmrJClassAdviceDicts(), filer);
+
+        model.addAttribute("JClassAdviceJson", JClassAdviceJson);
+        model.addAttribute("mapAdviceJson", mapAdviceJson);
+        //System.out.println("数据查看:"+JClassAdviceJson);
+        System.out.println("数据查看:" + mapAdviceJson);
+        model.addAttribute("JClassAdviceJson", JClassAdviceJson);
+        model.addAttribute("emr", emr);
+        model.addAttribute("dateNow", new Date());
+
+        return "/print/printItemsTable";
+    }
+
+    // TODO 附加费用缴纳单 2016-11-12 12:34:31
+    @RequestMapping(value = "/pub/printChargesTable")
+    public String printChargesTable(@RequestParam("emrId") Long emrId,
+                                    Model model) {
+        List<EmrExtCost> emrExtCostList = emrService.getEmr(emrId).getEmrExtCostList();
+        if (emrExtCostList.size() < 5) {
+            int tmpSize = emrExtCostList.size();
+            for (int i = 0; i < 5 - tmpSize; i++) {
+                EmrExtCost emrExtCost = new EmrExtCost();
+                emrExtCost.setClassName("");
+                emrExtCostList.add(
+                        emrExtCost
+                );
+            }
+        }
+        model.addAttribute("emr", emrService.getEmr(emrId));
+        model.addAttribute("emrExtCostList", emrExtCostList);
+        model.addAttribute("dateNow", new Date());
+
+        return "/print/printChargesTable";
+    }
+
+    // TODO 中医理疗申请单 2016-11-12 12:40:07
+    @RequestMapping(value = "/pub/printPhyTable")
+    public String printPhyTable(Model model, @RequestParam(value = "emrId") Long emrId) {
+
+        Emr emr = emrService.getEmr(emrId);
+        List<EmrMedicine> emrMedicineList = emr.getEmrMedicineList();
+        List<EmrMedicine> therapyList = Lists.newArrayList();
+        emrMedicineList.forEach(ed -> {
+            if (ed.getMedicineType() == Medicine.Type.ChineseTherapy) {
+                therapyList.add(ed);
+            }
+        });
+
+        if (therapyList.size() < 4) {
+            int tmpSize = therapyList.size();
+            for (int i = 0; i < 4 - tmpSize; i++) {
+                EmrMedicine emrMedicine = new EmrMedicine();
+                emrMedicine.setMedicineName("");
+                therapyList.add(emrMedicine);
+            }
+        }
+
+        model.addAttribute("emr", emr);
+        model.addAttribute("therapyList", therapyList);
+        model.addAttribute("genderMap", GENDER_MAP);
+        model.addAttribute("therapyUnit", THERAPY_UNITS);
+        model.addAttribute("patient", emr.getPatient());
+        return "/print/printPhyTable";
+    }
+
+    // TODO 打印经营统计表 2016-11-30 14:32:04
+    @RequestMapping(value = "/pub/printFinacialTables")
+    public String printFinacialTables(
+            @RequestParam("doctorId") Long doctorId,
+            Model model,
+            @RequestParam(value = "startDate", required = false) Date startDate,
+            @RequestParam(value = "endDate", required = false) Date endDate
+
+    ) {
+
+        //医生信息
+        Doctor doctor = doctorService.getDoctor(doctorId);
+        List<Doctor> doctorList = Lists.newArrayList(doctor);
+        if (doctor.getDoctorType() == Doctor.Doctor_Type.Clinic_Boss) {
+            doctorList.addAll(doctorService.findSubDoctor(doctor));
+        }
+        model.addAttribute("doctorList", doctorList);
+        model.addAttribute("doctor", doctor);
+        startDate = DateUtils.getDayStartTime(startDate);
+        endDate = DateUtils.getDayEndMaxTime(endDate);
+        //病历信息
+        List<Emr> emrList = emrService.findAllByDoctorListAndTime(doctorList, startDate, endDate);
+        model.addAttribute("emrList", emrList);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        //总收入
+        Double countCost = emrList.stream().mapToDouble(Emr::getRealCost).sum();
+        model.addAttribute("countCost", countCost);
+        //挂起金额
+        Double HANG_UP = emrList.stream().filter(
+                emr -> emr.getStatus() == StatusEntity.Status.HANG_UP
+        ).mapToDouble(Emr::getCost).sum();
+        model.addAttribute("HANG_UP", HANG_UP);
+        //处方中药价格
+        final Double[] chinaPriceCount = {0D};
+        //处方西药价格
+        final Double[] westernPriceCount = {0D};
+        //处方中医理疗
+        final Double[] chineseTherapyPriceCount = {0D};
+        final Double[] emrExtCostPriceCount = {0D};
+        final Double[] jianChajianYanPriceCount = {0D};
+
+        emrList.forEach(
+                emr -> {
+                    emr.getEmrMedicineList().forEach(
+                            emrMedicine -> {
+                                if (emrMedicine.getQty() == null)
+                                    emrMedicine.setQty(1D);
+                                if (emrMedicine.getCopies() == null)
+                                    emrMedicine.setCopies(1D);
+                                if (emrMedicine.getUnitPrice() == null)
+                                    emrMedicine.setUnitPrice(0D);
+                                if (emrMedicine.getMedicineType() == Medicine.Type.Chinese) {
+                                    chinaPriceCount[0] += (
+                                            emrMedicine.getQty() *
+                                                    emrMedicine.getCopies() *
+                                                    emrMedicine.getUnitPrice() *
+                                                    emr.getChineseQty()
+                                    );
+                                } else if (emrMedicine.getMedicineType() == Medicine.Type.Western) {
+                                    westernPriceCount[0] += (
+                                            emrMedicine.getQty() *
+                                                    emrMedicine.getCopies() *
+                                                    emrMedicine.getUnitPrice() / emrMedicine.getRate()
+                                    );
+                                } else if (emrMedicine.getMedicineType() == Medicine.Type.ChineseTherapy) {
+                                    chineseTherapyPriceCount[0] += (
+                                            emrMedicine.getQty() *
+                                                    emrMedicine.getCopies() * emrMedicine.getUnitPrice()
+                                    );
+                                }
+                            }
+                    );
+                    emr.getEmrExtCostList().forEach(emrExtCost -> emrExtCostPriceCount[0] += emrExtCost.getPrice());
+                    emr.getEmrJClassAdviceDicts().forEach(emrJClassAdviceDict -> jianChajianYanPriceCount[0] += emrJClassAdviceDict.getPrice());
+                }
+        );
+
+        BigDecimal westernPriceCountBig = new BigDecimal(westernPriceCount[0]);
+        BigDecimal chinaPriceCountBig = new BigDecimal(chinaPriceCount[0]);
+        model.addAttribute("chinaPriceCount", chinaPriceCountBig.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+        model.addAttribute("westernPriceCount", westernPriceCountBig.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+        model.addAttribute("chineseTherapyPriceCount", chineseTherapyPriceCount[0]);
+        model.addAttribute("jianChaYanPriceCount", jianChajianYanPriceCount[0]);
+        model.addAttribute("emrExtCostPriceCount", emrExtCostPriceCount[0]);
+
+        //当天新增用户
+        Map<Patient, List<Emr>> newPatientEmrMap = emrList.stream().filter(emr ->
+                emr.getPatient().getCreateOn().getTime()
+                        > DateUtils.getDayStartTime().getTime()
+        ).collect(Collectors.groupingBy(Emr::getPatient));
+        model.addAttribute("newPatientEmrMap", newPatientEmrMap);
+        //老患者人数
+        Map<Patient, List<Emr>> oldPatientEmrMap = emrList.stream().filter(emr ->
+                emr.getPatient().getCreateOn().getTime()
+                        <= DateUtils.getDayStartTime().getTime()
+        ).collect(Collectors.groupingBy(Emr::getPatient));
+        model.addAttribute("oldPatientEmrMap", oldPatientEmrMap);
+
+        //按照doctor 为 emr 分组
+        Map<Doctor, List<Emr>> emrDoctorMap = emrList.stream().collect(Collectors.groupingBy(Emr::getDoctor));
+        model.addAttribute("emrDoctorMap", emrDoctorMap);
+
+        //每个doctor 的处方笺 总额
+        Map<Doctor, Double> doctorDoubleMap = Maps.newConcurrentMap();
+        emrDoctorMap.forEach((doctor1, emrListMap) -> doctorDoubleMap.put(doctor1, emrListMap.stream().mapToDouble(Emr::getRealCost).sum()));
+        model.addAttribute("doctorDoubleMap", doctorDoubleMap);
+        //预约人数
+        List<AppointReward> appointRewardList = appointRewardService.findByDoctorAndTimeAndStatus(doctorList, startDate, endDate);
+        model.addAttribute("appointRewardList", appointRewardList);
+
+        //收银员按照名字分组的emrList
+        Map<String, List<Emr>> shouYinNameListMap = emrList.stream().collect(Collectors.groupingBy(Emr::getCashierName));
+        Map<String, Double> shouYinPriceMap = Maps.newConcurrentMap();
+        shouYinNameListMap.forEach((name, emrListByName) -> {
+            final Double[] tmpPrice = {0D};
+            emrListByName.forEach(emr -> tmpPrice[0] += emr.getRealCost());
+            shouYinPriceMap.put(name, tmpPrice[0]);
+        });
+        model.addAttribute("shouYinPriceMap", shouYinPriceMap);
+
+        return "/print/printFinacialTables";
+    }
+
+    @RequestMapping(value = "/pub/isNeedPrintType")
+    @ResponseBody
+    public Result isNeedPrintType(@RequestParam(value = "emrId") Long emrId) {
+
+        String Json = JSON.toJSONString(emrService.isNeedPrint(emrId));
+
+        return (new Result().setData(Json).setSuccess(true));
+    }
+
+
+    // TODO 注射滴注模板 2016-11-30 14:32:04
+    @RequestMapping(value = "/pub/printIfIj")
+    public String printInfusionInjection() {
+
+        return "/print/printInfusionInjection";
+    }
+
+    // TODO 打印A5处方笺 2016-12-21 10:36:26
+    @RequestMapping(value = "/pub/printRpDiaA5")
+    public String printRpDiaA5() {
+
+        return "/print/printRpDiaA5";
+    }
+
+    /*有效期的打印*/
+    @RequestMapping(value = "/pub/printIaiIntoA4")
+    public String printIaiIntoA4(Model model) {
+
+        return "/print/printIaiIntoA4";
+    }
+
+//    /* A5打印处方笺 */
+//    @RequestMapping(value = "/pub/printNewRpA5")
+//    public String printNewRpA5() {
+//
+//        return "/print/printNewRpA5";
+//    }
+
+
+}

@@ -1,0 +1,131 @@
+2016年10月13日 14:35:29 曾伟  修改registration
+增加字段 no_number varchar(255)
+
+2016年10月13日 方晓彬 修改appoint_reward
+增加字段 patient_name varchar(255)
+增加字段 patient_id
+
+2016年10月13日 方晓彬 修改appoint_expire
+增加字段 patient_name;
+增加字段 mobile_num;
+
+2016年10月14日 14:23:45 曾伟 修改 medicine_private
+修改字段 price price(10,2)
+新增字段 have_manager tinyint(10)
+
+2016年10月14日 14:23:45 曾伟 修改 iai_loss_detil
+增加字段 emr_id bigint(20)
+增加字段 loss_type tinyint(4)
+增加字段 create_date date()
+
+2016年10月14日 14:23:45 方晓彬 修改 iai_into
+增加字段 who_create varchar (20)  填表人名称
+
+
+2016年10月14日 14:23:45 方晓彬 修改 iai_into
+修改字段 company_id 修改为 supplier_id  bigint(20) 供应商id
+
+2016年10月18日 14:23:45 方晓彬 修改 medicine_private
+修改字段 rate 修改为 rate  double(20) 换算率
+
+2016年10月18日 14:23:45 方晓彬 修改 appoint_reward
+增加字段 appoint_date   date 预约的是哪一天
+
+2016年10月20日 14:31:47 曾伟 修改 emr_medicine
+增加字段 price double(10,2)
+增加字段 medicine_private_id bigint(20)
+
+2016年10月20日 14:23:45 方晓彬 修改 iai_into_detail
+增加字段 warn_line  int(11)  预警线
+
+
+2016年10月20日 14:23:45 方晓彬 修改 iai_into
+增加字段 uuid  varchar(50)  uuid唯一标示符
+增加字段 status  int(5)  状态
+
+2016年10月24日 10:49:53 曾伟  修改 emr_medicine
+增加字段 tj_unit tinty(4)
+
+2016年10月25日 14:23:45 方晓彬 修改 iai_into_detail
+修改字段 validity_date  datetime
+
+
+2016年10月25日 14:23:45 方晓彬 修改 iai_into
+增加字段 iai_into_type  int(5) 订单类型
+
+2016年10月27日 17:59:00 曾伟 修改 emr
+增加字段 card_pwd varchar(255) 用户卡密码
+
+2016年10月31日 10:57:36 曾伟 修改 iai_loss_detil
+增加字段 status tin(4)
+
+2016年10月26日 14:23:45 方晓彬 修改 iai_into_detail
+增加字段 status  int(5) 订单药品保存状态
+增加字段 detail_type  int(5) 订单药品类型
+
+
+2016年10月28日 14:23:45 方晓彬 修改 iai_loss_detil
+修改表名：iai_loss_detail
+
+2016年10月28日 14:23:45 方晓彬 修改 iai_loss_detail
+增加字段 status int(5)
+
+2016年10月28日 14:23:45 方晓彬 修改 iai_loss
+增加字段 status int(5)
+
+2016年10月28日 14:23:45 方晓彬 修改 iai_loss
+增加字段 who_create int(5)  填表人
+
+2016年10月29日 14:23:45 方晓彬 修改 iai_loss
+修改字段 loss_no varchar(20)  损耗单号
+
+2016年10月29日 14:23:45 方晓彬 修改 iai_loss
+增加字段 uuid varchar(40)  uuid标示符
+
+2016年10月29日 14:23:45 方晓彬 修改 iai_into_Detail
+增加字段 remain_num Double(50,2)  剩余数量
+
+2016年10月29日 14:23:45 方晓彬 修改 iai_into_Detail
+修改字段 total_number Double(50,2)
+修改字段 baying_price Double(50,2)
+
+2016年10月29日 14:23:45 方晓彬 修改 iai_loss_Detail
+修改字段 total_number Double(50,2)
+
+2016年10月31日 14:23:45 方晓彬 修改 iai_loss
+修改字段 loss_no varchar(50)
+
+2016年11月2日 14:23:45 方晓彬 修改 iai_loss_detail
+修改字段 iai_into_detail_id bigint(20)
+
+2016年11月2日 14:23:45 方晓彬 修改 iai_loss
+修改字段 total_money double(50,2)
+
+2016年11月2日 14:23:45 方晓彬 修改 iai_into
+修改字段 total_money double(50,2)
+
+2016年11月2日 14:23:45 方晓彬 修改 iai_into_detail
+修改字段 将remain_num 修改成 income_quantity double(50,2)
+
+增加字段 emr_med_id  bigint(20)
+
+2016年10月31日 15:34:03 曾伟 修改 emr_medicine
+增加字段 status tin(4)
+
+2016年11月4日 11:39:17 曾伟 增加 表
+ j_class_advice_dict
+ j_exam_class
+ j_exam_subclass_dict
+ j_lab_class
+ j_doctor_exam_lab
+ 增加五张表
+
+ =========================我帅吗！====================================
+
+ 2016年11月11日 11:39:17 方晓彬  修改
+修改字段 将unit 长度改为 unit(10)
+修改字段 将real_unit 长度改为 real_unit(10)
+
+
+ 2016年11月11日 11:39:17 方晓彬 doctor
+ 增加字段 appoint_status  int(10)
